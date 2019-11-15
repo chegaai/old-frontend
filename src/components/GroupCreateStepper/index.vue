@@ -1,0 +1,137 @@
+<template>
+  <div class="column items-center q-ma-md q-mt-xl">
+
+    <div class="row items-center group-create-stepper-step-width q-mt-xl q-mb-xl">
+      <q-icon
+        v-if="$q.platform.is.desktop"
+        name="location_city"
+        size="110px"
+        class="text-grey-5"/>
+      <div class="column q-ml-md" style="flex: 1">
+        <span class="text-body2 text-grey-6">
+          Passo 1/4
+        </span>
+        <h5 class="text-h5 text-grey-8 text-weight-bold q-mb-md">
+          Qual será a localização do grupo?
+        </h5>
+        <q-input
+          ref="location"
+          filled
+          type="text"
+          v-model="form.location"
+          placeholder="São Paulo"
+          class="q-my-xs"
+        />
+      </div>
+    </div>
+
+    <div class="row items-center group-create-stepper-step-width q-mt-xl q-mb-xl">
+      <q-icon
+        v-if="$q.platform.is.desktop"
+        name="question_answer"
+        size="110px"
+        class="text-grey-5"/>
+      <div class="column q-ml-md" style="flex: 1">
+        <span class="text-body2 text-grey-6">
+          Passo 2/4
+        </span>
+        <h5 class="text-h5 text-grey-8 text-weight-bold q-mb-md">
+          Seu grupo será sobre o que?
+        </h5>
+        <q-select
+          filled
+          v-model="form.tags"
+          multiple
+          :options="['Software Development', 'Lesbian Friends']"
+          use-chips
+          stack-label
+          label="Tags"
+        />
+      </div>
+    </div>
+
+    <div class="row group-create-stepper-step-width q-mt-xl q-mb-xl">
+      <q-icon
+        v-if="$q.platform.is.desktop"
+        name="loyalty"
+        size="110px"
+        class="text-grey-5"/>
+      <div class="column q-ml-md" style="flex: 1">
+        <span class="text-body2 text-grey-6">
+          Passo 3/4
+        </span>
+        <h5 class="text-h5 text-grey-8 text-weight-bold q-mb-md">
+          Qual será o nome do seu grupo?
+        </h5>
+        <q-input
+          ref="name"
+          filled
+          type="text"
+          v-model="form.name"
+          placeholder="Grupo de estudos de fisica quântica"
+          class="q-my-xs"
+        />
+        <h5 class="text-h5 text-grey-8 text-weight-bold q-my-md">
+          Descreva por quê as pessoas deveria se juntar ao seu grupo
+          e sobre o que é..
+        </h5>
+        <q-input
+          ref="about"
+          filled
+          type="textarea"
+          placeholder="É um grupo muuuito legal 😍"
+          v-model="form.about"
+          class="q-my-xs"
+        />
+      </div>
+    </div>
+
+    <div class="row items-center group-create-stepper-step-width q-mt-xl q-mb-xl">
+      <q-icon
+        v-if="$q.platform.is.desktop"
+        name="check_circle_outline"
+        size="110px"
+        class="text-grey-5"/>
+      <div class="column q-ml-md" style="flex: 1">
+        <span class="text-body2 text-grey-6">
+          Passo 4/4
+        </span>
+        <h5 class="text-h5 text-grey-8 text-weight-bold q-mb-md">
+          Finalização
+        </h5>
+        <p class="">Leia os <a class="text-blue-8" href="">termos de uso</a></p>
+        <div>
+          <q-btn
+            @click="() => goFor('GroupDetail', { id: 'golang-sp' })"
+            label="Aceitar & continuar" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GroupCreateStepper',
+  data: () => ({
+    form: {
+      name: '',
+      location: '',
+      tags: ['Lesbian Friends'],
+    },
+  }),
+  methods: {
+    goFor(where, params) {
+      if (!where) return;
+      this.$router.push({ name: where, params });
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.group-create-stepper-step-width {
+  width: 100%;
+  max-width: 800px;
+}
+</style>

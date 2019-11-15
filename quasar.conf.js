@@ -9,7 +9,8 @@ module.exports = function config(ctx) {
     boot: [
       'i18n',
       'axios',
-      'maps',
+      'animate',
+      // 'maps',
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -142,8 +143,8 @@ module.exports = function config(ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'Quasar App',
-        // short_name: 'Quasar App',
+        name: 'Chega.ai',
+        short_name: 'Chega.ai',
         // description: 'A Quasar Framework app',
         display: 'standalone',
         orientation: 'portrait',

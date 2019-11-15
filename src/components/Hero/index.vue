@@ -3,8 +3,10 @@
     <p class="text-body1 text-grey-7 q-px-md">
       {{ info.date }}
     </p>
-    <h3 class="text-h3 text-grey-7 text-weight-bold text-center q-px-md q-ma-none">
-      {{ info.title }}
+    <h3
+      class="text-h3 text-grey-7 text-weight-bold text-center q-px-md q-ma-none"
+      style="max-width: 950px">
+      {{ info.name }}
     </h3>
     <div class="row q-mt-md q-mb-xl">
       <q-avatar class="q-mr-md">
@@ -19,13 +21,12 @@
         </router-link>
       </p>
     </div>
-    <!-- <q-parallax :src="info.bannerImageUrl" /> -->
-    <q-img
-      :style="{
-        minHeight: '450px',
-      }"
-      class="full-width q-mx-none q-px-none"
-      :src="info.bannerImageUrl" />
+
+    <div class="full-width q-px-md" style="max-width: 950px">
+      <q-img
+        class="full-width q-mx-none q-px-none"
+        :src="info.bannerImageUrl" />
+    </div>
   </div>
 </template>
 

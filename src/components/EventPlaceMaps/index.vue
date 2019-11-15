@@ -8,8 +8,7 @@
       :center="location"
       :zoom="15"
       class="event-place-maps-map"
-      map-type-id="terrain"
-    >
+      map-type-id="terrain">
       <gmap-marker :position="location" />
     </gmap-map>
   </div>

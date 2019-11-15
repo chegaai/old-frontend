@@ -1,5 +1,6 @@
 export const event = {
-  title: '🍻 Vue.js SP - #GirlPower 🍻',
+  id: '123',
+  name: '🍻 Vue.js SP - #GirlPower 🍻',
   description: `
   <p><strong>OBS: MESMO SENDO EDIÇÃO #GIRLPOWER, TODOS PODEM IR :D</strong>  </p>
 
@@ -41,3 +42,60 @@ export const event = {
     { name: 'Lucas Santos', pictureUrl: 'https://avatars1.githubusercontent.com/u/3200560?s=200&v=4' },
   ],
 };
+
+export const eventList = [
+  {
+    id: '321',
+    name: 'Golang SP – Benefício Fácil | Google Cloud Datastore & First Impressions',
+    description: `
+  13º Evento do ANO!!! \0/ 🎊 🎉
+
+  Dessa vez seremos recepcionados pela Benefício Fácil (https://www.beneficiofacil.com.br/).
+
+  *** Como Chegar ***
+  📌 Mapa do local: https://goo.gl/maps/VL7GUka7VFTcRa96A
+
+  O prédio onde a Benefício Fácil está localizada fica próximo a Estação São Judas do Metrô - Linha Azul, super fácil de chegar!
+
+  🚗 Quer vir de carro? Também não tem problema. Na região existem diversos estacionamentos.
+    `,
+    date: 'Segunda-feira, dia 11 de novembro de 2019',
+    location: {
+      name: 'Beneficio fácil',
+    },
+    bannerImageUrl: 'https://secure.meetupstatic.com/photos/event/5/a/5/e/highres_486023134.jpeg',
+    group: {
+      name: 'Vue.js SP',
+    },
+    organizers: [
+      { name: 'Igor Halfeld', pictureUrl: 'https://avatars3.githubusercontent.com/u/9022134?s=200&v=4' },
+      { name: 'Lucas Santos', pictureUrl: 'https://avatars1.githubusercontent.com/u/3200560?s=200&v=4' },
+    ],
+  },
+  {
+    id: '123',
+    name: 'Golang SP – Acesso Digital | Go Code Design & Kubernetes',
+    description: `
+12º Evento do ANO!!! \0/ 🎊 🎉
+
+Dessa vez seremos recepcionados pela Acesso Digital (https://acessodigital.com.br).
+
+*** Como Chegar ***
+📌 Mapa do local: https://goo.gl/maps/YqEhLcX7WpEXUWsAA
+
+O prédio onde a Acesso Digital está localizada está a 300m da estação Berrini da CPTM, super fácil de chegar!
+    `,
+    date: 'Terça-feira, dia 11 de outubro de 2019',
+    location: {
+      name: 'Acesso digital',
+    },
+    bannerImageUrl: 'https://secure.meetupstatic.com/photos/event/5/9/1/7/highres_485542807.jpeg',
+    group: {
+      name: 'Vue.js SP',
+    },
+    organizers: [
+      { name: 'Igor Halfeld', pictureUrl: 'https://avatars3.githubusercontent.com/u/9022134?s=200&v=4' },
+      { name: 'Lucas Santos', pictureUrl: 'https://avatars1.githubusercontent.com/u/3200560?s=200&v=4' },
+    ],
+  },
+];

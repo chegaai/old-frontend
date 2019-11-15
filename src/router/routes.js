@@ -1,35 +1,25 @@
-const DefaultLayout = () => import('../layouts/Default.vue');
+import authRoutes from './auth';
+import eventRoutes from './events';
+import groupRoutes from './groups';
+import dashboardRoutes from './dashboard';
 
-const EventListPage = () => import('../pages/Event/List.vue');
-const EventDetailPage = () => import('../pages/Event/Detail.vue');
-const GroupListPage = () => import('../pages/Group/List.vue');
-const GroupDetailPage = () => import('../pages/Group/Detail.vue');
+const Error404Page = () => import('../pages/Auth/Login.vue');
 
 const routes = [
-  {
-    path: '/events',
-    component: DefaultLayout,
-    children: [
-      { path: 'list', name: 'EventList', component: EventListPage },
-      { path: 'detail/:id', name: 'EventDetail', component: EventDetailPage },
-    ],
-  },
-  {
-    path: '/groups',
-    component: DefaultLayout,
-    children: [
-      { path: 'list', name: 'GroupList', component: GroupListPage },
-      { path: 'detail/:id', name: 'GroupDetail', component: GroupDetailPage },
-    ],
-  },
+  authRoutes,
+  dashboardRoutes,
+  eventRoutes,
+  groupRoutes,
 ];
 
 // Always leave this as last one
 if (process.env.MODE !== 'ssr') {
-  routes.push({
+  const defaultRoute = {
     path: '*',
-    component: () => import('pages/Error404.vue'),
-  });
+    component: Error404Page,
+  };
+
+  routes.push(defaultRoute);
 }
 
 export default routes;
