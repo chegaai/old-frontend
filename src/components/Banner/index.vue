@@ -15,7 +15,7 @@
 
 <style lang="scss">
 .banner-height {
-  height: 350px;
+  height: 400px;
   background-size: cover;
   position: relative;
 
@@ -27,7 +27,7 @@
     content: "";
     position: absolute;
     width: 100%;
-    height: 350px;
+    height: 400px;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 1;
   }
@@ -37,7 +37,7 @@
   background-image: url(~assets/create-group.jpg);
   background-position: 35% 35%;
 }
-.list-group {
+.list-groups {
   background-image: url(~assets/list-groups.jpg);
   background-position: 35% 35%;
 }

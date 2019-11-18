@@ -2,6 +2,7 @@ import authRoutes from './auth';
 import eventRoutes from './events';
 import groupRoutes from './groups';
 import dashboardRoutes from './dashboard';
+import userRoutes from './users';
 
 const Error404Page = () => import('../pages/Auth/Login.vue');
 
@@ -10,6 +11,7 @@ const routes = [
   dashboardRoutes,
   eventRoutes,
   groupRoutes,
+  userRoutes,
 ];
 
 // Always leave this as last one
