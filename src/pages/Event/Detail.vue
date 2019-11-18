@@ -2,25 +2,28 @@
   <div class="column full-width items-center">
     <hero :info="event" />
     <event-description-viewer :html="event.description" />
-    <q-page-sticky :position="stickyPosition" :offset="[18, 18]">
-      <q-btn
-        rounded
-        icon="check"
-        label="Inscrever-se"
-        color="primary"
-        size="lg" />
-    </q-page-sticky>
+    <button-sticky label="Inscrever-se" />
+    <div class="full-width">
+      <custom-footer />
+    </div>
   </div>
 </template>
 
 <script>
 import Hero from '../../components/Hero';
 import EventDescriptionViewer from '../../components/EventDescriptionViewer';
+import ButtonSticky from '../../components/ButtonSticky';
+import CustomFooter from '../../components/CustomFooter';
 import { eventList } from '../../mock/event';
 
 export default {
   name: 'EventDetail',
-  components: { Hero, EventDescriptionViewer },
+  components: {
+    Hero,
+    ButtonSticky,
+    CustomFooter,
+    EventDescriptionViewer,
+  },
   data: () => ({
     event: Object.create(null),
   }),

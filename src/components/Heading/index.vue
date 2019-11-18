@@ -10,7 +10,12 @@
         icon="menu"
         class="q-mr-sm" /> -->
 
-      <p class="text-body1 text-grey-8 text-weight-bold text-uppercase q-pa-none q-ma-none">
+      <p
+        @click="() => $route.name !== 'General' && goFor('General')"
+        class="
+          text-body1 text-grey-8 text-weight-bold
+          text-uppercase q-pa-none q-ma-none cursor-pointer
+        ">
         chega.ai
       </p>
 

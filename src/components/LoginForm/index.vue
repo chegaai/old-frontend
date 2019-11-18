@@ -18,6 +18,9 @@
           v-model="form.email"
           label="Seu email *"
           class="q-my-xs"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
         />
         <q-input
           v-if="!forgotPassword"
@@ -25,6 +28,9 @@
           filled
           type="password"
           v-model="form.password"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
           label="Sua senha *"
           class="q-my-xs"
         />
@@ -33,12 +39,37 @@
         class="row justify-between"
         v-if="register">
         <q-input
+          ref="name"
+          filled
+          type="text"
+          v-model="form.name"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
+          label="Nome *"
+          class="q-my-xs login-form-sm-input"
+        />
+        <q-input
+          ref="lastName"
+          filled
+          type="text"
+          v-model="form.lastName"
+          label="Sobrenome *"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
+          class="q-my-xs login-form-sm-input"
+        />
+        <q-input
           ref="username"
           filled
           type="text"
           v-model="form.username"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
           label="Username *"
-          class="q-my-xs"
+          class="q-my-xs login-form-sm-input"
         />
         <q-input
           ref="document"
@@ -46,41 +77,60 @@
           type="text"
           v-model="form.document"
           label="Numero do RG *"
-          class="q-my-xs"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
+          class="q-my-xs login-form-sm-input"
         />
       </div>
       <div
-        class="column"
+        class="column q-pb-md"
         v-if="register">
         <q-select
           filled
+          ref="country"
           v-model="form.location.country"
           use-input
           input-debounce="0"
           label="País"
           class="q-my-xs"
-          :options="[]"
-          @filter="() => ({})">
+          option-label="name"
+          :disable="true"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
+          :options="countryOptions.list">
         </q-select>
         <q-select
           filled
+          ref="state"
           v-model="form.location.state"
-          use-input
           input-debounce="0"
           label="Estado"
           class="q-my-xs"
-          :options="[]"
-          @filter="() => ({})">
+          option-label="name"
+          :loading="stateOptions.isLoading"
+          :options="stateOptions.list"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
+          @filter="(val, update) => createFilterFn('state')(val, update)">
         </q-select>
         <q-select
           filled
+          ref="city"
           v-model="form.location.city"
-          use-input
           input-debounce="0"
           label="Cidade"
           class="q-my-xs"
-          :options="[]"
-          @filter="() => ({})">
+          option-label="name"
+          :loading="cityOptions.isLoading"
+          :options="cityOptions.list"
+          :disable="!form.location.state.id"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
+          @filter="(val, update) => createFilterFn('city')(val, update)">
         </q-select>
       </div>
     </q-card-section>
@@ -89,7 +139,7 @@
       <q-btn
         class="full-width"
         :label="buttonLabel"
-        @click="() => goFor('General')"
+        @click="submit"
       />
       <div class="column items-center q-mt-md">
         <router-link
@@ -113,6 +163,9 @@
 </template>
 
 <script>
+import { validate } from '../../utils/validator';
+import { notEmpty } from '../../utils/validators';
+
 export default {
   name: 'LoginForm',
   props: {
@@ -137,18 +190,33 @@ export default {
         ForgotPassword: () => 'Resetar minha senha',
         Register: () => 'Criar conta',
       };
-      console.log('name', name);
       return labelTypes[name] && labelTypes[name]();
     },
   },
   data: () => ({
+    validators: { notEmpty },
+    countryOptions: {
+      list: [{ name: 'Brasil' }],
+    },
+    stateOptions: {
+      list: [],
+      isLoading: false,
+    },
+    cityOptions: {
+      list: [],
+      isLoading: false,
+    },
     form: {
       email: '',
       password: '',
       username: '',
       document: '',
       passwordMatch: '',
-      location: {},
+      location: {
+        country: { name: 'Brasil' },
+        state: '',
+        city: '',
+      },
     },
   }),
   methods: {
@@ -160,13 +228,60 @@ export default {
       if (!where) return;
       this.$router.push({ name: where });
     },
+    createFilterFn(entity) {
+      return (val, update) => {
+        const entities = {
+          state: async () => {
+            this.stateOptions.isLoading = true;
+            const response = await this.$s.ibge.getStates();
+            this.stateOptions.list = response.data;
+            this.stateOptions.isLoading = false;
+          },
+          city: async () => {
+            this.cityOptions.isLoading = true;
+            const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id });
+            this.cityOptions.list = response.data;
+            this.cityOptions.isLoading = false;
+          },
+        };
+
+        update(async () => await entities[entity] && entities[entity]());
+      };
+    },
+    async submit() {
+      const errors = await validate(this, [
+        'email',
+        'password',
+        'username',
+        'document',
+        'name',
+        'lastName',
+        'country',
+        'state',
+        'city',
+      ]);
+      if (errors.hasError()) return;
+
+      if (this.register) {
+        const { language } = navigator;
+        const response = await this.$s.users.create({ ...this.form, language });
+        console.log('response', response);
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss">
 .login-card {
-  width: 400px;
-  max-width: 400px;
+  width: 500px;
+  max-width: 500px;
+
+}
+.login-form-sm-input {
+  width: 206px;
+  @media all and (max-width: 500px) {
+    width: 100%;
+  }
 }
 </style>

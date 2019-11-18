@@ -37,4 +37,8 @@
   background-image: url(~assets/create-group.jpg);
   background-position: 35% 35%;
 }
+.list-group {
+  background-image: url(~assets/list-groups.jpg);
+  background-position: 35% 35%;
+}
 </style>
