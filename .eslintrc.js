@@ -32,6 +32,7 @@ module.exports = {
 
   // add your custom rules here
   rules: {
+    'consistent-return': 'off',
     'no-param-reassign': 'off',
     'import/first': 'off',
     'import/named': 'error',

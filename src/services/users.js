@@ -1,22 +1,38 @@
+import { withErrorHandling } from '../utils/error';
+
 export default httpClient => ({
-  create: ({
-    email, password, username, document, location, name, lastName, language,
-  }) => httpClient.post('/users', {
-    user: {
-      document,
+  login: withErrorHandling((payload) => {
+    const { handle, password } = payload;
+    return httpClient.post('/users/login', { handle, password });
+  }),
+  create: withErrorHandling((payload) => {
+    const {
+      name,
       email,
       password,
       username,
-    },
-    profile: {
-      name,
-      language,
+      document,
+      location,
       lastName,
-      location: {
-        country: location.country.name,
-        state: location.state.name,
-        city: location.city.name,
+      language,
+    } = payload;
+    return httpClient.post('/userss', {
+      user: {
+        document,
+        email,
+        password,
+        username,
       },
-    },
+      profile: {
+        name,
+        language,
+        lastName,
+        location: {
+          country: location.country.name,
+          state: location.state.name,
+          city: location.city.name,
+        },
+      },
+    });
   }),
 });

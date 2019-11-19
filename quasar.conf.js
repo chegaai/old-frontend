@@ -7,6 +7,7 @@ module.exports = function config(ctx) {
       'i18n',
       'animate',
       'services',
+      'notify-defaults',
       // 'maps',
     ],
     css: [

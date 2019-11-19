@@ -138,6 +138,7 @@
     <q-card-section class="column justify-center">
       <q-btn
         class="full-width"
+        size="lg"
         :label="buttonLabel"
         @click="submit"
       />
@@ -163,6 +164,7 @@
 </template>
 
 <script>
+import { setStorage } from '../../utils/localStorage';
 import { validate } from '../../utils/validator';
 import { notEmpty } from '../../utils/validators';
 
@@ -265,8 +267,14 @@ export default {
       if (this.register) {
         const { language } = navigator;
         const response = await this.$s.users.create({ ...this.form, language });
-        console.log('response', response);
+        if (!response.user) return;
+        this.$router.push({ name: 'Login' });
+        return;
       }
+
+      const { token } = this.$s.users.login({ handle: 'igorhalfeld', password: '123' });
+      setStorage('token', token);
+      this.$router.push({ name: 'General' });
     },
   },
 };
