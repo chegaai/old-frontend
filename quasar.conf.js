@@ -83,10 +83,10 @@ module.exports = function config(ctx) {
       // ],
 
       // // Quasar plugins
-      // plugins: [
-      //   'Notify',
+      plugins: [
+        'Notify',
       //   'Dialog',
-      // ],
+      ],
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie

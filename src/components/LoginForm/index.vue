@@ -28,6 +28,7 @@
           filled
           type="password"
           v-model="form.password"
+          @keyup.enter="submit"
           :rules="[
             value => validators.notEmpty(value) || 'Este campo é obrigatório'
           ]"
@@ -267,13 +268,20 @@ export default {
       if (this.register) {
         const { language } = navigator;
         const response = await this.$s.users.create({ ...this.form, language });
-        if (!response.user) return;
-        this.$router.push({ name: 'Login' });
-        return;
+        if (response.error) this.$q.notify('Ocorreu um erro ao criar a conta');
+        else this.$router.push({ name: 'Login' });
       }
 
-      const { token } = this.$s.users.login({ handle: 'igorhalfeld', password: '123' });
-      setStorage('token', token);
+      const response = await this.$s.users.login({
+        handle: this.form.email.trim(),
+        password: this.form.password.trim(),
+      });
+
+      if (response.error) {
+        this.$q.notify('Erro ao fazer o login.');
+        return;
+      }
+      setStorage('token', response.data.token);
       this.$router.push({ name: 'General' });
     },
   },
