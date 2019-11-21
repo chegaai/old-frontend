@@ -270,6 +270,7 @@ export default {
         const response = await this.$s.users.create({ ...this.form, language });
         if (response.error) this.$q.notify('Ocorreu um erro ao criar a conta');
         else this.$router.push({ name: 'Login' });
+        return;
       }
 
       const response = await this.$s.users.login({

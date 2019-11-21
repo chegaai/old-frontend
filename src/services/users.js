@@ -16,7 +16,7 @@ export default httpClient => ({
       lastName,
       language,
     } = payload;
-    return httpClient.post('/userss', {
+    return httpClient.post('/users', {
       user: {
         document,
         email,

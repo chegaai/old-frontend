@@ -19,6 +19,9 @@
           filled
           type="text"
           v-model="form.location"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
           placeholder="São Paulo"
           class="q-my-xs"
         />
@@ -40,11 +43,15 @@
         </h5>
         <q-select
           filled
+          ref="tags"
           v-model="form.tags"
           multiple
           :options="['Software Development', 'Lesbian Friends']"
           use-chips
           stack-label
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
           label="Tags"
         />
       </div>
@@ -70,17 +77,23 @@
           v-model="form.name"
           placeholder="Grupo de estudos de fisica quântica"
           class="q-my-xs"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
         />
         <h5 class="text-h5 text-grey-8 text-weight-bold q-my-md">
           Descreva por quê as pessoas deveria se juntar ao seu grupo
           e sobre o que é..
         </h5>
         <q-input
-          ref="about"
+          ref="description"
           filled
           type="textarea"
           placeholder="É um grupo muuuito legal 😍"
-          v-model="form.about"
+          v-model="form.description"
+          :rules="[
+            value => validators.notEmpty(value) || 'Este campo é obrigatório'
+          ]"
           class="q-my-xs"
         />
       </div>
@@ -102,7 +115,7 @@
         <p class="">Leia os <a class="text-blue-8" href="">termos de uso</a></p>
         <div>
           <q-btn
-            @click="() => goFor('GroupDetail', { id: 'golang-sp' })"
+            @click="createGroup"
             label="Aceitar & continuar" />
         </div>
       </div>
@@ -111,11 +124,16 @@
 </template>
 
 <script>
+import { validate } from '../../utils/validator';
+import { notEmpty } from '../../utils/validators';
+
 export default {
   name: 'GroupCreateStepper',
   data: () => ({
+    validators: { notEmpty },
     form: {
       name: '',
+      description: '',
       location: '',
       tags: ['Lesbian Friends'],
     },
@@ -124,6 +142,25 @@ export default {
     goFor(where, params) {
       if (!where) return;
       this.$router.push({ name: where, params });
+    },
+    async createGroup() {
+      const errors = await validate(this, [
+        'location',
+        'tags',
+        'name',
+        'description',
+      ]);
+      if (errors.hasError()) return;
+
+      const response = await this.$s.groups.create({
+        ...this.form,
+        location: {
+          city: this.form.location,
+        },
+      });
+
+      console.log('response', response);
+      // this.goFor('GroupDetail', { id: 'golang-sp' });
     },
   },
 };
