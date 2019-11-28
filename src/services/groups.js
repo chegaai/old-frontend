@@ -1,16 +1,20 @@
 import { withErrorHandling } from '../utils/error';
 
 export default httpClient => ({
+  get: withErrorHandling((payload) => {
+    const { groupId } = payload;
+    return httpClient.get(`/groups/${groupId}`);
+  }),
   create: withErrorHandling((payload) => {
     const {
       name,
-      founder = '5dd62fb7ddcc3a0010413743',
+      description,
       location: { country = 'Brazil', state = 'SP', city = 'São paulo' },
       tags,
     } = payload;
-    return httpClient.post('/groups/groups', {
+    return httpClient.post('/groups', {
       name,
-      founder,
+      description,
       location: { country, state, city },
       tags,
     });

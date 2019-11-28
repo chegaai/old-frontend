@@ -124,6 +124,7 @@
 </template>
 
 <script>
+import { slugify } from '../../utils/string';
 import { validate } from '../../utils/validator';
 import { notEmpty } from '../../utils/validators';
 
@@ -159,8 +160,8 @@ export default {
         },
       });
 
-      console.log('response', response);
-      // this.goFor('GroupDetail', { id: 'golang-sp' });
+      const groupSlug = slugify(response.data._id);
+      this.goFor('GroupDetail', { id: groupSlug });
     },
   },
 };

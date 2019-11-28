@@ -8,7 +8,7 @@ module.exports = function config(ctx) {
       'animate',
       'services',
       'notify-defaults',
-      // 'maps',
+      'maps',
     ],
     css: [
       'app.scss',
@@ -94,6 +94,7 @@ module.exports = function config(ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      transpileDependencies: [/^vue2-google-maps($|\/)/],
       scopeHoisting: true,
       // vueRouterMode: 'history',
       // showProgress: false,
