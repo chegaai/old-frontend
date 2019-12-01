@@ -1,1 +1,23 @@
 // app global css in SCSS form
+@font-face {
+  font-family: MontserratLight;
+  src: url(../assets/source/fonts/Montserrat-Light.otf);
+}
+@font-face {
+  font-family: MontserratBold;
+  src: url(../assets/source/fonts/Montserrat-Bold.otf);
+}
+@font-face {
+  font-family: MontserratExtraLight;
+  src: url(../assets/source/fonts/Montserrat-ExtraLight.otf);
+}
+
+.text-family-light {
+  font-family: MontserratLight;
+}
+.text-family-extralight {
+  font-family: MontserratExtraLight;
+}
+.text-family-bold {
+  font-family: MontserratBold;
+}

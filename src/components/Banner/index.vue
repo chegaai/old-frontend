@@ -1,25 +1,30 @@
-<template functional>
-  <div
-    :class="props.classes"
-    :style="props.styles"
-    class="column full-width banner-height items-center justify-center">
-    <h1 class="text-h2 text-grey-1 q-ma-none text-weight-bold text-center">{{ props.title }}</h1>
-    <h4 class="text-h5 text-grey-1 q-ma-none text-center">{{ props.subTitle }}</h4>
-    <p
-      v-if="props.additionalInfo"
-      class="text-h6 text-grey-1">
-      {{ props.additionalInfo }}
-    </p>
-  </div>
+<template>
+  <component :is="component" v-bind="$props" v-on="$listeners" />
 </template>
+
+<script>
+import NextMeetup from './NextMeetup';
+import GroupCover from './GroupCover';
+
+export default {
+  name: 'BannerFactory',
+  components: { NextMeetup, GroupCover },
+  props: {
+    component: { type: String, default: 'GroupCover' },
+    title: { type: String, default: 'Awesome title' },
+    subTitle: { type: String, default: 'Awesome sub title' },
+    styles: { type: Object, default: () => ({}) },
+  },
+};
+</script>
 
 <style lang="scss">
 .banner-height {
-  height: 400px;
+  height: 450px;
   background-size: cover;
   position: relative;
 
-  > h1, h4, p {
+  h1, h4, span {
     z-index: 2;
   }
 
@@ -27,18 +32,14 @@
     content: "";
     position: absolute;
     width: 100%;
-    height: 400px;
-    background-color: rgba(0, 0, 0, 0.6);
+    height: 450px;
+    background-color: rgba(0, 0, 0, 0.4);
     z-index: 1;
   }
 }
 
-.create-group {
-  background-image: url(~assets/create-group.jpg);
-  background-position: 35% 35%;
-}
-.list-groups {
-  background-image: url(~assets/list-groups.jpg);
-  background-position: 35% 35%;
+.banner-content-width {
+  width: 100%;
+  max-width: 900px;
 }
 </style>

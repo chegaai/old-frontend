@@ -1,5 +1,7 @@
 <template>
-  <q-header class="bg-white" elevated>
+  <q-header
+    class="bg-white"
+    elevated>
     <q-toolbar class="justify-between">
       <!-- <q-btn
         flat
@@ -13,10 +15,10 @@
       <p
         @click="() => $route.name !== 'General' && goFor('General')"
         class="
-          text-body1 text-grey-8 text-weight-bold
+          text-family-light text-body1 text-grey-8
           text-uppercase q-pa-none q-ma-none cursor-pointer
         ">
-        chega.ai
+        <span class="text-family-bold">chega</span>.ai
       </p>
 
       <div>

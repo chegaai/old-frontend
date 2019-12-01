@@ -1,5 +1,5 @@
 <template>
-  <div class="column full-width items-center q-px-md">
+  <div class="column full-width items-center q-px-md q-pb-xl">
     <div class="column q-mt-xl event-create-container-width">
       <h4 class="text-h4 text-weight-bold text-grey-7">Crie um evento</h4>
       <p class="text-h6 text-grey-6">Vue.js SP</p>
@@ -25,7 +25,11 @@
         col: $q.platform.is.mobile,
       }"
       class="justify-between q-mt-xl event-create-container-width">
-      <div class="col-5 q-my-md">
+      <div
+        :class="{
+          'q-mt-none': $q.platform.is.desktop,
+        }"
+        class="col-5 q-my-md">
         <p class="text-body1 text-grey-6 q-mb-sm">
           Data/hora de início *
         </p>
@@ -47,7 +51,11 @@
           </template>
         </q-input>
       </div>
-      <div class="col-5 q-my-md">
+      <div
+        :class="{
+          'q-mt-none': $q.platform.is.desktop,
+        }"
+        class="col-5 q-my-md">
         <p class="text-body1 text-grey-6 q-mb-sm">
           Data/hora de finalização *
         </p>
@@ -75,13 +83,7 @@
       <p class="text-body1 text-grey-6 q-mb-sm">
         Descrição do evento *
       </p>
-      <q-editor
-        v-model="form.description"
-        min-height="20rem"
-        :rules="[
-          value => validators.notEmpty(value) || 'Este campo é obrigatório'
-        ]"
-      />
+      <text-editor />
     </div>
 
     <div class="column q-mt-xl event-create-container-width">
@@ -91,21 +93,51 @@
       <q-input
         filled
         v-model="form.location"
-        label="Google Campus"
+        label="Localização"
+        placeholder="ex: Google Campus"
         :rules="[
           value => validators.notEmpty(value) || 'Este campo é obrigatório'
         ]"
       />
+      <q-no-ssr>
+        <GmapMap
+          :center="{lat:10, lng:10}"
+          :zoom="7"
+          style="width: 100%; height: 300px"
+        >
+          <GmapMarker
+            :clickable="true"
+            :draggable="true"
+          />
+        </GmapMap>
+      </q-no-ssr>
     </div>
+
+    <div class="column q-mt-xl event-create-container-width">
+      <p class="text-body1 text-grey-6 q-mb-sm">
+        Opções adicionais
+      </p>
+      <event-additional-options />
+    </div>
+
+    <action-footer ok-label="Criar evento" />
   </div>
 </template>
 
 <script>
+import TextEditor from '../../components/TextEditor';
+import EventAdditionalOptions from '../../components/EventAdditionalOptions';
+import ActionFooter from '../../components/ActionFooter';
 import { notEmpty } from '../../utils/validators';
 // import { validate } from '../../utils/validator';
 
 export default {
   name: 'EventCreate',
+  components: {
+    EventAdditionalOptions,
+    ActionFooter,
+    TextEditor,
+  },
   data: () => ({
     validators: { notEmpty },
     form: {

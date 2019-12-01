@@ -48,7 +48,7 @@ module.exports = function config(ctx) {
       //   'QToolbar',
       //   'QToolbarTitle',
       //   'QBtn',
-      //   'QIcon',
+      // 'QIcon'
       //   'QList',
       //   'QItem',
       //   'QItemSection',
