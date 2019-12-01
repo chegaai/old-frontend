@@ -3,7 +3,7 @@
     :style="styles"
     class="row full-width banner-height justify-center">
     <div class="row items-center justify-between full-height banner-content-width">
-      <div class="column">
+      <div class="column q-pa-md">
         <span class="text-body1 text-grey-1 q-ma-none">Seu próximo meetup</span>
         <h1 class="text-h4 text-grey-1 q-ma-none text-weight-bold">
           {{ title }}

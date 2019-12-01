@@ -3,7 +3,7 @@
     <banner
       title="Criar um novo grupo"
       sub-title="Ajudaremos você a encontrar as pessoas certas para que isso aconteça."
-      classes="create-group" />
+      classes="banner-create-group" />
     <group-create-stepper />
     <custom-footer />
   </div>
