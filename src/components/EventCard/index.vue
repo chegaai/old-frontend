@@ -7,17 +7,36 @@
     @click="goFor('EventDetail', { id: event.id })">
     <q-img v-if="isPortrait" :src="event.bannerImageUrl" />
 
-    <q-card-section>
-      <span class="text-grey-8 text-weight-regular">12/12/2019</span>
-      <h5 class="text-h6 text-grey-8">{{ event.name }}</h5>
-      <div class="text-subtitle2 text-grey-8">
-        <q-icon name="where_to_vote" size="25px" /> {{ event.location.name }}
+    <div class="row no-wrap">
+      <div class="bg-primary column items-center justify-center q-pa-md" v-if="isLandspace">
+        <h2 class="text-h2 text-family-bold q-ma-none text-white">12</h2>
+        <p class="text-body1 q-ma-none text-grey-1">12/2019</p>
+        <p class="text-body1 q-ma-none text-grey-1">às 19:00</p>
       </div>
-    </q-card-section>
+      <div class="column q-pb-md">
+        <q-card-section>
+          <span class="
+            text-grey-9 text-weight-bold bg-grey-3
+             absolute-top-right q-pa-xs
+          ">
+            123 confirmados
+          </span>
+          <h5 class="text-h6 text-family-bold text-primary q-mt-md">{{ event.name }}</h5>
+          <div class="column">
+            <span class="text-subtitle2 text-grey-8">
+              <q-icon name="where_to_vote" size="25px" /> {{ event.location.name }}
+            </span>
+            <span class="text-subtitle2 text-grey-8" v-if="isLandspace">
+              <q-icon name="group" size="25px" /> {{ event.group.name }}
+            </span>
+          </div>
+        </q-card-section>
 
-    <q-card-section>
-      {{ event.description.slice(0, 170) }}
-    </q-card-section>
+        <q-card-section>
+          {{ event.description.slice(0, 170) }}
+        </q-card-section>
+      </div>
+    </div>
   </q-card>
 </template>
 

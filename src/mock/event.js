@@ -46,7 +46,7 @@ export const event = {
 export const eventList = [
   {
     id: '321',
-    name: 'Golang SP – Benefício Fácil | Google Cloud Datastore & First Impressions',
+    name: 'Benefício Fácil | Google Cloud Datastore & First Impressions',
     description: `
   13º Evento do ANO!!! \0/ 🎊 🎉
 
@@ -65,7 +65,7 @@ export const eventList = [
     },
     bannerImageUrl: 'https://secure.meetupstatic.com/photos/event/5/a/5/e/highres_486023134.jpeg',
     group: {
-      name: 'Vue.js SP',
+      name: 'Golang SP',
     },
     organizers: [
       { name: 'Igor Halfeld', pictureUrl: 'https://avatars3.githubusercontent.com/u/9022134?s=200&v=4' },
@@ -74,7 +74,7 @@ export const eventList = [
   },
   {
     id: '123',
-    name: 'Golang SP – Acesso Digital | Go Code Design & Kubernetes',
+    name: 'Acesso Digital | Go Code Design & Kubernetes',
     description: `
 12º Evento do ANO!!! \0/ 🎊 🎉
 
@@ -91,7 +91,7 @@ O prédio onde a Acesso Digital está localizada está a 300m da estação Berri
     },
     bannerImageUrl: 'https://secure.meetupstatic.com/photos/event/5/9/1/7/highres_485542807.jpeg',
     group: {
-      name: 'Vue.js SP',
+      name: 'Golang SP',
     },
     organizers: [
       { name: 'Igor Halfeld', pictureUrl: 'https://avatars3.githubusercontent.com/u/9022134?s=200&v=4' },

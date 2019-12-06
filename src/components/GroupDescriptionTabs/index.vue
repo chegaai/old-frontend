@@ -3,7 +3,7 @@
     <q-tabs
       :breakpoint="700"
       v-model="tab"
-      class="full-width bg-grey-3 shadow-2"
+      class="full-width bg-white shadow-2"
     >
       <q-tab style="min-width: 100px" name="about" icon="assessment" label="Sobre" />
       <q-tab style="min-width: 100px" name="events" icon="event" label="Eventos" />

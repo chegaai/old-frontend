@@ -1,8 +1,8 @@
 <template>
   <q-card class="login-card">
     <q-card-section class="full-width">
-      <h4 class="text-h4 text-grey-8 text-center text-uppercase text-weight-bold">
-        chega.ai
+      <h4 class="text-h4 text-grey-8 text-center text-uppercase text-family-light">
+        <span class="text-family-bold">chega</span>.ai
       </h4>
       <p class="text-body2 text-grey-7 text-center">
         {{ subTitleLabel }}
@@ -138,7 +138,7 @@
 
     <q-card-section class="column justify-center">
       <q-btn
-        class="full-width"
+        class="full-width text-family-regular"
         size="lg"
         :label="buttonLabel"
         @click="submit"

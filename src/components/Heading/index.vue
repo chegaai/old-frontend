@@ -24,7 +24,7 @@
       <div>
         <q-btn
           label="Criar um novo grupo"
-          class="text-grey-8 q-mr-md"
+          class="text-grey-8 text-family-bold q-mr-md"
           icon="group_add"
           v-if="$q.platform.is.desktop"
           @click="() => goFor('GroupCreate')"

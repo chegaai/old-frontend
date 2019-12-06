@@ -4,7 +4,7 @@
       {{ info.date }}
     </p>
     <h3
-      class="text-h3 text-grey-7 text-weight-bold text-center q-px-md q-ma-none"
+      class="text-h3 text-grey-7 text-family-bold text-center q-px-md q-ma-none"
       style="max-width: 950px">
       {{ info.name }}
     </h3>

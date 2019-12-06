@@ -6,12 +6,12 @@
         v-if="$q.platform.is.desktop"
         name="location_city"
         size="110px"
-        class="text-grey-5"/>
+        class="text-grey-4"/>
       <div class="column q-ml-md" style="flex: 1">
         <span class="text-body2 text-grey-6">
           Passo 1/4
         </span>
-        <h5 class="text-h5 text-grey-8 text-weight-bold q-mb-md">
+        <h5 class="text-h5 text-grey-8 text-family-bold q-mb-md">
           Qual será a localização do grupo?
         </h5>
         <q-input
@@ -33,12 +33,12 @@
         v-if="$q.platform.is.desktop"
         name="question_answer"
         size="110px"
-        class="text-grey-5"/>
+        class="text-grey-4"/>
       <div class="column q-ml-md" style="flex: 1">
         <span class="text-body2 text-grey-6">
           Passo 2/4
         </span>
-        <h5 class="text-h5 text-grey-8 text-weight-bold q-mb-md">
+        <h5 class="text-h5 text-grey-8 text-family-bold q-mb-md">
           Seu grupo será sobre o que?
         </h5>
         <q-select
@@ -62,12 +62,12 @@
         v-if="$q.platform.is.desktop"
         name="loyalty"
         size="110px"
-        class="text-grey-5"/>
+        class="text-grey-4"/>
       <div class="column q-ml-md" style="flex: 1">
         <span class="text-body2 text-grey-6">
           Passo 3/4
         </span>
-        <h5 class="text-h5 text-grey-8 text-weight-bold q-mb-md">
+        <h5 class="text-h5 text-grey-8 text-family-bold q-mb-md">
           Qual será o nome do seu grupo?
         </h5>
         <q-input
@@ -81,7 +81,7 @@
             value => validators.notEmpty(value) || 'Este campo é obrigatório'
           ]"
         />
-        <h5 class="text-h5 text-grey-8 text-weight-bold q-my-md">
+        <h5 class="text-h5 text-grey-8 text-family-bold q-my-md">
           Descreva por quê as pessoas deveria se juntar ao seu grupo
           e sobre o que é..
         </h5>
@@ -104,12 +104,12 @@
         v-if="$q.platform.is.desktop"
         name="check_circle_outline"
         size="110px"
-        class="text-grey-5"/>
+        class="text-grey-4"/>
       <div class="column q-ml-md" style="flex: 1">
         <span class="text-body2 text-grey-6">
           Passo 4/4
         </span>
-        <h5 class="text-h5 text-grey-8 text-weight-bold q-mb-md">
+        <h5 class="text-h5 text-grey-8 text-family-bold q-mb-md">
           Finalização
         </h5>
         <p class="">Leia os <a class="text-blue-8" href="">termos de uso</a></p>

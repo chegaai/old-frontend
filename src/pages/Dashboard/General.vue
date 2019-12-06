@@ -27,7 +27,7 @@
           v-model="search"
           debounce="500"
           filled
-          placeholder="Pesquise eventos">
+          placeholder="Procure por um evento e presione enter">
           <template v-slot:append>
             <q-icon name="search" />
           </template>

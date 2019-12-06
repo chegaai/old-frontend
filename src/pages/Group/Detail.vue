@@ -1,6 +1,7 @@
 <template>
   <div class="fit">
     <banner
+      component="GroupCover"
       title="Golang SP"
       :styles="{
         backgroundImage: 'url(https://media.licdn.com/dms/image/C4E1BAQGgg4B7t6Hrgg/company-background_10000/0?e=2159024400&v=beta&t=9kDTQVarrDEN0k8Zg7qmqnbGQZqP6liZshNAIyN2mO4)',
