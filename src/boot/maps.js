@@ -7,6 +7,7 @@ export default ({ ssrContext }) => {
   Vue.use(VueGoogleMaps, {
     load: {
       key: 'AIzaSyAjgsO8kOTodxtGn9OyUgPtUVCp0AGcCCQ',
+      libraries: 'places',
     },
     installComponents: true,
   });

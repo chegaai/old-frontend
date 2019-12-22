@@ -1,9 +1,25 @@
-<template functional>
+<template>
   <div
-    :class="props.classes"
-    :style="props.styles"
-    class="column full-width banner-height items-center justify-center">
-    <h1 class="text-h2 text-grey-1 q-ma-none text-family-bold text-center">{{ props.title }}</h1>
-    <h4 class="text-h5 text-grey-1 q-ma-none text-center">{{ props.subTitle }}</h4>
+    :class="classes"
+    :style="styles"
+    class="column full-width banner-height items-center justify-center q-pa-md">
+    <h1
+      :class="{
+        'text-h4': $q.platform.is.mobile
+      }"
+      class="text-h2 text-grey-1 q-ma-none text-family-bold text-center">{{ title }}</h1>
+    <h4 class="text-h5 text-grey-1 q-ma-none text-center">{{ subTitle }}</h4>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'GroupCover',
+  props: {
+    title: { type: String, default: 'Awesome title' },
+    subTitle: { type: String, default: 'Awesome sub title' },
+    styles: { type: Object, default: () => ({}) },
+    classes: { type: String, default: '' },
+  },
+};
+</script>

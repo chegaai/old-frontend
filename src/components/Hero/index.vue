@@ -1,10 +1,23 @@
 <template>
-  <div class="column full-width items-center q-py-xl">
-    <p class="text-body1 text-grey-7 q-px-md">
+  <div class="column full-width items-center q-pb-lg q-pt-sm">
+    <div class="full-width" style="max-width: 950px">
+      <q-img
+        class="full-width q-mx-none q-px-none"
+        :src="info.bannerImageUrl" />
+    </div>
+
+    <p
+      :class="{
+        'text-body2': $q.platform.is.mobile
+      }"
+      class="text-body1 text-grey-7 q-px-md q-mt-lg">
       {{ info.date }}
     </p>
     <h3
-      class="text-h3 text-grey-7 text-family-bold text-center q-px-md q-ma-none"
+      :class="{
+        'text-h4': $q.platform.is.mobile
+      }"
+      class="text-h3 text-primary text-family-bold text-center q-px-md q-ma-none"
       style="max-width: 950px">
       {{ info.name }}
     </h3>
@@ -12,7 +25,11 @@
       <q-avatar class="q-mr-md">
         <img :src="mainOrganizer.pictureUrl">
       </q-avatar>
-      <p class="text-body1 text-grey-7 q-ma-none">
+      <p
+        :class="{
+          'text-body2': $q.platform.is.mobile
+        }"
+        class="text-body1 text-grey-7 q-ma-none">
         Organizador por <router-link class="text-blue-7" :to="goFor('')">
         {{ mainOrganizer.name }} e mais {{ amountOfOrganizersWithoutMainOrganizers }}</router-link>
         <br/>
@@ -20,12 +37,6 @@
           {{ info.group.name }}
         </router-link>
       </p>
-    </div>
-
-    <div class="full-width q-px-md" style="max-width: 950px">
-      <q-img
-        class="full-width q-mx-none q-px-none"
-        :src="info.bannerImageUrl" />
     </div>
   </div>
 </template>

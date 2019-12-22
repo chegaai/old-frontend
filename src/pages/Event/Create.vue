@@ -2,7 +2,11 @@
   <div class="column full-width items-center q-px-md q-pb-xl">
     <div class="column q-mt-xl event-create-container-width">
       <h4 class="text-h4 text-weight-bold text-grey-7">Crie um evento</h4>
-      <p class="text-h6 text-grey-6">Vue.js SP</p>
+      <router-link
+        :to="{ name: 'GroupDetail', params: { slug: 'golang-sp' } }"
+        class="text-h6 text-grey-6">
+        Vue.js SP
+      </router-link>
     </div>
 
     <div class="column q-mt-xl event-create-container-width">
@@ -90,16 +94,25 @@
       <p class="text-body1 text-grey-6 q-mb-sm">
         Localização do evento *
       </p>
-      <q-input
-        filled
-        v-model="form.location"
-        label="Localização"
-        placeholder="ex: Google Campus"
-        :rules="[
-          value => validators.notEmpty(value) || 'Este campo é obrigatório'
-        ]"
-      />
       <q-no-ssr>
+        <GmapAutocomplete
+          @place_changed="processLocationChanged"
+          class="full-width q-my-sm q-pa-md">
+          <template v-slot:input="slotProps">
+            <q-input
+              filled
+              ref="input"
+              v-on:listeners="slotProps.listeners"
+              v-on:attrs="slotProps.attrs"
+              v-model="form.location"
+              label="Localização"
+              placeholder="ex: Google Campus"
+              :rules="[
+                value => validators.notEmpty(value) || 'Este campo é obrigatório'
+              ]"
+            />
+          </template>
+        </GmapAutocomplete>
         <GmapMap
           :center="{lat:10, lng:10}"
           :zoom="7"
@@ -150,6 +163,11 @@ export default {
       description: '',
     },
   }),
+  methods: {
+    processLocationChanged(data) {
+      console.log(data);
+    },
+  },
 };
 </script>
 

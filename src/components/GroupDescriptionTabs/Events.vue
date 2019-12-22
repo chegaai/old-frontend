@@ -1,12 +1,17 @@
 <template>
   <div
+    :class="{
+      'justify-center': $q.platform.is.mobile,
+      'justify-between': !$q.platform.is.mobile
+    }"
     class="
     text-body1 text-grey-8 q-pa-md
-    q-mt-md row justify-between group-description-tabs-events-content">
+    q-mt-md row group-description-tabs-events-content">
     <event-card
       v-for="(event, index) in events"
       :key="`event-${index}`"
       :event="event"
+      class="q-my-sm"
     />
   </div>
 </template>

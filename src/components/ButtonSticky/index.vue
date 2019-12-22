@@ -1,8 +1,16 @@
 <template>
-  <q-page-sticky :position="stickyPosition" :offset="[18, 18]">
+  <q-page-sticky
+    :position="stickyPosition"
+    :expand="$q.platform.is.mobile"
+    :offset="[
+      $q.platform.is.mobile ? 0 : 18,
+      $q.platform.is.mobile ? 0 : 18,
+    ]">
     <q-btn
       :icon="icon"
       :label="label"
+      @click="() => $emit('click')"
+      class="full-width"
       color="primary"
       size="lg" />
   </q-page-sticky>
