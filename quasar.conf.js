@@ -3,6 +3,7 @@
 
 module.exports = function config(ctx) {
   return {
+    preFetch: true,
     boot: [
       'i18n',
       'animate',
@@ -96,6 +97,9 @@ module.exports = function config(ctx) {
     build: {
       transpileDependencies: [/^vue2-google-maps($|\/)/],
       scopeHoisting: true,
+      env: {
+        API_URL: JSON.stringify(process.env.API_URL),
+      },
       // vueRouterMode: 'history',
       // showProgress: false,
       // gzip: true,
@@ -121,7 +125,7 @@ module.exports = function config(ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true, // opens browser window automatically
+      open: false, // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations

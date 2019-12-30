@@ -10,6 +10,6 @@ export default {
   children: [
     { path: 'list', name: 'GroupList', component: GroupListPage },
     { path: 'create', name: 'GroupCreate', component: GroupCreatePage },
-    { path: 'detail/:id', name: 'GroupDetail', component: GroupDetailPage },
+    { path: 'detail/:slug', name: 'GroupDetail', component: GroupDetailPage },
   ],
 };

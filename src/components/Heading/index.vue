@@ -12,14 +12,20 @@
         icon="menu"
         class="q-mr-sm" /> -->
 
-      <p
-        @click="() => $route.name !== 'General' && goFor('General')"
-        class="
-          text-family-light text-body1 text-grey-8
-          text-uppercase q-pa-none q-ma-none cursor-pointer
-        ">
-        <span class="text-family-bold">chega</span>.ai
-      </p>
+      <div class="row items-center">
+        <img
+          src="~assets/source/png/chegaai-marca_positiva-reducao-retangulo.png"
+          alt="logo"
+          width="30">
+        <p
+          @click="() => $route.name !== 'General' && goFor('General')"
+          class="
+            text-family-light text-body1 text-grey-8
+            text-uppercase q-pa-none q-ma-none q-ml-sm cursor-pointer
+          ">
+          <span class="text-family-bold">chega</span>.ai
+        </p>
+      </div>
 
       <div>
         <q-btn

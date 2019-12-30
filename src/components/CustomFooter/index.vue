@@ -1,9 +1,9 @@
 <template>
-  <div class="row justify-center bg-grey-2 q-mt-md">
-    <div class="row justify-center col-6 q-pa-md" style="max-width: 932px">
-      chega.ai © 2019
-    </div>
-  </div>
+  <q-footer class="row justify-center bg-grey-2 q-mt-md">
+    <q-toolbar class="row justify-center text-grey-8 col-6 q-pa-md">
+      chega.ai © 2020
+    </q-toolbar>
+  </q-footer>
 </template>
 
 <script>

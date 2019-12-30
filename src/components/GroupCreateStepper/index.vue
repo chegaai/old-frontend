@@ -124,7 +124,6 @@
 </template>
 
 <script>
-import { slugify } from '../../utils/string';
 import { validate } from '../../utils/validator';
 import { notEmpty } from '../../utils/validators';
 
@@ -160,8 +159,7 @@ export default {
         },
       });
 
-      const groupSlug = slugify(response.data._id);
-      this.goFor('GroupDetail', { id: groupSlug });
+      this.goFor('GroupDetail', { slug: response.data.slug });
     },
   },
 };

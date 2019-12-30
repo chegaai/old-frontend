@@ -11,3 +11,9 @@ if (!Vue.prototype.$s) {
     },
   });
 }
+
+export default ({ ssrContext }) => {
+  if (ssrContext) {
+    ssrContext.$s = services;
+  }
+};

@@ -1,12 +1,16 @@
 <template>
   <q-card class="login-card">
-    <q-card-section class="full-width">
-      <h4 class="text-h4 text-grey-8 text-center text-uppercase text-family-light">
+    <q-card-section class="full-width column items-center">
+      <img
+        src="~assets/source/png/chegaai-marca_positiva-circulo.png"
+        width="190"
+        alt="logo">
+      <!-- <h4 class="text-h4 text-grey-8 text-center text-uppercase text-family-light">
         <span class="text-family-bold">chega</span>.ai
-      </h4>
-      <p class="text-body2 text-grey-7 text-center">
+      </h4> -->
+      <!-- <p class="text-body2 text-grey-7 text-center">
         {{ subTitleLabel }}
-      </p>
+      </p> -->
     </q-card-section>
 
     <q-card-section>

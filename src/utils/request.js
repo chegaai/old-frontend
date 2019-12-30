@@ -2,10 +2,10 @@ import axios from 'axios';
 import { getStorage } from './localStorage';
 
 const internalHttpClient = axios.create({
-  baseURL: process.env.VUE_APP_API_URL || 'http://api-gateway.127.0.0.1.nip.io/',
+  baseURL: process.env.API_URL || 'http://api-gateway.127.0.0.1.nip.io/',
 });
 
-internalHttpClient.interceptors.request.use((config) => {
+internalHttpClient.interceptors.request.use((config) => { // eslint-disable-line
   const token = getStorage('token');
   if (token) {
     config.headers.common.Authorization = `Bearer ${token}`;
