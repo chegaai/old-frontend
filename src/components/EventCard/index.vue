@@ -6,7 +6,7 @@
     }"
     class="cursor-pointer"
     @click="goFor('EventDetail', { id: event.id })">
-    <q-img v-if="isPortrait" :src="event.bannerImageUrl" />
+    <q-img v-if="isPortrait && event.bannerImageUrl" :src="event.bannerImageUrl" />
 
     <div
       :class="{
@@ -24,12 +24,13 @@
             text-grey-9 text-weight-bold bg-grey-3
              absolute-top-right q-pa-xs
           ">
-            123 confirmados
+            {{ event.seats }} vagas
           </span>
           <h5 class="text-h6 text-family-bold text-primary q-mt-md">{{ event.name }}</h5>
           <div class="column">
             <span class="text-subtitle2 text-grey-8">
-              <q-icon name="where_to_vote" size="25px" /> {{ event.location.name }}
+              <q-icon name="where_to_vote" size="25px" />
+              {{ event.place.name || 'Lugar incrível!' }}
             </span>
             <span class="text-subtitle2 text-grey-8" v-if="isLandspace">
               <q-icon name="group" size="25px" /> {{ event.group.name }}

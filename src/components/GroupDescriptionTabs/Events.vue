@@ -7,12 +7,18 @@
     class="
     text-body1 text-grey-8 q-pa-md
     q-mt-md row group-description-tabs-events-content">
-    <event-card
-      v-for="(event, index) in events"
-      :key="`event-${index}`"
-      :event="event"
-      class="q-my-sm"
-    />
+    <template v-if="hasEvents">
+      <event-card
+        v-for="(event, index) in events"
+        :key="`event-${index}`"
+        :event="event"
+        class="q-my-sm"
+      />
+    </template>
+
+    <p v-else class="text-gray-6 text-body1">
+      Ainda não existem eventos
+    </p>
   </div>
 </template>
 
@@ -24,6 +30,11 @@ export default {
   components: { EventCard },
   props: {
     events: { type: Array, required: true },
+  },
+  computed: {
+    hasEvents() {
+      return this.events && this.events.length;
+    },
   },
 };
 </script>

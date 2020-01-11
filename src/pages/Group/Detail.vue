@@ -9,10 +9,11 @@
           : 'url(/statics/images/standard-group-image.jpg)',
         backgroundPosition: '50% 50%',
       }"
-      :sub-title="`${group.followersCount} membros`" />
+      :sub-title="`${group.followersCount} membro(s)`" />
     <group-description-tabs
-      :events="eventList"
-      :members="membersList"
+      @tab-change="handleTabChange"
+      :events="events"
+      :members="members"
       :about="group.description"
     />
     <button-sticky
@@ -29,8 +30,6 @@ import Banner from '../../components/Banner';
 import GroupDescriptionTabs from '../../components/GroupDescriptionTabs';
 import ButtonSticky from '../../components/ButtonSticky';
 import CustomFooter from '../../components/CustomFooter';
-import { eventList } from '../../mock/event';
-import { membersList } from '../../mock/members';
 
 export default {
   name: 'GroupDetail',
@@ -41,8 +40,8 @@ export default {
     GroupDescriptionTabs,
   },
   data: () => ({
-    eventList,
-    membersList,
+    events: [],
+    members: [],
   }),
   computed: {
     ...mapState({
@@ -78,6 +77,21 @@ export default {
   methods: {
     goFor(where) {
       this.$router.push({ name: where });
+    },
+    handleTabChange(tab) {
+      const tabs = {
+        events: async () => {
+          const response = await this.$s.groups.getEvents({ groupId: this.group.id });
+          this.events = response.data;
+          console.log('this.events', response.data);
+        },
+        members: async () => {
+          const response = await this.$s.groups.getFollowers({ groupId: this.group.id });
+          this.members = response.data;
+        },
+      };
+
+      return tabs[tab] && tabs[tab]();
     },
   },
 };

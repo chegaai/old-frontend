@@ -17,6 +17,14 @@ export default httpClient => ({
       tags,
     });
   },
+  getEvents: (payload) => {
+    const { groupId } = payload;
+    return httpClient.get(`/groups/${groupId}/events`);
+  },
+  getFollowers: (payload) => {
+    const { groupId } = payload;
+    return httpClient.get(`/groups/${groupId}/followers`);
+  },
   getFollowersCount: (payload) => {
     const { groupId } = payload;
     return httpClient.get(`/groups/${groupId}/followers`, { params: { count: true } });

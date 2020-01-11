@@ -18,7 +18,7 @@ import About from './About.vue';
 import Events from './Events.vue';
 import Members from './Members';
 
-const TABS_ENUM = {
+export const TABS_ENUM = {
   about: 'About',
   events: 'Events',
   members: 'Members',
@@ -47,9 +47,12 @@ export default {
           const query = { tab: currentTab };
           this.$router.push({ query });
         }
+        this.$emit('tab-change', currentTab);
         this.component = currentTab;
       },
     },
+  },
+  methods: {
   },
 };
 </script>
