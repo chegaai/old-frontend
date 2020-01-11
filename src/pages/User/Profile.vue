@@ -1,14 +1,12 @@
 <template>
   <div class="column items-center q-ma-md q-mt-xl">
     <div class="profile-page-content-width">
-      <h5
-        class="text-h5 text-grey-7 text-family-bold q-ma-none"
-        style="max-width: 950px">
+      <h5 class="text-h5 text-grey-7 text-family-bold q-ma-none" style="max-width: 950px">
         Informações de perfil
       </h5>
     </div>
 
-    <profile-form class="profile-page-content-width" />
+    <profile-form @profile-submit="saveProfile" class="profile-page-content-width" />
   </div>
 </template>
 
@@ -18,6 +16,12 @@ import ProfileForm from '../../components/ProfileForm';
 export default {
   name: 'ProfilePage',
   components: { ProfileForm },
+  methods: {
+    async saveProfile(profile) {
+      await this.$s.users.update(profile);
+      this.$q.notify('Usuário atualizado com sucesso');
+    },
+  },
 };
 </script>
 

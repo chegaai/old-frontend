@@ -9,6 +9,7 @@
       label="País"
       class="q-my-xs"
       option-label="name"
+      @input="submitRegion"
       :disable="true"
       :rules="[
         value => validators.notEmpty(value) || 'Este campo é obrigatório'
@@ -22,6 +23,7 @@
       input-debounce="0"
       label="Estado"
       class="q-my-xs"
+      @input="submitRegion"
       option-label="name"
       :loading="stateOptions.isLoading"
       :options="stateOptions.list"
@@ -38,6 +40,7 @@
       label="Cidade"
       class="q-my-xs"
       option-label="name"
+      @input="submitRegion"
       :loading="cityOptions.isLoading"
       :options="cityOptions.list"
       :disable="!form.location.state.id"
@@ -96,6 +99,9 @@ export default {
 
         update(async () => await entities[entity] && entities[entity]());
       };
+    },
+    submitRegion() {
+      this.$emit('set-region', this.form);
     },
   },
 };
