@@ -81,8 +81,7 @@
         size="lg"
         color="primary"
         label="Salvar"
-        @click="() => ({})"
-      />
+        @click="emitClick" />
     </q-card-section>
   </q-card>
 </template>
@@ -101,8 +100,11 @@ export default {
       email: 'hello@igorluiz.me',
       username: 'igorhalfeld',
       document: '999999999',
+  methods: {
+    emitClick() {
+      this.$emit('profile-submit', this.form);
     },
-  }),
+    },
 };
 </script>
 
