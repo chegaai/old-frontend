@@ -12,7 +12,8 @@
       }"
       sub-title="Juntesse a um grupo e faça mais do que você ama."
       additional-info="" />
-    <!-- <banner
+    <!--
+    <banner
       component="NextMeetup"
       title="NodeBR #59 - Masters of Node.js"
       :styles="{
@@ -20,7 +21,8 @@
         backgroundColor: '#18104a'
       }"
       sub-title="NodeBR São Paulo"
-      additional-info="" /> -->
+      additional-info="" />
+    -->
 
     <div class="row justify-center full-width q-mt-xl">
       <div class="col-md-6 col-12 q-mx-md q-px-md">
