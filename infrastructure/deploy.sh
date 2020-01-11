@@ -17,8 +17,6 @@ set -x
 helm upgrade --install --atomic frontend-${NAMESPACE} \
   --set "env=$NAMESPACE" \
   --set "image.tag=$IMAGE_TAG" \
-  --set "ingress.hostname=api.chega.ai" \
-  --set "environment.MAPS_FILE_URL=\"$CONFIG_FILE\"" \
-  --set "environment.AUTH_JWT_SECRET=$AUTH_JWT_SECRET" \
+  --set "ingress.hostname=${FRONTEND_HOSTNAME:-chega.ai}" \
   --namespace $NAMESPACE \
   $CURRENT_DIR/frontend
