@@ -24,20 +24,34 @@
           <p class="text-body1 text-grey-6 q-mb-sm">
             Username
           </p>
-          <q-input ref="username" filled type="text" debounce="500" v-model="form.username" :rules="[
+          <q-input
+            ref="username"
+            filled
+            type="text"
+            debounce="500"
+            v-model="form.username"
+            :rules="[
               value => validators.notEmpty(value) || 'Este campo é obrigatório'
-            ]" label="Username *" class="q-my-xs profile-form-sm-input" />
+            ]"
+            label="Username *"
+            class="q-my-xs profile-form-sm-input" />
         </div>
         <div class="column">
           <p class="text-body1 text-grey-6 q-mb-sm">
             RG
           </p>
-          <q-input ref="document" filled type="text" v-model="form.document" label="Numero do RG *" :rules="[
+          <q-input
+            ref="document"
+            filled
+            type="text"
+            v-model="form.document"
+            label="Numero do RG *"
+            :rules="[
               value => validators.notEmpty(value) || 'Este campo é obrigatório'
-            ]" class="q-my-xs profile-form-sm-input" />
+            ]"
+            class="q-my-xs profile-form-sm-input" />
         </div>
       </div>
-
       <div class="bg-grey-1 q-pa-sm">
         <p class="text-body1 text-grey-6 q-mb-sm">
           Região
@@ -46,9 +60,15 @@
       </div>
     </q-card-section>
     <q-card-section class="row justify-end">
-      <q-btn :class="{
+      <q-btn
+        :class="{
           'full-width': $q.platform.is.mobile
-        }" class="text-family-regular" size="lg" color="primary" label="Salvar" @click="emitClick" />
+        }"
+        class="text-family-regular"
+        size="lg"
+        color="primary"
+        label="Salvar"
+        @click="emitClick" />
     </q-card-section>
   </q-card>
 </template>
