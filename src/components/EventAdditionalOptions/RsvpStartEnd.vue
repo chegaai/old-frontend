@@ -21,19 +21,55 @@
     <q-card>
       <q-card-section>
         <p class="text-body1 text-grey-6 q-mb-sm">
-          As pessoas iram ver a quantidade de espaços disponíveis
+          Data/hora de início *
         </p>
-        <q-input
-          type="number"
-          filled
-          v-model="attendeeLimit.amount"
-          label="Coloque a quantidade de pessoas"
-          placeholder="ex: 80"
-          :rules="[
-            value => validators.notEmpty(value) ||
-            'Este campo é obrigatório quando esta selecionado'
-          ]"
-        />
+        <div>
+          <q-input filled v-model="rsvpStartEnd.start">
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy transition-show="scale" transition-hide="scale">
+                  <q-date
+                    v-model="rsvpStartEnd.begin"
+                    mask="YYYY-MM-DD HH:mm" />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy transition-show="scale" transition-hide="scale">
+                  <q-time v-model="rsvpStartEnd.begin" mask="YYYY-MM-DD HH:mm" format24h />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <p class="text-grey-6 q-mt-sm">Clique nos ícones ao lado para abrir o DatePicker</p>
+        </div>
+        <div
+          :class="{
+            'q-mt-none': $q.platform.is.desktop,
+          }"
+          class="col-5 q-my-md">
+          <p class="text-body1 text-grey-6 q-mb-sm">
+            Data/hora de finalização *
+          </p>
+          <q-input filled v-model="rsvpStartEnd.end">
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy transition-show="scale" transition-hide="scale">
+                  <q-date v-model="rsvpStartEnd.end" mask="YYYY-MM-DD HH:mm" />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy transition-show="scale" transition-hide="scale">
+                  <q-time v-model="rsvpStartEnd.end" mask="YYYY-MM-DD HH:mm" format24h />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <p class="text-grey-6 q-mt-sm">Clique nos ícones ao lado para abrir o DatePicker</p>
+        </div>
       </q-card-section>
     </q-card>
 
@@ -45,6 +81,8 @@ export default {
   data: () => ({
     rsvpStartEnd: {
       isOpen: false,
+      begin: null,
+      end: null,
     },
   }),
 };

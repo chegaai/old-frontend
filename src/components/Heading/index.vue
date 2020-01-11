@@ -47,7 +47,7 @@
                 <q-item
                   v-else
                   clickable
-                  @click="() => goFor(item.route)"
+                  @click="() => item.click ? item.click() : goFor(item.route)"
                   :key="index">
                   <q-item-section>
                     <p class="row items-center q-ma-none">
@@ -70,14 +70,14 @@
 </template>
 
 <script>
-import { menuItems } from './utils';
+import { buildMenuItems } from './utils';
 
 export default {
   name: 'Heading',
   data() {
     return {
       drawerStatus: false,
-      menuItems,
+      menuItems: buildMenuItems(this),
     };
   },
   methods: {

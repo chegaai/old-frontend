@@ -37,11 +37,11 @@
         <p class="text-body1 text-grey-6 q-mb-sm">
           Data/hora de início *
         </p>
-        <q-input filled v-model="form.date.start">
+        <q-input filled v-model="form.date.begin">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-date v-model="form.date.start" mask="YYYY-MM-DD HH:mm" />
+                <q-date v-model="form.date.begin" mask="YYYY-MM-DD HH:mm" />
               </q-popup-proxy>
             </q-icon>
           </template>
@@ -49,11 +49,12 @@
           <template v-slot:append>
             <q-icon name="access_time" class="cursor-pointer">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-time v-model="form.date.start" mask="YYYY-MM-DD HH:mm" format24h />
+                <q-time v-model="form.date.begin" mask="YYYY-MM-DD HH:mm" format24h />
               </q-popup-proxy>
             </q-icon>
           </template>
         </q-input>
+        <p class="text-grey-6 q-mt-sm">Clique nos ícones ao lado para abrir o DatePicker</p>
       </div>
       <div
         :class="{
@@ -80,6 +81,7 @@
             </q-icon>
           </template>
         </q-input>
+        <p class="text-grey-6 q-mt-sm">Clique nos ícones ao lado para abrir o DatePicker</p>
       </div>
     </div>
 
@@ -95,8 +97,8 @@
         Localização do evento *
       </p>
       <q-no-ssr>
-        <!-- @place_changed="processLocationChanged" -->
-         <GmapAutocomplete
+        <GmapAutocomplete
+          @place_changed="processLocationChanged"
           class="full-width q-my-sm q-pa-md">
           <template v-slot:input="slotProps">
             <q-input
@@ -114,11 +116,19 @@
           </template>
         </GmapAutocomplete>
         <GmapMap
-          :center="{lat:10, lng:10}"
-          :zoom="7"
+          v-if="canShowMaps"
+          :center="{
+            lat: form.location.lat,
+            lng: form.location.lng,
+          }"
+          :zoom="15"
           style="width: 100%; height: 300px"
         >
           <GmapMarker
+            :position="{
+              lat: form.location.lat,
+              lng: form.location.lng,
+            }"
             :clickable="true"
             :draggable="true"
           />
@@ -133,7 +143,7 @@
       <event-additional-options />
     </div>
 
-    <action-footer ok-label="Criar evento" />
+    <action-footer @action="handleEvents" ok-label="Criar evento" />
   </div>
 </template>
 
@@ -156,14 +166,72 @@ export default {
     form: {
       title: '',
       date: {
-        start: new Date(),
-        end: new Date(),
+        begin: null,
+        end: null,
       },
-      location: '',
+      location: {
+        name: '',
+        placeId: '',
+        address: '',
+        zipCode: '',
+        number: '',
+        complement: '',
+        country: '',
+        city: '',
+        state: '',
+        lat: null,
+        lng: null,
+      },
       description: '',
     },
   }),
+  computed: {
+    canShowMaps() {
+      return !!this.form.location.lat && !!this.form.location.lng;
+    },
+  },
   methods: {
+    processLocationChanged(payload) {
+      this.form.location.placeId = payload.place_id;
+      this.form.location.name = payload.name;
+      this.form.location.address = payload.formatted_address;
+
+      const STATE_KEY = 'administrative_area_level_1';
+      const CITY_KEY = 'administrative_area_level_2';
+      const COUNTRY_KEY = 'country';
+      const NUMBER_KEY = 'street_number';
+      const ZIP_CODE_KEY = 'postal_code';
+
+      payload.address_components.forEach((address) => {
+        if (address.types.includes(STATE_KEY)) {
+          this.form.location.state = address.long_name;
+        }
+        if (address.types.includes(CITY_KEY)) {
+          this.form.location.city = address.long_name;
+        }
+        if (address.types.includes(COUNTRY_KEY)) {
+          this.form.location.country = address.long_name;
+        }
+        if (address.types.includes(NUMBER_KEY)) {
+          this.form.location.number = address.long_name;
+        }
+        if (address.types.includes(ZIP_CODE_KEY)) {
+          this.form.location.zipCode = address.long_name;
+        }
+      });
+
+      this.form.location.lat = Number(payload.geometry.location.lat());
+      this.form.location.lng = Number(payload.geometry.location.lng());
+    },
+    handleEvents(action) {
+      const types = {
+        OK: () => {
+          console.log('this.form', this.form);
+        },
+      };
+
+      return types[action.type] && types[action.type]();
+    },
   },
 };
 </script>

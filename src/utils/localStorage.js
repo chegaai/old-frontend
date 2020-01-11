@@ -12,3 +12,8 @@ export const getStorage = (key, { format } = {}) => {
     ? parse(window.localStorage.getItem(key))
     : value;
 };
+
+export const clearStorage = () => {
+  if (typeof window !== 'object') return;
+  window.localStorage.clear();
+};
