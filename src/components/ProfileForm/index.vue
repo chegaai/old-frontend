@@ -221,7 +221,6 @@ export default {
       this.form.socialNetworks.splice(index, 1);
     },
     setLocation(form) {
-      console.log(form);
       this.form.location = {
         state: form.state.name,
         city: form.city.name,
