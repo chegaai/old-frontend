@@ -6,7 +6,11 @@
       </h5>
     </div>
 
-    <profile-form @profile-submit="saveProfile" class="profile-page-content-width" />
+    <profile-form
+      :initial-values="initialValues"
+      @profile-submit="saveProfile"
+      class="profile-page-content-width"
+      />
   </div>
 </template>
 
@@ -16,11 +20,22 @@ import ProfileForm from '../../components/ProfileForm';
 export default {
   name: 'ProfilePage',
   components: { ProfileForm },
+  data() {
+    return {
+      initialValues: {},
+    };
+  },
   methods: {
     async saveProfile(profile) {
       await this.$s.users.update(profile);
       this.$q.notify('Usuário atualizado com sucesso');
     },
+    async getInitialValues() {
+      return this.$s.users.getMyProfile();
+    },
+  },
+  created() {
+    this.getInitialValues().then(({ data }) => { this.initialValues = data; });
   },
 };
 </script>

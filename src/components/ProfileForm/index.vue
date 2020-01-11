@@ -14,6 +14,8 @@
           </p>
           <q-input
             ref="name"
+            :disable="isLoading"
+            :loading="isLoading"
             filled
             type="text"
             v-model="form.name"
@@ -29,10 +31,13 @@
           </p>
           <q-input
             ref="lastName"
+            :disable="isLoading"
+            :loading="isLoading"
             filled
             type="text"
             v-model="form.lastName"
-            label="Sobrenome *" :rules="[
+            label="Sobrenome *"
+            :rules="[
               value => validators.notEmpty(value) || 'Este campo é obrigatório'
             ]"
             class="q-my-xs profile-form-sm-input" />
@@ -45,11 +50,13 @@
       <q-select
         filled
         type="text"
+        :disable="isLoading"
+        :loading="isLoading"
         v-model="form.language"
         map-options
         label="Seu Idioma"
         :options="langOptions"
-        class="q-mb-sm"
+        class="q-mb-md"
         emit-value
       />
 
@@ -57,34 +64,41 @@
         <p class="text-body1 text-grey-6 q-mb-sm">
           Tags (aperte Enter)
         </p>
-        <div class="row">
+        <div>
+          <q-input
+            @keypress.enter="addChip"
+            :disable="isLoading"
+            :loading="isLoading"
+            v-model="addTag"
+            filled
+            class="q-mb-md"
+          />
           <q-chip
             removable
+            :disable="isLoading"
+            :loading="isLoading"
             @remove="() => removeTag(tag)"
             v-for="(tag, index) of form.tags"
             :key="index">
               {{tag}}
           </q-chip>
-          <q-input
-            @keypress.enter="addChip"
-            v-model="addTag"
-            borderless
-          />
         </div>
       </div>
 
-      <div class="full-width q-ma-md">
-        <p class="text-body1 text-grey-6 q-mb-sm">
+      <div class="full-width q-mt-md">
+        <p class="text-body1 text-grey-6">
           Redes Sociais
         </p>
         <div
+          id="old-social"
           v-for="(socialNetwork, index) of form.socialNetworks"
           :key="index"
-          class="row items-center q-mt-sm q-mb-sm" >
+          class="row items-center" >
           <q-select
             filled
             clearable
-            square
+            :disable="isLoading"
+            :loading="isLoading"
             outlined
             v-model="socialNetwork.name"
             :rules="[
@@ -97,22 +111,26 @@
           <q-input
             v-model="socialNetwork.link"
             filled
-            square
+            type="url"
+            :prefix="prefix"
+            :disable="isLoading"
+            :loading="isLoading"
             :rules="[
               value => {
                 validators.notEmptyIf(socialNetwork.name, value) || 'Este campo é obrigatório'
               },
-              value => validators.isUrl(value) || 'É necessário ser uma URL válida'
             ]"
             class="q-mr-sm social-link"
             />
             <q-btn @click="() => removeSocial(index)" flat round color="negative" icon="remove" />
         </div>
-        <div class="row full-width items-center">
+
+        <div id="new-social" class="row items-center">
           <q-select
             filled
             clearable
-            square
+            :disable="isLoading"
+            :loading="isLoading"
             outlined
             v-model="newNetwork.name"
             :options="socialNetworkList"
@@ -124,21 +142,30 @@
           <q-input
             v-model="newNetwork.link"
             filled
-            square
+            type="url"
+            :prefix="prefix"
+            :disable="isLoading"
+            :loading="isLoading"
             :rules="[
               value => validators.notEmptyIf(newNetwork.name, value) || 'Este campo é obrigatório'
             ]"
             @keypress.enter="addSocial"
             class="q-mr-sm social-link"
             />
-            <q-btn @click="addSocial" flat round color="positive" icon="add" />
+            <q-btn
+              @click="addSocial"
+              :disable="isLoading"
+              flat
+              round
+              color="positive"
+              icon="add" />
         </div>
       </div>
-      <div class="bg-grey-1 q-pa-sm">
+      <div>
         <p class="text-body1 text-grey-6 q-mb-sm">
           Localização
         </p>
-        <region-select @set-region="setLocation" />
+        <region-select :initial-values="form.location" @set-region="setLocation" />
       </div>
     </q-card-section>
     <q-card-section class="row justify-end">
@@ -157,7 +184,7 @@
 
 <script>
 import RegionSelect from '../../components/RegionSelect';
-import { notEmpty } from '../../utils/validators';
+import { notEmpty, isUrl } from '../../utils/validators';
 
 const notEmptyIf = (compareField, value) => {
   if (compareField) {
@@ -169,12 +196,20 @@ const notEmptyIf = (compareField, value) => {
 export default {
   name: 'ProfileForm',
   components: { RegionSelect },
+  props: {
+    intialValues: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
     return {
-      validators: { notEmpty, notEmptyIf },
+      validators: { notEmpty, notEmptyIf, isUrl },
       langOptions: [{ label: 'Português', value: 'pt-BR' }, { label: 'English', value: 'en-US' }],
       socialNetworkList: ['Google', 'Facebook', 'Github', 'Gitlab', 'Behance', 'Twitter', 'Dribble', 'Instagram', 'LinkedIn', 'Flickr', 'Dev.to', 'Medium', 'YouTube', 'Tumblr', 'Telegram', 'Skype', 'Snapchat', 'Pinterest', 'Reddit', 'Site Pessoal', 'Outros'],
       addTag: '',
+      prefix: 'http://',
+      isLoading: true,
       newNetwork: {
         name: '',
         link: '',
@@ -191,7 +226,14 @@ export default {
   },
   methods: {
     emitClick() {
-      this.$emit('profile-submit', this.form);
+      this.$emit('profile-submit', {
+        ...this.form,
+        socialNetworks: this.form.socialNetworks.map(socialNetwork => ({
+          ...socialNetwork,
+          link: `${this.prefix}${socialNetwork.link}`,
+        })),
+        tags: Array.from(this.form.tags),
+      });
     },
     addChip() {
       this.form.tags.add(this.addTag);
@@ -221,6 +263,12 @@ export default {
         city: form.city.name,
         country: form.country.name,
       };
+    },
+  },
+  watch: {
+    initialValues() {
+      this.form = this.initialValues;
+      this.isLoading = false;
     },
   },
 };

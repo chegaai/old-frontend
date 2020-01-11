@@ -12,6 +12,11 @@ export const notEmpty = (value) => {
   return possibilities[type] && possibilities[type](value);
 };
 
+export const isUrl = (value) => {
+  const regex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/gi;
+  return regex.test(value);
+};
+
 export const onlyAllowUntilNumber = (limit = 100) => (value) => {
   const valueWithoutComma = Number(String(value).replace(/,/g, '.'));
   return valueWithoutComma <= limit;

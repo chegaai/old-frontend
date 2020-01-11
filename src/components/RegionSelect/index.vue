@@ -53,11 +53,16 @@
 </template>
 
 <script>
-// import { validate } from '../../utils/validator';
 import { notEmpty } from '../../utils/validators';
 
 export default {
   name: 'RegionSelect',
+  props: {
+    initialValues: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data: () => ({
     validators: { notEmpty },
     countryOptions: {
@@ -102,6 +107,15 @@ export default {
     },
     submitRegion() {
       this.$emit('set-region', this.form.location);
+    },
+  },
+  watch: {
+    initialValues() {
+      this.stateOptions.isLoading = true;
+      this.cityOptions.isLoading = true;
+      this.form.location = this.initialValues.location;
+      this.stateOptions.isLoading = false;
+      this.cityOptions.isLoading = false;
     },
   },
 };

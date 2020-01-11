@@ -34,6 +34,7 @@ export default httpClient => ({
       },
     });
   },
+  getMyProfile: () => httpClient.get('/profiles/me'),
   getMe: () => httpClient.get('/users/me'),
   update: payload => httpClient.put('/users/me', payload),
 });
