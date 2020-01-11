@@ -83,7 +83,7 @@ export default {
         events: async () => {
           const response = await this.$s.groups.getEvents({ groupId: this.group.id });
           this.events = response.data;
-          console.log('this.events', response.data);
+          // console.log('this.events', response.data);
         },
         members: async () => {
           const response = await this.$s.groups.getFollowers({ groupId: this.group.id });

@@ -226,7 +226,7 @@ export default {
     handleEvents(action) {
       const types = {
         OK: () => {
-          console.log('this.form', this.form);
+          // console.log('this.form', this.form);
         },
       };
 
