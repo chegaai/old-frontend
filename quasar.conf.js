@@ -10,6 +10,7 @@ module.exports = function config(ctx) {
       'services',
       'notify-defaults',
       'maps',
+      'acl',
     ],
     css: [
       'app.scss',

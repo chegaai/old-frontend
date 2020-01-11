@@ -30,6 +30,7 @@ export default {
   props: {
     about: { type: String, required: true },
     events: { type: Array, required: true },
+    members: { type: Array, required: true },
   },
   data() {
     return {

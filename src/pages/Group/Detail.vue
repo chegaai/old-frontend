@@ -9,9 +9,10 @@
           : 'url(/statics/images/standard-group-image.jpg)',
         backgroundPosition: '50% 50%',
       }"
-      :sub-title="group.tags.join(', ')" />
+      :sub-title="`${group.followersCount} membros`" />
     <group-description-tabs
       :events="eventList"
+      :members="membersList"
       :about="group.description"
     />
     <button-sticky
@@ -29,6 +30,7 @@ import GroupDescriptionTabs from '../../components/GroupDescriptionTabs';
 import ButtonSticky from '../../components/ButtonSticky';
 import CustomFooter from '../../components/CustomFooter';
 import { eventList } from '../../mock/event';
+import { membersList } from '../../mock/members';
 
 export default {
   name: 'GroupDetail',
@@ -40,6 +42,7 @@ export default {
   },
   data: () => ({
     eventList,
+    membersList,
   }),
   computed: {
     ...mapState({
@@ -47,6 +50,7 @@ export default {
     }),
   },
   preFetch({ store, ssrContext, currentRoute }) {
+    if (!ssrContext) return;
     return new Promise(async (resolve) => {
       const groupDetailResponse = await ssrContext.$s.groups.get({
         groupId: currentRoute.params.slug,
@@ -55,10 +59,9 @@ export default {
         groupId: groupDetailResponse.data.id,
       });
 
-      console.log('followersCountReponse', followersCountReponse.data);
       const payload = {
         ...groupDetailResponse.data,
-        // followersCount: followersCountResponse.data,
+        followersCount: followersCountReponse.data.count,
       };
 
       store.dispatch('General/setCurrentSwapSpace', payload);
