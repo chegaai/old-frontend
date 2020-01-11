@@ -31,8 +31,8 @@
             debounce="500"
             v-model="form.username"
             :rules="[
-              value => validators.notEmpty(value) || 'Este campo é obrigatório'
-            ]"
+                value => validators.notEmpty(value) || 'Este campo é obrigatório'
+              ]"
             label="Username *"
             class="q-my-xs profile-form-sm-input" />
         </div>
@@ -45,8 +45,7 @@
             filled
             type="text"
             v-model="form.document"
-            label="Numero do RG *"
-            :rules="[
+            label="Numero do RG *" :rules="[
               value => validators.notEmpty(value) || 'Este campo é obrigatório'
             ]"
             class="q-my-xs profile-form-sm-input" />

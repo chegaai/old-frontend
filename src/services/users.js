@@ -34,5 +34,6 @@ export default httpClient => ({
       },
     });
   },
+  getMe: () => httpClient.get('/users/me'),
   update: payload => httpClient.put('/users/me', payload),
 });
