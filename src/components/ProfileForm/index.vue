@@ -38,12 +38,6 @@
             class="q-my-xs profile-form-sm-input" />
         </div>
       </div>
-      <p class="text-body1 text-grey-6 q-mb-sm">
-        Username
-      </p>
-      <q-input filled v-model="form.name" label="Seu username" :rules="[
-          value => validators.notEmpty(value) || 'Este campo é obrigatório'
-        ]" />
 
       <p class="text-body1 text-grey-6 q-mb-sm">
         Idioma
@@ -107,7 +101,8 @@
             :rules="[
               value => {
                 validators.notEmptyIf(socialNetwork.name, value) || 'Este campo é obrigatório'
-              }
+              },
+              value => validators.isUrl(value) || 'É necessário ser uma URL válida'
             ]"
             class="q-mr-sm social-link"
             />
