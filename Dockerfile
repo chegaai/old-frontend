@@ -1,16 +1,22 @@
 FROM node:13.0-alpine as production-stage
 
 WORKDIR /app
-
-COPY . .
-
-RUN npm i -g @quasar/cli
-RUN rm -rf node_modules
-RUN npm i --silent
-
-RUN quasar build -m ssr
+ARG ENV_API_URL
+ENV API_URL=${ENV_API_URL}
 
 ENV PORT=80
+
+COPY ["./package.json", "package-lock.json", "/app/"]
+
+RUN npm i -g @quasar/cli
+RUN npm i --verbose
+
+## Adding source code
+COPY ["src", "/app/src/"]
+COPY ["src-ssr", "/app/src-ssr/"]
+COPY [".eslintignore", ".eslintrc.js", ".postcssrc.js", ".stylintrc", "babel.config.js", "quasar.conf.js", "/app/"]
+
+RUN quasar build -m ssr
 
 EXPOSE 80
 
