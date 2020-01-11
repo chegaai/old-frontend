@@ -32,8 +32,7 @@
               type="text"
               filled
               v-model="question.title"
-              label="Coloque a quantidade de pessoas"
-              placeholder="ex: Coloque seu RG"
+              placeholder="ex: Preecha com tal dado"
               style="flex: 1"
               class="q-pa-none"
               :rules="[
@@ -49,7 +48,7 @@
               @click="() => removeQuestion(index)"
             />
           </div>
-          <q-item tag="label" class="q-mt-sm" dense>
+          <q-item tag="label" class="q-mt-md q-mb-xl" dense>
             <q-item-section avatar top>
                 <q-checkbox
                 v-model="question.required" />

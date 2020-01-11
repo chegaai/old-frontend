@@ -48,10 +48,20 @@ export default {
   },
   preFetch({ store, ssrContext, currentRoute }) {
     return new Promise(async (resolve) => {
-      const response = await ssrContext.$s.groups.get({ groupId: currentRoute.params.slug });
-      console.log('response', response.data);
+      const groupDetailResponse = await ssrContext.$s.groups.get({
+        groupId: currentRoute.params.slug,
+      });
+      const followersCountReponse = await ssrContext.$s.groups.getFollowersCount({
+        groupId: groupDetailResponse.data.id,
+      });
 
-      store.dispatch('General/setCurrentSwapSpace', response.data);
+      console.log('followersCountReponse', followersCountReponse.data);
+      const payload = {
+        ...groupDetailResponse.data,
+        // followersCount: followersCountResponse.data,
+      };
+
+      store.dispatch('General/setCurrentSwapSpace', payload);
       resolve();
     });
   },

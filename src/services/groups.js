@@ -1,11 +1,10 @@
-import { withErrorHandling } from '../utils/error';
 
 export default httpClient => ({
-  get: withErrorHandling((payload) => {
+  get: (payload) => {
     const { groupId } = payload;
     return httpClient.get(`/groups/${groupId}`);
-  }),
-  create: withErrorHandling((payload) => {
+  },
+  create: (payload) => {
     const {
       name,
       description,
@@ -18,5 +17,9 @@ export default httpClient => ({
       location: { country, state, city },
       tags,
     });
-  }),
+  },
+  getFollowersCount: (payload) => {
+    const { groupId } = payload;
+    return httpClient.get(`/groups/${groupId}/followers/count`);
+  },
 });

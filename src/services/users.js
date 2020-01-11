@@ -1,11 +1,9 @@
-import { withErrorHandling } from '../utils/error';
-
 export default httpClient => ({
-  login: withErrorHandling((payload) => {
+  login: (payload) => {
     const { handle, password } = payload;
     return httpClient.post('/users/login', { handle, password });
-  }),
-  create: withErrorHandling((payload) => {
+  },
+  create: (payload) => {
     const {
       name,
       email,
@@ -34,5 +32,5 @@ export default httpClient => ({
         },
       },
     });
-  }),
+  },
 });

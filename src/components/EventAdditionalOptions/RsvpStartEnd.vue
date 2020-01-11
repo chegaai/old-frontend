@@ -17,6 +17,26 @@
         <q-checkbox v-model="rsvpStartEnd.isOpen" />
       </q-item-section>
     </template>
+
+    <q-card>
+      <q-card-section>
+        <p class="text-body1 text-grey-6 q-mb-sm">
+          As pessoas iram ver a quantidade de espaços disponíveis
+        </p>
+        <q-input
+          type="number"
+          filled
+          v-model="attendeeLimit.amount"
+          label="Coloque a quantidade de pessoas"
+          placeholder="ex: 80"
+          :rules="[
+            value => validators.notEmpty(value) ||
+            'Este campo é obrigatório quando esta selecionado'
+          ]"
+        />
+      </q-card-section>
+    </q-card>
+
   </q-expansion-item>
 </template>
 
