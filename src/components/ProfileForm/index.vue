@@ -1,10 +1,42 @@
 <template>
   <q-card class="q-pa-md q-mt-md">
     <q-card-section>
-      <div class="row q-mb-xl">
+      <div class="row q-mb-xl justify-center">
         <q-avatar size="200px">
           <img src="https://avatars3.githubusercontent.com/u/9022134?s=400&v=4" width="300">
         </q-avatar>
+      </div>
+
+      <div class="row justify-between q-mt-md">
+        <div class="column">
+          <p class="text-body1 text-grey-6 q-mb-sm">
+            Nome
+          </p>
+          <q-input
+            ref="name"
+            filled
+            type="text"
+            v-model="form.name"
+            :rules="[
+                value => validators.notEmpty(value) || 'Este campo é obrigatório'
+              ]"
+            label="Nome *"
+            class="q-my-xs profile-form-sm-input" />
+        </div>
+        <div class="column">
+          <p class="text-body1 text-grey-6 q-mb-sm">
+            Sobrenome
+          </p>
+          <q-input
+            ref="lastName"
+            filled
+            type="text"
+            v-model="form.lastName"
+            label="Sobrenome *" :rules="[
+              value => validators.notEmpty(value) || 'Este campo é obrigatório'
+            ]"
+            class="q-my-xs profile-form-sm-input" />
+        </div>
       </div>
       <p class="text-body1 text-grey-6 q-mb-sm">
         Username
@@ -12,50 +44,106 @@
       <q-input filled v-model="form.name" label="Seu username" :rules="[
           value => validators.notEmpty(value) || 'Este campo é obrigatório'
         ]" />
-      <p class="text-body1 text-grey-6 q-mb-sm">
-        Email
-      </p>
-      <q-input filled type="email" v-model="form.email" label="Seu email" :rules="[
-          value => validators.notEmpty(value) || 'Este campo é obrigatório'
-        ]" />
 
-      <div class="row justify-between q-mt-md">
-        <div class="column">
-          <p class="text-body1 text-grey-6 q-mb-sm">
-            Username
-          </p>
+      <p class="text-body1 text-grey-6 q-mb-sm">
+        Idioma
+      </p>
+      <q-select
+        filled
+        type="text"
+        v-model="form.language"
+        map-options
+        label="Seu Idioma"
+        :options="langOptions"
+        class="q-mb-sm"
+        emit-value
+      />
+
+      <div class="column justify-center">
+        <p class="text-body1 text-grey-6 q-mb-sm">
+          Tags (aperte Enter)
+        </p>
+        <div class="row">
+          <q-chip
+            removable
+            @remove="() => removeTag(tag)"
+            v-for="(tag, index) of form.tags"
+            :key="index">
+              {{tag}}
+          </q-chip>
           <q-input
-            ref="username"
-            filled
-            type="text"
-            debounce="500"
-            v-model="form.username"
-            :rules="[
-                value => validators.notEmpty(value) || 'Este campo é obrigatório'
-              ]"
-            label="Username *"
-            class="q-my-xs profile-form-sm-input" />
+            @keypress.enter="addChip"
+            v-model="addTag"
+            borderless
+          />
         </div>
-        <div class="column">
-          <p class="text-body1 text-grey-6 q-mb-sm">
-            RG
-          </p>
-          <q-input
-            ref="document"
+      </div>
+
+      <div class="full-width q-ma-md">
+        <p class="text-body1 text-grey-6 q-mb-sm">
+          Redes Sociais
+        </p>
+        <div
+          v-for="(socialNetwork, index) of form.socialNetworks"
+          :key="index"
+          class="row items-center q-mt-sm q-mb-sm" >
+          <q-select
             filled
-            type="text"
-            v-model="form.document"
-            label="Numero do RG *" :rules="[
-              value => validators.notEmpty(value) || 'Este campo é obrigatório'
+            clearable
+            square
+            outlined
+            v-model="socialNetwork.name"
+            :rules="[
+              value => {
+                validators.notEmptyIf(socialNetwork.link, value) || 'Este campo é obrigatório'
+              }
             ]"
-            class="q-my-xs profile-form-sm-input" />
+            :options="socialNetworkList"
+            class="q-mr-sm social-name"/>
+          <q-input
+            v-model="socialNetwork.link"
+            filled
+            square
+            :rules="[
+              value => {
+                validators.notEmptyIf(socialNetwork.name, value) || 'Este campo é obrigatório'
+              }
+            ]"
+            class="q-mr-sm social-link"
+            />
+            <q-btn @click="() => removeSocial(index)" flat round color="negative" icon="remove" />
+        </div>
+        <div class="row full-width items-center">
+          <q-select
+            filled
+            clearable
+            square
+            outlined
+            v-model="newNetwork.name"
+            :options="socialNetworkList"
+            :rules="[
+              value => validators.notEmptyIf(newNetwork.link, value) || 'Este campo é obrigatório'
+            ]"
+            class="q-mr-sm social-name"
+          />
+          <q-input
+            v-model="newNetwork.link"
+            filled
+            square
+            :rules="[
+              value => validators.notEmptyIf(newNetwork.name, value) || 'Este campo é obrigatório'
+            ]"
+            @keypress.enter="addSocial"
+            class="q-mr-sm social-link"
+            />
+            <q-btn @click="addSocial" flat round color="positive" icon="add" />
         </div>
       </div>
       <div class="bg-grey-1 q-pa-sm">
         <p class="text-body1 text-grey-6 q-mb-sm">
-          Região
+          Localização
         </p>
-        <region-select />
+        <region-select @set-region="setLocation" />
       </div>
     </q-card-section>
     <q-card-section class="row justify-end">
@@ -76,24 +164,70 @@
 import RegionSelect from '../../components/RegionSelect';
 import { notEmpty } from '../../utils/validators';
 
+const notEmptyIf = (compareField, value) => {
+  if (compareField) {
+    return !!value;
+  }
+  return true;
+};
+
 export default {
   name: 'ProfileForm',
   components: { RegionSelect },
   data() {
     return {
-      validators: { notEmpty },
-      form: {
-        name: 'Igor Halfeld',
-        email: 'hello@igorluiz.me',
-        username: 'igorhalfeld',
-        document: '999999999',
+      validators: { notEmpty, notEmptyIf },
+      langOptions: [{ label: 'Português', value: 'pt-BR' }, { label: 'English', value: 'en-US' }],
+      socialNetworkList: ['Google', 'Facebook', 'Github', 'Gitlab', 'Behance', 'Twitter', 'Dribble', 'Instagram', 'LinkedIn', 'Flickr', 'Dev.to', 'Medium', 'YouTube', 'Tumblr', 'Telegram', 'Skype', 'Snapchat', 'Pinterest', 'Reddit', 'Site Pessoal', 'Outros'],
+      addTag: '',
+      newNetwork: {
+        name: '',
+        link: '',
       },
-      methods: {
-        emitClick() {
-          this.$emit('profile-submit', this.form);
-        },
+      form: {
+        name: '',
+        lastName: '',
+        socialNetworks: [],
+        language: '',
+        tags: new Set(),
+        location: {},
       },
     };
+  },
+  methods: {
+    emitClick() {
+      this.$emit('profile-submit', this.form);
+    },
+    addChip() {
+      this.form.tags.add(this.addTag);
+      this.addTag = '';
+    },
+    removeTag(tag) {
+      this.form.tags.delete(tag);
+      this.$forceUpdate();
+    },
+    addSocial() {
+      if (!this.newNetwork.name || !this.newNetwork.link) return;
+      this.form.socialNetworks.push({
+        name: this.newNetwork.name,
+        link: this.newNetwork.link,
+      });
+      this.newNetwork = {
+        name: '',
+        link: '',
+      };
+    },
+    removeSocial(index) {
+      this.form.socialNetworks.splice(index, 1);
+    },
+    setLocation(form) {
+      console.log(form);
+      this.form.location = {
+        state: form.state.name,
+        city: form.city.name,
+        country: form.country.name,
+      };
+    },
   },
 };
 </script>
@@ -104,5 +238,14 @@ export default {
   @media all and (max-width: 500px) {
     width: 100%;
   }
+}
+.social-link {
+  min-width: 70%;
+  max-width: 70%;
+}
+
+.social-name {
+  min-width: 20%;
+  max-width: 20%;
 }
 </style>
