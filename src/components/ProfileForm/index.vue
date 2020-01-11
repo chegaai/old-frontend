@@ -20,15 +20,9 @@
       <p class="text-body1 text-grey-6 q-mb-sm">
         Email
       </p>
-      <q-input
-        filled
-        type="email"
-        v-model="form.email"
-        label="Seu email"
-        :rules="[
+      <q-input filled type="email" v-model="form.email" label="Seu email" :rules="[
           value => validators.notEmpty(value) || 'Este campo é obrigatório'
-        ]"
-      />
+        ]" />
 
       <div class="row justify-between q-mt-md">
         <div class="column">
@@ -39,13 +33,12 @@
             ref="username"
             filled
             type="text"
+            debounce="500"
             v-model="form.username"
             :rules="[
               value => validators.notEmpty(value) || 'Este campo é obrigatório'
             ]"
-            label="Username *"
-            class="q-my-xs profile-form-sm-input"
-          />
+            label="Username *" class="q-my-xs profile-form-sm-input" />
         </div>
         <div class="column">
           <p class="text-body1 text-grey-6 q-mb-sm">
@@ -60,8 +53,7 @@
             :rules="[
               value => validators.notEmpty(value) || 'Este campo é obrigatório'
             ]"
-            class="q-my-xs profile-form-sm-input"
-          />
+            class="q-my-xs profile-form-sm-input" />
         </div>
       </div>
 
