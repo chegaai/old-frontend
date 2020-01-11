@@ -101,7 +101,7 @@ export default {
       };
     },
     submitRegion() {
-      this.$emit('set-region', this.form);
+      this.$emit('set-region', this.form.location);
     },
   },
 };

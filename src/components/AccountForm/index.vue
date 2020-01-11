@@ -61,10 +61,11 @@
 import { notEmpty } from '../../utils/validators';
 
 const buildIsAvailable = context => async (value) => {
+  if (value === context.username) return true;
   context.isCheckingAvailability = true;
   const { data } = await context.$s.users.checkUsername(value);
   context.isCheckingAvailability = false;
-  return data;
+  return data.available;
 };
 
 export default {
@@ -80,6 +81,7 @@ export default {
       validators: { notEmpty, isAvailable: buildIsAvailable(this) },
       isLoading: true,
       isCheckingAvailability: false,
+      username: '',
       form: {
         email: 'email@email.com',
         username: 'username',
@@ -95,6 +97,7 @@ export default {
   watch: {
     initialValues() {
       this.form = this.initialValues;
+      this.username = this.initialValues.username;
       this.isLoading = false;
     },
   },
