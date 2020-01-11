@@ -27,7 +27,10 @@ export default {
   },
   methods: {
     async saveProfile(profile) {
-      await this.$s.users.update(profile);
+      const {
+        id, groups, deletedAt, createdAt, updatedAt, ...newProfile
+      } = profile;
+      await this.$s.users.updateProfile(newProfile);
       this.$q.notify('Usuário atualizado com sucesso');
     },
     async getInitialValues() {

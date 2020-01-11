@@ -113,7 +113,7 @@ export default {
     initialValues() {
       this.stateOptions.isLoading = true;
       this.cityOptions.isLoading = true;
-      this.form.location = this.initialValues.location;
+      this.form.location = this.initialValues;
       this.stateOptions.isLoading = false;
       this.cityOptions.isLoading = false;
     },

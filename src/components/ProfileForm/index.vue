@@ -2,8 +2,17 @@
   <q-card class="q-pa-md q-mt-md">
     <q-card-section>
       <div class="row q-mb-xl justify-center">
-        <q-avatar size="200px">
-          <img src="https://avatars3.githubusercontent.com/u/9022134?s=400&v=4" width="300">
+        <input type="file" name="picture" ref="pictureUpload" @change="setNewPicture" hidden>
+        <q-avatar
+          size="200px"
+          @click="openFilePicker"
+          class="pointer-cursor avatar-image"
+          @mouseenter="showOverlay = true"
+          @mouseleave="showOverlay = false">
+          <transition name="fade">
+            <div class="avatar-overlay" v-show="showOverlay"><q-icon name="photo_camera" /></div>
+          </transition>
+          <img :src="pictureURL" width="300">
         </q-avatar>
       </div>
 
@@ -193,11 +202,22 @@ const notEmptyIf = (compareField, value) => {
   return true;
 };
 
+const readFileAsDataURL = async file => new Promise((resolve, reject) => {
+  const fileReader = new FileReader();
+  fileReader.onloadend = () => {
+    resolve(fileReader.result);
+  };
+
+  fileReader.onerror = reject;
+
+  fileReader.readAsDataURL(file);
+});
+
 export default {
   name: 'ProfileForm',
   components: { RegionSelect },
   props: {
-    intialValues: {
+    initialValues: {
       type: Object,
       default: () => ({}),
     },
@@ -210,6 +230,7 @@ export default {
       addTag: '',
       prefix: 'http://',
       isLoading: true,
+      showOverlay: false,
       newNetwork: {
         name: '',
         link: '',
@@ -218,11 +239,17 @@ export default {
         name: '',
         lastName: '',
         socialNetworks: [],
+        picture: '',
         language: '',
         tags: new Set(),
         location: {},
       },
     };
+  },
+  computed: {
+    pictureURL() {
+      return this.form.picture || 'https://dummyimage.com/800x800/18104a/fff.jpg';
+    },
   },
   methods: {
     emitClick() {
@@ -232,6 +259,7 @@ export default {
           ...socialNetwork,
           link: `${this.prefix}${socialNetwork.link}`,
         })),
+        picture: this.form.picture ? this.form.picture.split(',')[1] : '',
         tags: Array.from(this.form.tags),
       });
     },
@@ -257,6 +285,13 @@ export default {
     removeSocial(index) {
       this.form.socialNetworks.splice(index, 1);
     },
+    openFilePicker() {
+      this.$refs.pictureUpload.click();
+    },
+    async setNewPicture({ target: { files: [file] } }) {
+      const fileDataURL = await readFileAsDataURL(file);
+      this.form.picture = fileDataURL;
+    },
     setLocation(form) {
       this.form.location = {
         state: form.state.name,
@@ -268,6 +303,7 @@ export default {
   watch: {
     initialValues() {
       this.form = this.initialValues;
+      this.form.tags = new Set(this.form.tags);
       this.isLoading = false;
     },
   },
@@ -289,5 +325,27 @@ export default {
 .social-name {
   min-width: 20%;
   max-width: 20%;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+
+.avatar-overlay {
+  .q-icon {
+    font-size: 0.5em;
+    text-shadow: 1px 1px 15px rgba(255, 255, 255, 0.5);
+  }
+  text-align: center;
+  color: white;
+  position: absolute;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
