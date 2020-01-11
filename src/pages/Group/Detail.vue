@@ -69,7 +69,7 @@ export default {
     });
   },
   mounted() {
-    console.log('this.$store.state', this.$store.state);
+    // console.log('this.$store.state', this.$store.state);
     // const response = await this.$s.groups.get({ groupId: this.$route.params.slug });
     // this.group.name = response.data.name;
     // console.log('response', response);

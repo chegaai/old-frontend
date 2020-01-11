@@ -95,8 +95,8 @@
         Localização do evento *
       </p>
       <q-no-ssr>
-        <GmapAutocomplete
-          @place_changed="processLocationChanged"
+        <!-- @place_changed="processLocationChanged" -->
+         <GmapAutocomplete
           class="full-width q-my-sm q-pa-md">
           <template v-slot:input="slotProps">
             <q-input
@@ -164,9 +164,6 @@ export default {
     },
   }),
   methods: {
-    processLocationChanged(data) {
-      console.log(data);
-    },
   },
 };
 </script>
