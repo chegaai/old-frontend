@@ -3,6 +3,7 @@ export default httpClient => ({
     const { handle, password } = payload;
     return httpClient.post('/users/login', { handle, password });
   },
+  checkUsername: username => httpClient.get('/users/availability', { params: { username } }),
   create: (payload) => {
     const {
       name,
@@ -33,4 +34,5 @@ export default httpClient => ({
       },
     });
   },
+  update: payload => httpClient.put('/users/me', payload),
 });
