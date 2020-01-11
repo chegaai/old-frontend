@@ -7,7 +7,7 @@ replicaCount: 1
 name: frontend
 env: staging
 maxReplicas: 10
-memoryUsage: 80
+memoryUsage: 90
 cpuUsage: 80
 
 image:
