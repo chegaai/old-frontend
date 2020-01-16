@@ -8,6 +8,7 @@
 
     <profile-form
       :initial-values="initialValues"
+      :isLoading="loading"
       @profile-submit="saveProfile"
       class="profile-page-content-width"
       />
@@ -23,15 +24,18 @@ export default {
   data() {
     return {
       initialValues: {},
+      loading: true,
     };
   },
   methods: {
     async saveProfile(profile) {
+      this.loading = true;
       const {
         id, groups, deletedAt, createdAt, updatedAt, ...newProfile
       } = profile;
       await this.$s.users.updateProfile(newProfile);
       this.$q.notify('Usuário atualizado com sucesso');
+      this.loading = false;
     },
     async getInitialValues() {
       return this.$s.users.getMyProfile();

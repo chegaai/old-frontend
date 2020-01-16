@@ -184,6 +184,8 @@
         }"
         class="text-family-regular"
         size="lg"
+        :loading="isLoading"
+        :disable="isLoading"
         color="primary"
         label="Salvar"
         @click="emitClick" />
@@ -221,6 +223,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isLoading: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -229,7 +235,6 @@ export default {
       socialNetworkList: ['Google', 'Facebook', 'Github', 'Gitlab', 'Behance', 'Twitter', 'Dribble', 'Instagram', 'LinkedIn', 'Flickr', 'Dev.to', 'Medium', 'YouTube', 'Tumblr', 'Telegram', 'Skype', 'Snapchat', 'Pinterest', 'Reddit', 'Site Pessoal', 'Outros'],
       addTag: '',
       prefix: 'http://',
-      isLoading: true,
       showOverlay: false,
       newNetwork: {
         name: '',
@@ -253,6 +258,7 @@ export default {
   },
   methods: {
     emitClick() {
+      this.isLoading = true;
       this.$emit('profile-submit', {
         ...this.form,
         socialNetworks: this.form.socialNetworks.map(socialNetwork => ({
