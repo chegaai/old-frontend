@@ -1,3 +1,5 @@
+import { checkAuthentication } from '../../utils/routeGuards';
+
 const DefaultLayout = () => import('../../layouts/Default.vue');
 
 const GroupListPage = () => import('../../pages/Group/List.vue');
@@ -9,7 +11,9 @@ export default {
   component: DefaultLayout,
   children: [
     { path: 'list', name: 'GroupList', component: GroupListPage },
-    { path: 'create', name: 'GroupCreate', component: GroupCreatePage },
+    {
+      path: 'create', name: 'GroupCreate', component: GroupCreatePage, beforeEnter: checkAuthentication,
+    },
     { path: 'detail/:slug', name: 'GroupDetail', component: GroupDetailPage },
   ],
 };

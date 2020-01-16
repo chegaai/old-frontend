@@ -1,3 +1,5 @@
+import { checkAuthentication } from '../../utils/routeGuards';
+
 const DefaultLayout = () => import('../../layouts/Default.vue');
 
 const UserGroupListPage = () => import('../../pages/User/Groups.vue');
@@ -10,8 +12,14 @@ export default {
   component: DefaultLayout,
   children: [
     { path: 'groups', name: 'UserGroupList', component: UserGroupListPage },
-    { path: 'profile', name: 'UserProfile', component: UserProfilePage },
-    { path: 'account', name: 'UserAccount', component: UserAccountPage },
-    { path: 'settings', name: 'UserSettings', component: UserSettingsPage },
+    {
+      path: 'profile', name: 'UserProfile', component: UserProfilePage, beforeEnter: checkAuthentication,
+    },
+    {
+      path: 'account', name: 'UserAccount', component: UserAccountPage, beforeEnter: checkAuthentication,
+    },
+    {
+      path: 'settings', name: 'UserSettings', component: UserSettingsPage, beforeEnter: checkAuthentication,
+    },
   ],
 };

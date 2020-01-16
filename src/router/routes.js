@@ -1,12 +1,13 @@
 import authRoutes from './auth';
+import dashboardRoutes from './dashboard';
 import eventRoutes from './events';
 import groupRoutes from './groups';
-import dashboardRoutes from './dashboard';
 import userRoutes from './users';
 
 const Error404Page = () => import('../pages/Auth/Login.vue');
 
 const routes = [
+  { path: '/', redirect: { name: 'Login' } },
   authRoutes,
   dashboardRoutes,
   eventRoutes,

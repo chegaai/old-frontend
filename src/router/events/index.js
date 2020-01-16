@@ -1,3 +1,5 @@
+import { checkAuthentication } from '../../utils/routeGuards';
+
 const DefaultLayout = () => import('../../layouts/Default.vue');
 
 const EventListPage = () => import('../../pages/Event/List.vue');
@@ -9,7 +11,9 @@ export default {
   component: DefaultLayout,
   children: [
     { path: 'list', name: 'EventList', component: EventListPage },
-    { path: 'create', name: 'EventCreate', component: EventCreatePage },
+    {
+      path: 'create', name: 'EventCreate', component: EventCreatePage, beforeEnter: checkAuthentication,
+    },
     { path: 'detail/:id', name: 'EventDetail', component: EventDetailPage },
   ],
 };
