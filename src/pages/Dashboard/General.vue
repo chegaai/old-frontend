@@ -10,7 +10,7 @@
       :styles="{
         /* backgroundImage: 'linear-gradient(45deg, #e6549e, #027BE3)' */
       }"
-      sub-title="Juntesse a um grupo e faça mais do que você ama."
+      sub-title="Junte-se a um grupo e faça mais do que você ama."
       additional-info="" />
     <!--
     <banner
