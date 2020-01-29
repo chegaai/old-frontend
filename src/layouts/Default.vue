@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh lpr lFf">
-    <drawer-menu :visibility="drawerVisibility" />
+    <!-- <drawer-menu :visibility="drawerVisibility" /> -->
     <heading @drawer-toggle="toggleDrawer" />
 
     <q-page-container>
@@ -18,12 +18,12 @@
 </template>
 
 <script>
-import DrawerMenu from '../components/DrawerMenu'
+// import DrawerMenu from '../components/DrawerMenu';
 import Heading from '../components/Heading'
 
 export default {
   name: 'DefaultLayout',
-  components: { Heading, DrawerMenu },
+  components: { Heading },
   data: () => ({
     drawerVisibility: false
   }),

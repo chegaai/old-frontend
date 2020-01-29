@@ -174,7 +174,7 @@
         <p class="text-body1 text-grey-6 q-mb-sm">
           Localização
         </p>
-        <region-select :initial-values="form.location" @set-region="setLocation" />
+        <region-select v-model="form.location" />
       </div>
     </q-card-section>
     <q-card-section class="row justify-end">
@@ -258,9 +258,13 @@ export default {
   },
   methods: {
     emitClick () {
-      this.isLoading = true
-      this.$emit('profile-submit', {
+      this.$emit('submit', {
         ...this.form,
+        location: {
+          country: this.form.location.country.name,
+          state: this.form.location.state.name,
+          city: this.form.location.city.name
+        },
         socialNetworks: this.form.socialNetworks.map(socialNetwork => ({
           ...socialNetwork,
           link: `${this.prefix}${socialNetwork.link}`
@@ -297,20 +301,17 @@ export default {
     async setNewPicture ({ target: { files: [file] } }) {
       const fileDataURL = await readFileAsDataURL(file)
       this.form.picture = fileDataURL
-    },
-    setLocation (form) {
-      this.form.location = {
-        state: form.state.name,
-        city: form.city.name,
-        country: form.country.name
-      }
     }
   },
   watch: {
     initialValues () {
       this.form = this.initialValues
+      this.form.location = {
+        country: { name: this.initialValues.location.country },
+        state: { name: this.initialValues.location.state },
+        city: { name: this.initialValues.location.city }
+      }
       this.form.tags = new Set(this.form.tags)
-      this.isLoading = false
     }
   }
 }
