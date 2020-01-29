@@ -8,9 +8,9 @@
 export default {
   name: 'GroupDescriptionTabsAbout',
   props: {
-    about: { type: String, required: true },
-  },
-};
+    about: { type: String, required: true }
+  }
+}
 </script>
 
 <style lang="scss">

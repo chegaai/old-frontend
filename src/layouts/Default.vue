@@ -18,19 +18,19 @@
 </template>
 
 <script>
-import DrawerMenu from '../components/DrawerMenu';
-import Heading from '../components/Heading';
+import DrawerMenu from '../components/DrawerMenu'
+import Heading from '../components/Heading'
 
 export default {
   name: 'DefaultLayout',
   components: { Heading, DrawerMenu },
   data: () => ({
-    drawerVisibility: false,
+    drawerVisibility: false
   }),
   methods: {
-    toggleDrawer(status) {
-      this.drawerVisibility = status;
-    },
-  },
-};
+    toggleDrawer (status) {
+      this.drawerVisibility = status
+    }
+  }
+}
 </script>

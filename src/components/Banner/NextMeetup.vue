@@ -30,7 +30,7 @@ export default {
   props: {
     title: { type: String, default: 'Awesome title' },
     subTitle: { type: String, default: 'Awesome sub title' },
-    styles: { type: Object, default: () => ({}) },
-  },
-};
+    styles: { type: Object, default: () => ({}) }
+  }
+}
 </script>

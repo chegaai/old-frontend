@@ -14,15 +14,15 @@
 </template>
 
 <script>
-import About from './About.vue';
-import Events from './Events.vue';
-import Members from './Members';
+import About from './About.vue'
+import Events from './Events.vue'
+import Members from './Members'
 
 export const TABS_ENUM = {
   about: 'About',
   events: 'Events',
-  members: 'Members',
-};
+  members: 'Members'
+}
 
 export default {
   name: 'GroupDescriptionTabs',
@@ -30,29 +30,29 @@ export default {
   props: {
     about: { type: String, required: true },
     events: { type: Array, required: true },
-    members: { type: Array, required: true },
+    members: { type: Array, required: true }
   },
-  data() {
+  data () {
     return {
       tab: this.$route.query.tab || 'about',
-      component: 'About',
-    };
+      component: 'About'
+    }
   },
   watch: {
     tab: {
       immediate: true,
-      handler() {
-        const currentTab = TABS_ENUM[this.tab].toLowerCase();
+      handler () {
+        const currentTab = TABS_ENUM[this.tab].toLowerCase()
         if (this.$route.query.tab !== currentTab) {
-          const query = { tab: currentTab };
-          this.$router.push({ query });
+          const query = { tab: currentTab }
+          this.$router.push({ query })
         }
-        this.$emit('tab-change', currentTab);
-        this.component = currentTab;
-      },
-    },
+        this.$emit('tab-change', currentTab)
+        this.component = currentTab
+      }
+    }
   },
   methods: {
-  },
-};
+  }
+}
 </script>

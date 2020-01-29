@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import Banner from '../../components/Banner';
-import GroupDescriptionTabs from '../../components/GroupDescriptionTabs';
-import ButtonSticky from '../../components/ButtonSticky';
-import CustomFooter from '../../components/CustomFooter';
+import { mapState } from 'vuex'
+import Banner from '../../components/Banner'
+import GroupDescriptionTabs from '../../components/GroupDescriptionTabs'
+import ButtonSticky from '../../components/ButtonSticky'
+import CustomFooter from '../../components/CustomFooter'
 
 export default {
   name: 'GroupDetail',
@@ -37,37 +37,35 @@ export default {
     Banner,
     CustomFooter,
     ButtonSticky,
-    GroupDescriptionTabs,
+    GroupDescriptionTabs
   },
   data: () => ({
     events: [],
-    members: [],
+    members: []
   }),
   computed: {
     ...mapState({
-      group: state => state.General.currentSwapSpace,
-    }),
+      group: state => state.General.currentSwapSpace
+    })
   },
-  preFetch({ store, ssrContext, currentRoute }) {
-    if (!ssrContext) return;
-    return new Promise(async (resolve) => {
-      const groupDetailResponse = await ssrContext.$s.groups.get({
-        groupId: currentRoute.params.slug,
-      });
-      const followersCountReponse = await ssrContext.$s.groups.getFollowersCount({
-        groupId: groupDetailResponse.data.id,
-      });
+  async preFetch ({ store, ssrContext, currentRoute }) {
+    if (!ssrContext) return
 
-      const payload = {
-        ...groupDetailResponse.data,
-        followersCount: followersCountReponse.data.count,
-      };
+    const groupDetailResponse = await ssrContext.$s.groups.get({
+      groupId: currentRoute.params.slug
+    })
+    const followersCountReponse = await ssrContext.$s.groups.getFollowersCount({
+      groupId: groupDetailResponse.data.id
+    })
 
-      store.dispatch('General/setCurrentSwapSpace', payload);
-      resolve();
-    });
+    const payload = {
+      ...groupDetailResponse.data,
+      followersCount: followersCountReponse.data.count
+    }
+
+    store.dispatch('General/setCurrentSwapSpace', payload)
   },
-  mounted() {
+  mounted () {
     // console.log('this.$store.state', this.$store.state);
     // const response = await this.$s.groups.get({ groupId: this.$route.params.slug });
     // this.group.name = response.data.name;
@@ -75,24 +73,24 @@ export default {
     // console.log('this.data', this.data);
   },
   methods: {
-    goFor(where) {
-      this.$router.push({ name: where });
+    goFor (where) {
+      this.$router.push({ name: where })
     },
-    handleTabChange(tab) {
+    handleTabChange (tab) {
       const tabs = {
         events: async () => {
-          const response = await this.$s.groups.getEvents({ groupId: this.group.id });
-          this.events = response.data;
+          const response = await this.$s.groups.getEvents({ groupId: this.group.id })
+          this.events = response.data
           // console.log('this.events', response.data);
         },
         members: async () => {
-          const response = await this.$s.groups.getFollowers({ groupId: this.group.id });
-          this.members = response.data;
-        },
-      };
+          const response = await this.$s.groups.getFollowers({ groupId: this.group.id })
+          this.members = response.data
+        }
+      }
 
-      return tabs[tab] && tabs[tab]();
-    },
-  },
-};
+      return tabs[tab] && tabs[tab]()
+    }
+  }
+}
 </script>

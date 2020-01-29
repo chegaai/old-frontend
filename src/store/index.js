@@ -1,15 +1,15 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-import General from './General';
+import General from './General'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      General,
-    },
-  });
-  return Store;
+      General
+    }
+  })
+  return Store
 }

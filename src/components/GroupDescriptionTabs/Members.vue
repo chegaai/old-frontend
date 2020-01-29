@@ -34,15 +34,15 @@ export default {
   props: {
     members: {
       type: Array,
-      default: () => ([]),
-    },
+      default: () => ([])
+    }
   },
   computed: {
-    hasMembers() {
-      return this.members && this.members.length;
-    },
-  },
-};
+    hasMembers () {
+      return this.members && this.members.length
+    }
+  }
+}
 </script>
 
 <style lang="scss">

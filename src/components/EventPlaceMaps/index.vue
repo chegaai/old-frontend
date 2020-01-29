@@ -18,9 +18,9 @@
 export default {
   name: 'EventPlaceMaps',
   props: {
-    location: { type: Object, required: true },
-  },
-};
+    location: { type: Object, required: true }
+  }
+}
 </script>
 
 <style lang="scss">

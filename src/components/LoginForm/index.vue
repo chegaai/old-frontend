@@ -176,51 +176,51 @@
 </template>
 
 <script>
-import { setStorage } from '../../utils/localStorage';
-import { validate } from '../../utils/validator';
-import { notEmpty } from '../../utils/validators';
+import { setStorage } from '../../utils/localStorage'
+import { validate } from '../../utils/validator'
+import { notEmpty } from '../../utils/validators'
 
 export default {
   name: 'LoginForm',
   props: {
     register: { type: Boolean, default: false },
-    forgotPassword: { type: Boolean, default: false },
+    forgotPassword: { type: Boolean, default: false }
   },
   computed: {
-    subTitleLabel() {
-      const { name } = this.$route;
+    subTitleLabel () {
+      const { name } = this.$route
       const labelTypes = {
         Login: () => 'Entre com seus dados',
         ForgotPassword: () => 'Coloque seu email para resetar sua senha',
-        Register: () => 'Informe alguns dados para a criação da conta',
-      };
+        Register: () => 'Informe alguns dados para a criação da conta'
+      }
 
-      return labelTypes[name] && labelTypes[name]();
+      return labelTypes[name] && labelTypes[name]()
     },
-    buttonLabel() {
-      const { name } = this.$route;
+    buttonLabel () {
+      const { name } = this.$route
       const labelTypes = {
         Login: () => 'Entrar',
         ForgotPassword: () => 'Resetar minha senha',
-        Register: () => 'Criar conta',
-      };
-      return labelTypes[name] && labelTypes[name]();
-    },
+        Register: () => 'Criar conta'
+      }
+      return labelTypes[name] && labelTypes[name]()
+    }
   },
   data: () => ({
     validators: { notEmpty },
     countryOptions: {
-      list: [{ name: 'Brasil' }],
+      list: [{ name: 'Brasil' }]
     },
     stateOptions: {
       rawList: [],
       list: [],
-      isLoading: false,
+      isLoading: false
     },
     cityOptions: {
       rawList: [],
       list: [],
-      isLoading: false,
+      isLoading: false
     },
     form: {
       email: '',
@@ -231,57 +231,57 @@ export default {
       location: {
         country: { name: 'Brasil' },
         state: '',
-        city: '',
-      },
-    },
+        city: ''
+      }
+    }
   }),
   methods: {
-    async loadStates() {
-      this.stateOptions.isLoading = true;
-      const response = await this.$s.ibge.getStates();
-      this.stateOptions.rawList = response.data;
-      this.stateOptions.isLoading = false;
+    async loadStates () {
+      this.stateOptions.isLoading = true
+      const response = await this.$s.ibge.getStates()
+      this.stateOptions.rawList = response.data
+      this.stateOptions.isLoading = false
     },
-    async loadCities() {
-      this.cityOptions.isLoading = true;
-      const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id });
-      this.cityOptions.rawList = response.data;
-      this.cityOptions.isLoading = false;
+    async loadCities () {
+      this.cityOptions.isLoading = true
+      const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id })
+      this.cityOptions.rawList = response.data
+      this.cityOptions.isLoading = false
     },
-    clearCities() {
-      this.cityOptions.rawList = [];
-      this.cityOptions.list = [];
-      this.form.location.city = '';
+    clearCities () {
+      this.cityOptions.rawList = []
+      this.cityOptions.list = []
+      this.form.location.city = ''
     },
-    canShowAction(page) {
-      if (!page) return false;
-      return page !== this.$route.name;
+    canShowAction (page) {
+      if (!page) return false
+      return page !== this.$route.name
     },
-    goFor(where) {
-      if (!where) return;
-      this.$router.push({ name: where });
+    goFor (where) {
+      if (!where) return
+      this.$router.push({ name: where })
     },
-    createFilterFn(entity) {
+    createFilterFn (entity) {
       const entityOptionNames = {
         state: 'stateOptions',
-        city: 'cityOptions',
-      };
+        city: 'cityOptions'
+      }
 
-      const entityOptions = entityOptionNames[entity];
+      const entityOptions = entityOptionNames[entity]
 
       return (val, update) => {
         update(() => {
           if (!val) {
-            this[entityOptions].list = [...this[entityOptions].rawList];
-            return;
+            this[entityOptions].list = [...this[entityOptions].rawList]
+            return
           }
 
-          const filterByName = item => item.name.match(new RegExp(val, 'ig'));
-          this[entityOptions].list = this[entityOptions].rawList.filter(filterByName);
-        });
-      };
+          const filterByName = item => item.name.match(new RegExp(val, 'ig'))
+          this[entityOptions].list = this[entityOptions].rawList.filter(filterByName)
+        })
+      }
     },
-    async submit() {
+    async submit () {
       const errors = await validate(this, [
         'email',
         'password',
@@ -291,32 +291,32 @@ export default {
         'lastName',
         'country',
         'state',
-        'city',
-      ]);
-      if (errors.hasError()) return;
+        'city'
+      ])
+      if (errors.hasError()) return
 
       if (this.register) {
-        const { language } = navigator;
-        const response = await this.$s.users.create({ ...this.form, language });
-        if (response.error) this.$q.notify('Ocorreu um erro ao criar a conta');
-        else this.$router.push({ name: 'Login' });
-        return;
+        const { language } = navigator
+        const response = await this.$s.users.create({ ...this.form, language })
+        if (response.error) this.$q.notify('Ocorreu um erro ao criar a conta')
+        else this.$router.push({ name: 'Login' })
+        return
       }
 
       const response = await this.$s.users.login({
         handle: this.form.email.trim(),
-        password: this.form.password.trim(),
-      });
+        password: this.form.password.trim()
+      })
 
       if (response.error) {
-        this.$q.notify('Erro ao fazer o login.');
-        return;
+        this.$q.notify('Erro ao fazer o login.')
+        return
       }
-      setStorage('token', response.data.token);
-      this.$router.push({ name: 'General' });
-    },
-  },
-};
+      setStorage('token', response.data.token)
+      this.$router.push({ name: 'General' })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

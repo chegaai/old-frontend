@@ -124,8 +124,8 @@
 </template>
 
 <script>
-import { validate } from '../../utils/validator';
-import { notEmpty } from '../../utils/validators';
+import { validate } from '../../utils/validator'
+import { notEmpty } from '../../utils/validators'
 
 export default {
   name: 'GroupCreateStepper',
@@ -135,34 +135,34 @@ export default {
       name: '',
       description: '',
       location: '',
-      tags: ['Lesbian Friends'],
-    },
+      tags: ['Lesbian Friends']
+    }
   }),
   methods: {
-    goFor(where, params) {
-      if (!where) return;
-      this.$router.push({ name: where, params });
+    goFor (where, params) {
+      if (!where) return
+      this.$router.push({ name: where, params })
     },
-    async createGroup() {
+    async createGroup () {
       const errors = await validate(this, [
         'location',
         'tags',
         'name',
-        'description',
-      ]);
-      if (errors.hasError()) return;
+        'description'
+      ])
+      if (errors.hasError()) return
 
       const response = await this.$s.groups.create({
         ...this.form,
         location: {
-          city: this.form.location,
-        },
-      });
+          city: this.form.location
+        }
+      })
 
-      this.goFor('GroupDetail', { slug: response.data.slug });
-    },
-  },
-};
+      this.goFor('GroupDetail', { slug: response.data.slug })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

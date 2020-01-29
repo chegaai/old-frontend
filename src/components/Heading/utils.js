@@ -1,4 +1,4 @@
-import { clearStorage } from '../../utils/localStorage';
+import { clearStorage } from '../../utils/localStorage'
 
 export const buildMenuItems = context => ([
   { label: 'Meus grupos', route: 'UserGroupList', icon: 'supervisor_account' },
@@ -10,10 +10,10 @@ export const buildMenuItems = context => ([
   {
     label: 'Sair',
     icon: 'exit_to_app',
-    click() {
-      clearStorage();
-      context.$router.push({ name: 'Login' });
-    },
-  },
+    click () {
+      clearStorage()
+      context.$router.push({ name: 'Login' })
+    }
+  }
   // { label: 'Configurações', route: 'UserSettings', icon: 'settings_applications' },
-]);
+])

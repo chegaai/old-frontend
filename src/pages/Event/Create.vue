@@ -148,10 +148,10 @@
 </template>
 
 <script>
-import TextEditor from '../../components/TextEditor';
-import EventAdditionalOptions from '../../components/EventAdditionalOptions';
-import ActionFooter from '../../components/ActionFooter';
-import { notEmpty } from '../../utils/validators';
+import TextEditor from '../../components/TextEditor'
+import EventAdditionalOptions from '../../components/EventAdditionalOptions'
+import ActionFooter from '../../components/ActionFooter'
+import { notEmpty } from '../../utils/validators'
 // import { validate } from '../../utils/validator';
 
 export default {
@@ -159,7 +159,7 @@ export default {
   components: {
     EventAdditionalOptions,
     ActionFooter,
-    TextEditor,
+    TextEditor
   },
   data: () => ({
     validators: { notEmpty },
@@ -167,7 +167,7 @@ export default {
       title: '',
       date: {
         begin: null,
-        end: null,
+        end: null
       },
       location: {
         name: '',
@@ -180,60 +180,60 @@ export default {
         city: '',
         state: '',
         lat: null,
-        lng: null,
+        lng: null
       },
-      description: '',
-    },
+      description: ''
+    }
   }),
   computed: {
-    canShowMaps() {
-      return !!this.form.location.lat && !!this.form.location.lng;
-    },
+    canShowMaps () {
+      return !!this.form.location.lat && !!this.form.location.lng
+    }
   },
   methods: {
-    processLocationChanged(payload) {
-      this.form.location.placeId = payload.place_id;
-      this.form.location.name = payload.name;
-      this.form.location.address = payload.formatted_address;
+    processLocationChanged (payload) {
+      this.form.location.placeId = payload.place_id
+      this.form.location.name = payload.name
+      this.form.location.address = payload.formatted_address
 
-      const STATE_KEY = 'administrative_area_level_1';
-      const CITY_KEY = 'administrative_area_level_2';
-      const COUNTRY_KEY = 'country';
-      const NUMBER_KEY = 'street_number';
-      const ZIP_CODE_KEY = 'postal_code';
+      const STATE_KEY = 'administrative_area_level_1'
+      const CITY_KEY = 'administrative_area_level_2'
+      const COUNTRY_KEY = 'country'
+      const NUMBER_KEY = 'street_number'
+      const ZIP_CODE_KEY = 'postal_code'
 
       payload.address_components.forEach((address) => {
         if (address.types.includes(STATE_KEY)) {
-          this.form.location.state = address.long_name;
+          this.form.location.state = address.long_name
         }
         if (address.types.includes(CITY_KEY)) {
-          this.form.location.city = address.long_name;
+          this.form.location.city = address.long_name
         }
         if (address.types.includes(COUNTRY_KEY)) {
-          this.form.location.country = address.long_name;
+          this.form.location.country = address.long_name
         }
         if (address.types.includes(NUMBER_KEY)) {
-          this.form.location.number = address.long_name;
+          this.form.location.number = address.long_name
         }
         if (address.types.includes(ZIP_CODE_KEY)) {
-          this.form.location.zipCode = address.long_name;
+          this.form.location.zipCode = address.long_name
         }
-      });
+      })
 
-      this.form.location.lat = Number(payload.geometry.location.lat());
-      this.form.location.lng = Number(payload.geometry.location.lng());
+      this.form.location.lat = Number(payload.geometry.location.lat())
+      this.form.location.lng = Number(payload.geometry.location.lng())
     },
-    handleEvents(action) {
+    handleEvents (action) {
       const types = {
         OK: () => {
           // console.log('this.form', this.form);
-        },
-      };
+        }
+      }
 
-      return types[action.type] && types[action.type]();
-    },
-  },
-};
+      return types[action.type] && types[action.type]()
+    }
+  }
+}
 </script>
 
 <style>

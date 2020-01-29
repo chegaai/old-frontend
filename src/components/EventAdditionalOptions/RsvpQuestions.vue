@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { notEmpty } from '../../utils/validators';
+import { notEmpty } from '../../utils/validators'
 
 export default {
   name: 'RsvpQuestions',
@@ -88,30 +88,30 @@ export default {
       inquiries: [
         { title: 'Coloque seu e-mail', required: true },
         { title: 'Coloque seu RG', required: true },
-        { title: 'Coloque seu Nome', required: false },
-      ],
-    },
+        { title: 'Coloque seu Nome', required: false }
+      ]
+    }
   }),
   methods: {
-    addMoreQuestions() {
+    addMoreQuestions () {
       this.questions.inquiries.push({
         title: '',
-        required: false,
-      });
+        required: false
+      })
     },
-    removeQuestion(index) {
-      this.questions.inquiries = this.questions.inquiries.filter((_, idx) => index !== idx);
+    removeQuestion (index) {
+      this.questions.inquiries = this.questions.inquiries.filter((_, idx) => index !== idx)
       if (!this.questions.inquiries.length) {
-        this.questions.isOpen = false;
+        this.questions.isOpen = false
       }
     },
-    handleQuestionExpansion() {
+    handleQuestionExpansion () {
       if (!this.questions.inquiries.length) {
-        this.addMoreQuestions();
+        this.addMoreQuestions()
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style>
