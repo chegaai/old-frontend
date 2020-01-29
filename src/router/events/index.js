@@ -1,10 +1,10 @@
-import { checkAuthentication } from '../../utils/routeGuards';
+import { checkAuthentication } from '../../utils/routeGuards'
 
-const DefaultLayout = () => import('../../layouts/Default.vue');
+const DefaultLayout = () => import('../../layouts/Default.vue')
 
-const EventListPage = () => import('../../pages/Event/List.vue');
-const EventCreatePage = () => import('../../pages/Event/Create.vue');
-const EventDetailPage = () => import('../../pages/Event/Detail.vue');
+const EventListPage = () => import('../../pages/Event/List.vue')
+const EventCreatePage = () => import('../../pages/Event/Create.vue')
+const EventDetailPage = () => import('../../pages/Event/Detail.vue')
 
 export default {
   path: '/events',
@@ -12,8 +12,8 @@ export default {
   children: [
     { path: 'list', name: 'EventList', component: EventListPage },
     {
-      path: 'create', name: 'EventCreate', component: EventCreatePage, beforeEnter: checkAuthentication,
+      path: 'create', name: 'EventCreate', component: EventCreatePage, beforeEnter: checkAuthentication
     },
-    { path: 'detail/:id', name: 'EventDetail', component: EventDetailPage },
-  ],
-};
+    { path: 'detail/:id', name: 'EventDetail', component: EventDetailPage }
+  ]
+}

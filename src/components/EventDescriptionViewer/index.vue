@@ -18,9 +18,9 @@
 export default {
   name: 'EventDescriptionViewer',
   props: {
-    html: { type: String, required: true },
-  },
-};
+    html: { type: String, required: true }
+  }
+}
 </script>
 
 <style lang="scss">

@@ -54,9 +54,9 @@
 </template>
 
 <script>
-import Banner from '../../components/Banner';
-import EventCard, { aspectRatios } from '../../components/EventCard';
-import { eventList } from '../../mock/event';
+import Banner from '../../components/Banner'
+import EventCard, { aspectRatios } from '../../components/EventCard'
+import { eventList } from '../../mock/event'
 
 export default {
   name: 'HomePage',
@@ -64,9 +64,9 @@ export default {
   data: () => ({
     events: [...eventList, ...eventList, ...eventList, ...eventList],
     eventCardAspectRatios: aspectRatios,
-    search: '',
-  }),
-};
+    search: ''
+  })
+}
 </script>
 
 <style lang="scss">

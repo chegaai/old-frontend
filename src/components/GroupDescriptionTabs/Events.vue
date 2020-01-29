@@ -23,20 +23,20 @@
 </template>
 
 <script>
-import EventCard from '../EventCard';
+import EventCard from '../EventCard'
 
 export default {
   name: 'GroupDescriptionTabsEvents',
   components: { EventCard },
   props: {
-    events: { type: Array, required: true },
+    events: { type: Array, required: true }
   },
   computed: {
-    hasEvents() {
-      return this.events && this.events.length;
-    },
-  },
-};
+    hasEvents () {
+      return this.events && this.events.length
+    }
+  }
+}
 </script>
 
 <style lang="scss">

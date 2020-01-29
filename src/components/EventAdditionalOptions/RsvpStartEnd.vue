@@ -82,8 +82,8 @@ export default {
     rsvpStartEnd: {
       isOpen: false,
       begin: null,
-      end: null,
-    },
-  }),
-};
+      end: null
+    }
+  })
+}
 </script>

@@ -16,35 +16,35 @@
 </template>
 
 <script>
-import ProfileForm from '../../components/ProfileForm';
+import ProfileForm from '../../components/ProfileForm'
 
 export default {
   name: 'ProfilePage',
   components: { ProfileForm },
-  data() {
+  data () {
     return {
       initialValues: {},
-      loading: true,
-    };
+      loading: true
+    }
   },
   methods: {
-    async saveProfile(profile) {
-      this.loading = true;
+    async saveProfile (profile) {
+      this.loading = true
       const {
         id, groups, deletedAt, createdAt, updatedAt, ...newProfile
-      } = profile;
-      await this.$s.users.updateProfile(newProfile);
-      this.$q.notify('Usuário atualizado com sucesso');
-      this.loading = false;
+      } = profile
+      await this.$s.users.updateProfile(newProfile)
+      this.$q.notify('Usuário atualizado com sucesso')
+      this.loading = false
     },
-    async getInitialValues() {
-      return this.$s.users.getMyProfile();
-    },
+    async getInitialValues () {
+      return this.$s.users.getMyProfile()
+    }
   },
-  created() {
-    this.getInitialValues().then(({ data }) => { this.initialValues = data; });
-  },
-};
+  created () {
+    this.getInitialValues().then(({ data }) => { this.initialValues = data })
+  }
+}
 </script>
 
 <style>

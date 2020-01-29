@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import EventList from './EventList';
-import NextMeetup from './NextMeetup';
-import GroupCover from './GroupCover';
+import EventList from './EventList'
+import NextMeetup from './NextMeetup'
+import GroupCover from './GroupCover'
 
 export default {
   name: 'BannerFactory',
@@ -15,9 +15,9 @@ export default {
     title: { type: String, default: 'Awesome title' },
     subTitle: { type: String, default: 'Awesome sub title' },
     styles: { type: Object, default: () => ({}) },
-    classes: { type: String, default: '' },
-  },
-};
+    classes: { type: String, default: '' }
+  }
+}
 </script>
 
 <style lang="scss">

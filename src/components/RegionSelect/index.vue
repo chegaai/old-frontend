@@ -53,70 +53,70 @@
 </template>
 
 <script>
-import { notEmpty } from '../../utils/validators';
+import { notEmpty } from '../../utils/validators'
 
 export default {
   name: 'RegionSelect',
   props: {
     initialValues: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
   data: () => ({
     validators: { notEmpty },
     countryOptions: {
-      list: [{ name: 'Brasil' }],
+      list: [{ name: 'Brasil' }]
     },
     stateOptions: {
       list: [],
-      isLoading: false,
+      isLoading: false
     },
     cityOptions: {
       list: [],
-      isLoading: false,
+      isLoading: false
     },
     form: {
       location: {
         country: { name: 'Brasil' },
         state: '',
-        city: '',
-      },
-    },
+        city: ''
+      }
+    }
   }),
   methods: {
-    createFilterFn(entity) {
+    createFilterFn (entity) {
       return (val, update) => {
         const entities = {
           state: async () => {
-            this.stateOptions.isLoading = true;
-            const response = await this.$s.ibge.getStates();
-            this.stateOptions.list = response.data;
-            this.stateOptions.isLoading = false;
+            this.stateOptions.isLoading = true
+            const response = await this.$s.ibge.getStates()
+            this.stateOptions.list = response.data
+            this.stateOptions.isLoading = false
           },
           city: async () => {
-            this.cityOptions.isLoading = true;
-            const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id });
-            this.cityOptions.list = response.data;
-            this.cityOptions.isLoading = false;
-          },
-        };
+            this.cityOptions.isLoading = true
+            const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id })
+            this.cityOptions.list = response.data
+            this.cityOptions.isLoading = false
+          }
+        }
 
-        update(async () => await entities[entity] && entities[entity]());
-      };
+        update(async () => await entities[entity] && entities[entity]())
+      }
     },
-    submitRegion() {
-      this.$emit('set-region', this.form.location);
-    },
+    submitRegion () {
+      this.$emit('set-region', this.form.location)
+    }
   },
   watch: {
-    initialValues() {
-      this.stateOptions.isLoading = true;
-      this.cityOptions.isLoading = true;
-      this.form.location = this.initialValues;
-      this.stateOptions.isLoading = false;
-      this.cityOptions.isLoading = false;
-    },
-  },
-};
+    initialValues () {
+      this.stateOptions.isLoading = true
+      this.cityOptions.isLoading = true
+      this.form.location = this.initialValues
+      this.stateOptions.isLoading = false
+      this.cityOptions.isLoading = false
+    }
+  }
+}
 </script>

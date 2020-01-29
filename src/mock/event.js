@@ -35,13 +35,13 @@ export const event = {
   bannerImageUrl: 'https://secure.meetupstatic.com/photos/event/1/8/3/a/highres_479406202.jpeg',
   date: 'Segunda-feira, dia 11 de novembro de 2019',
   group: {
-    name: 'Vue.js SP',
+    name: 'Vue.js SP'
   },
   organizers: [
     { name: 'Igor Halfeld', pictureUrl: 'https://avatars3.githubusercontent.com/u/9022134?s=200&v=4' },
-    { name: 'Lucas Santos', pictureUrl: 'https://avatars1.githubusercontent.com/u/3200560?s=200&v=4' },
-  ],
-};
+    { name: 'Lucas Santos', pictureUrl: 'https://avatars1.githubusercontent.com/u/3200560?s=200&v=4' }
+  ]
+}
 
 export const eventList = [
   {
@@ -61,16 +61,16 @@ export const eventList = [
     `,
     date: 'Segunda-feira, dia 11 de novembro de 2019',
     location: {
-      name: 'Beneficio fácil',
+      name: 'Beneficio fácil'
     },
     bannerImageUrl: 'https://secure.meetupstatic.com/photos/event/5/a/5/e/highres_486023134.jpeg',
     group: {
-      name: 'Golang SP',
+      name: 'Golang SP'
     },
     organizers: [
       { name: 'Igor Halfeld', pictureUrl: 'https://avatars3.githubusercontent.com/u/9022134?s=200&v=4' },
-      { name: 'Lucas Santos', pictureUrl: 'https://avatars1.githubusercontent.com/u/3200560?s=200&v=4' },
-    ],
+      { name: 'Lucas Santos', pictureUrl: 'https://avatars1.githubusercontent.com/u/3200560?s=200&v=4' }
+    ]
   },
   {
     id: '123',
@@ -87,15 +87,15 @@ O prédio onde a Acesso Digital está localizada está a 300m da estação Berri
     `,
     date: 'Terça-feira, dia 11 de outubro de 2019',
     location: {
-      name: 'Acesso digital',
+      name: 'Acesso digital'
     },
     bannerImageUrl: 'https://secure.meetupstatic.com/photos/event/5/9/1/7/highres_485542807.jpeg',
     group: {
-      name: 'Golang SP',
+      name: 'Golang SP'
     },
     organizers: [
       { name: 'Igor Halfeld', pictureUrl: 'https://avatars3.githubusercontent.com/u/9022134?s=200&v=4' },
-      { name: 'Lucas Santos', pictureUrl: 'https://avatars1.githubusercontent.com/u/3200560?s=200&v=4' },
-    ],
-  },
-];
+      { name: 'Lucas Santos', pictureUrl: 'https://avatars1.githubusercontent.com/u/3200560?s=200&v=4' }
+    ]
+  }
+]

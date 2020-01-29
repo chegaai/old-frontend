@@ -49,28 +49,28 @@
 <script>
 export const aspectRatios = {
   PORTRAIT: 'PORTRAIT',
-  LANDSCAPE: 'LANDSCAPE',
-};
+  LANDSCAPE: 'LANDSCAPE'
+}
 
 export default {
   name: 'EventCard',
   props: {
     event: { type: Object, default: () => ({}) },
-    aspectRatio: { type: String, default: aspectRatios.PORTRAIT },
+    aspectRatio: { type: String, default: aspectRatios.PORTRAIT }
   },
   computed: {
-    isLandspace() {
-      return this.aspectRatio === aspectRatios.LANDSCAPE;
+    isLandspace () {
+      return this.aspectRatio === aspectRatios.LANDSCAPE
     },
-    isPortrait() {
-      return this.aspectRatio === aspectRatios.PORTRAIT;
-    },
+    isPortrait () {
+      return this.aspectRatio === aspectRatios.PORTRAIT
+    }
   },
   methods: {
-    goFor(where, params) {
-      if (!where) return;
-      this.$router.push({ name: where, params });
-    },
-  },
-};
+    goFor (where, params) {
+      if (!where) return
+      this.$router.push({ name: where, params })
+    }
+  }
+}
 </script>

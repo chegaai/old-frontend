@@ -60,10 +60,10 @@ export default {
       username: '',
       document: '',
       passwordMatch: '',
-      location: {},
-    },
-  }),
-};
+      location: {}
+    }
+  })
+}
 </script>
 
 <style lang="scss">

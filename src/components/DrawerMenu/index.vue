@@ -47,17 +47,17 @@
 export default {
   name: 'DrawerMenu',
   props: {
-    visibility: { type: Boolean, default: false },
+    visibility: { type: Boolean, default: false }
   },
-  data() {
+  data () {
     return {
-      drawerVisibility: this.visibility,
-    };
+      drawerVisibility: this.visibility
+    }
   },
   watch: {
-    visibility() {
-      this.drawerVisibility = this.visibility;
-    },
-  },
-};
+    visibility () {
+      this.drawerVisibility = this.visibility
+    }
+  }
+}
 </script>

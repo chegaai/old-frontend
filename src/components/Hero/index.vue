@@ -45,21 +45,21 @@
 export default {
   name: 'Hero',
   props: {
-    info: { type: Object, required: true },
+    info: { type: Object, required: true }
   },
   computed: {
-    mainOrganizer() {
-      return this.info.organizers[0];
+    mainOrganizer () {
+      return this.info.organizers[0]
     },
-    amountOfOrganizersWithoutMainOrganizers() {
-      return this.info.organizers.length - 1;
-    },
+    amountOfOrganizersWithoutMainOrganizers () {
+      return this.info.organizers.length - 1
+    }
   },
   methods: {
-    goFor(where) {
-      if (!where) return {};
-      return { name: where };
-    },
-  },
-};
+    goFor (where) {
+      if (!where) return {}
+      return { name: where }
+    }
+  }
+}
 </script>

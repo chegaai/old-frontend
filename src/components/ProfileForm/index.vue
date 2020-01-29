@@ -194,26 +194,26 @@
 </template>
 
 <script>
-import RegionSelect from '../../components/RegionSelect';
-import { notEmpty, isUrl } from '../../utils/validators';
+import RegionSelect from '../../components/RegionSelect'
+import { notEmpty, isUrl } from '../../utils/validators'
 
 const notEmptyIf = (compareField, value) => {
   if (compareField) {
-    return !!value;
+    return !!value
   }
-  return true;
-};
+  return true
+}
 
 const readFileAsDataURL = async file => new Promise((resolve, reject) => {
-  const fileReader = new FileReader();
+  const fileReader = new FileReader()
   fileReader.onloadend = () => {
-    resolve(fileReader.result);
-  };
+    resolve(fileReader.result)
+  }
 
-  fileReader.onerror = reject;
+  fileReader.onerror = reject
 
-  fileReader.readAsDataURL(file);
-});
+  fileReader.readAsDataURL(file)
+})
 
 export default {
   name: 'ProfileForm',
@@ -221,14 +221,14 @@ export default {
   props: {
     initialValues: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     isLoading: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
-  data() {
+  data () {
     return {
       validators: { notEmpty, notEmptyIf, isUrl },
       langOptions: [{ label: 'Português', value: 'pt-BR' }, { label: 'English', value: 'en-US' }],
@@ -238,7 +238,7 @@ export default {
       showOverlay: false,
       newNetwork: {
         name: '',
-        link: '',
+        link: ''
       },
       form: {
         name: '',
@@ -247,73 +247,73 @@ export default {
         picture: '',
         language: '',
         tags: new Set(),
-        location: {},
-      },
-    };
+        location: {}
+      }
+    }
   },
   computed: {
-    pictureURL() {
-      return this.form.picture || 'https://dummyimage.com/800x800/18104a/fff.jpg';
-    },
+    pictureURL () {
+      return this.form.picture || 'https://dummyimage.com/800x800/18104a/fff.jpg'
+    }
   },
   methods: {
-    emitClick() {
-      this.isLoading = true;
+    emitClick () {
+      this.isLoading = true
       this.$emit('profile-submit', {
         ...this.form,
         socialNetworks: this.form.socialNetworks.map(socialNetwork => ({
           ...socialNetwork,
-          link: `${this.prefix}${socialNetwork.link}`,
+          link: `${this.prefix}${socialNetwork.link}`
         })),
         picture: this.form.picture ? this.form.picture.split(',')[1] : '',
-        tags: Array.from(this.form.tags),
-      });
+        tags: Array.from(this.form.tags)
+      })
     },
-    addChip() {
-      this.form.tags.add(this.addTag);
-      this.addTag = '';
+    addChip () {
+      this.form.tags.add(this.addTag)
+      this.addTag = ''
     },
-    removeTag(tag) {
-      this.form.tags.delete(tag);
-      this.$forceUpdate();
+    removeTag (tag) {
+      this.form.tags.delete(tag)
+      this.$forceUpdate()
     },
-    addSocial() {
-      if (!this.newNetwork.name || !this.newNetwork.link) return;
+    addSocial () {
+      if (!this.newNetwork.name || !this.newNetwork.link) return
       this.form.socialNetworks.push({
         name: this.newNetwork.name,
-        link: this.newNetwork.link,
-      });
+        link: this.newNetwork.link
+      })
       this.newNetwork = {
         name: '',
-        link: '',
-      };
+        link: ''
+      }
     },
-    removeSocial(index) {
-      this.form.socialNetworks.splice(index, 1);
+    removeSocial (index) {
+      this.form.socialNetworks.splice(index, 1)
     },
-    openFilePicker() {
-      this.$refs.pictureUpload.click();
+    openFilePicker () {
+      this.$refs.pictureUpload.click()
     },
-    async setNewPicture({ target: { files: [file] } }) {
-      const fileDataURL = await readFileAsDataURL(file);
-      this.form.picture = fileDataURL;
+    async setNewPicture ({ target: { files: [file] } }) {
+      const fileDataURL = await readFileAsDataURL(file)
+      this.form.picture = fileDataURL
     },
-    setLocation(form) {
+    setLocation (form) {
       this.form.location = {
         state: form.state.name,
         city: form.city.name,
-        country: form.country.name,
-      };
-    },
+        country: form.country.name
+      }
+    }
   },
   watch: {
-    initialValues() {
-      this.form = this.initialValues;
-      this.form.tags = new Set(this.form.tags);
-      this.isLoading = false;
-    },
-  },
-};
+    initialValues () {
+      this.form = this.initialValues
+      this.form.tags = new Set(this.form.tags)
+      this.isLoading = false
+    }
+  }
+}
 </script>
 
 <style lang="scss">

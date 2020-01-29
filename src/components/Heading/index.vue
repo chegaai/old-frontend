@@ -70,25 +70,25 @@
 </template>
 
 <script>
-import { buildMenuItems } from './utils';
+import { buildMenuItems } from './utils'
 
 export default {
   name: 'Heading',
-  data() {
+  data () {
     return {
       drawerStatus: false,
-      menuItems: buildMenuItems(this),
-    };
+      menuItems: buildMenuItems(this)
+    }
   },
   methods: {
-    emitDrawerToggle() {
-      this.drawerStatus = !this.drawerStatus;
-      this.$emit('drawer-toggle', this.drawerStatus);
+    emitDrawerToggle () {
+      this.drawerStatus = !this.drawerStatus
+      this.$emit('drawer-toggle', this.drawerStatus)
     },
-    goFor(where) {
-      if (!where) return;
-      this.$router.push({ name: where });
-    },
-  },
-};
+    goFor (where) {
+      if (!where) return
+      this.$router.push({ name: where })
+    }
+  }
+}
 </script>
