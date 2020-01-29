@@ -114,6 +114,10 @@
           label="Estado"
           class="q-my-xs"
           option-label="name"
+          option-value="name"
+          use-input
+          @focus="loadStates"
+          @input="clearCities"
           :loading="stateOptions.isLoading"
           :options="stateOptions.list"
           :rules="[
@@ -129,6 +133,9 @@
           label="Cidade"
           class="q-my-xs"
           option-label="name"
+          option-value="name"
+          use-input
+          @focus="loadCities"
           :loading="cityOptions.isLoading"
           :options="cityOptions.list"
           :disable="!form.location.state.id"
@@ -206,10 +213,12 @@ export default {
       list: [{ name: 'Brasil' }],
     },
     stateOptions: {
+      rawList: [],
       list: [],
       isLoading: false,
     },
     cityOptions: {
+      rawList: [],
       list: [],
       isLoading: false,
     },
@@ -227,6 +236,23 @@ export default {
     },
   }),
   methods: {
+    async loadStates() {
+      this.stateOptions.isLoading = true;
+      const response = await this.$s.ibge.getStates();
+      this.stateOptions.rawList = response.data;
+      this.stateOptions.isLoading = false;
+    },
+    async loadCities() {
+      this.cityOptions.isLoading = true;
+      const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id });
+      this.cityOptions.rawList = response.data;
+      this.cityOptions.isLoading = false;
+    },
+    clearCities() {
+      this.cityOptions.rawList = [];
+      this.cityOptions.list = [];
+      this.form.location.city = '';
+    },
     canShowAction(page) {
       if (!page) return false;
       return page !== this.$route.name;
@@ -236,23 +262,23 @@ export default {
       this.$router.push({ name: where });
     },
     createFilterFn(entity) {
-      return (val, update) => {
-        const entities = {
-          state: async () => {
-            this.stateOptions.isLoading = true;
-            const response = await this.$s.ibge.getStates();
-            this.stateOptions.list = response.data;
-            this.stateOptions.isLoading = false;
-          },
-          city: async () => {
-            this.cityOptions.isLoading = true;
-            const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id });
-            this.cityOptions.list = response.data;
-            this.cityOptions.isLoading = false;
-          },
-        };
+      const entityOptionNames = {
+        state: 'stateOptions',
+        city: 'cityOptions',
+      };
 
-        update(async () => await entities[entity] && entities[entity]());
+      const entityOptions = entityOptionNames[entity];
+
+      return (val, update) => {
+        update(() => {
+          if (!val) {
+            this[entityOptions].list = [...this[entityOptions].rawList];
+            return;
+          }
+
+          const filterByName = item => item.name.match(new RegExp(val, 'ig'));
+          this[entityOptions].list = this[entityOptions].rawList.filter(filterByName);
+        });
       };
     },
     async submit() {

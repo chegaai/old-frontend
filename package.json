@@ -8,7 +8,7 @@
   "author": "Igor Halfeld <hello@igorluiz.me>",
   "private": true,
   "scripts": {
-    "serve:local": "API_URL=http://api-gateway.127.0.0.1.nip.io/ quasar dev -m ssr",
+    "serve:local": "API_URL=http://api-gateway.lvh.me/ quasar dev -m ssr",
     "serve:prod": "API_URL=https://api.chega.ai/ quasar dev -m ssr",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
