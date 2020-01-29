@@ -9,7 +9,7 @@
     <profile-form
       :initial-values="initialValues"
       :isLoading="loading"
-      @profile-submit="saveProfile"
+      @submit="saveProfile"
       class="profile-page-content-width"
       />
   </div>
@@ -33,8 +33,18 @@ export default {
       const {
         id, groups, deletedAt, createdAt, updatedAt, ...newProfile
       } = profile
+
       await this.$s.users.updateProfile(newProfile)
-      this.$q.notify('Usuário atualizado com sucesso')
+        .then(({ error }) => {
+          if (error) {
+            const code = error.response ? error.response.data.error.code : 'unknown_error'
+            this.$q.notify(`Erro ao atualizar usuário. Código de erro: ${code}`)
+            return
+          }
+
+          this.$q.notify('Usuário atualizado com sucesso')
+        })
+
       this.loading = false
     },
     async getInitialValues () {
@@ -42,7 +52,10 @@ export default {
     }
   },
   created () {
-    this.getInitialValues().then(({ data }) => { this.initialValues = data })
+    this.getInitialValues().then(({ data }) => {
+      this.initialValues = data
+      this.loading = false
+    })
   }
 }
 </script>

@@ -91,59 +91,7 @@
       <div
         class="column q-pb-md"
         v-if="register">
-        <q-select
-          filled
-          ref="country"
-          v-model="form.location.country"
-          use-input
-          input-debounce="0"
-          label="País"
-          class="q-my-xs"
-          option-label="name"
-          :disable="true"
-          :rules="[
-            value => validators.notEmpty(value) || 'Este campo é obrigatório'
-          ]"
-          :options="countryOptions.list">
-        </q-select>
-        <q-select
-          filled
-          ref="state"
-          v-model="form.location.state"
-          input-debounce="0"
-          label="Estado"
-          class="q-my-xs"
-          option-label="name"
-          option-value="name"
-          use-input
-          @focus="loadStates"
-          @input="clearCities"
-          :loading="stateOptions.isLoading"
-          :options="stateOptions.list"
-          :rules="[
-            value => validators.notEmpty(value) || 'Este campo é obrigatório'
-          ]"
-          @filter="(val, update) => createFilterFn('state')(val, update)">
-        </q-select>
-        <q-select
-          filled
-          ref="city"
-          v-model="form.location.city"
-          input-debounce="0"
-          label="Cidade"
-          class="q-my-xs"
-          option-label="name"
-          option-value="name"
-          use-input
-          @focus="loadCities"
-          :loading="cityOptions.isLoading"
-          :options="cityOptions.list"
-          :disable="!form.location.state.id"
-          :rules="[
-            value => validators.notEmpty(value) || 'Este campo é obrigatório'
-          ]"
-          @filter="(val, update) => createFilterFn('city')(val, update)">
-        </q-select>
+        <region-select v-model="form.location" />
       </div>
     </q-card-section>
 
@@ -151,6 +99,7 @@
       <q-btn
         class="full-width text-family-regular"
         size="lg"
+        :loading="isButtonLoading"
         :label="buttonLabel"
         @click="submit"
       />
@@ -176,12 +125,14 @@
 </template>
 
 <script>
+import RegionSelect from '../RegionSelect'
 import { setStorage } from '../../utils/localStorage'
 import { validate } from '../../utils/validator'
 import { notEmpty } from '../../utils/validators'
 
 export default {
   name: 'LoginForm',
+  components: { RegionSelect },
   props: {
     register: { type: Boolean, default: false },
     forgotPassword: { type: Boolean, default: false }
@@ -208,20 +159,8 @@ export default {
     }
   },
   data: () => ({
+    isButtonLoading: false,
     validators: { notEmpty },
-    countryOptions: {
-      list: [{ name: 'Brasil' }]
-    },
-    stateOptions: {
-      rawList: [],
-      list: [],
-      isLoading: false
-    },
-    cityOptions: {
-      rawList: [],
-      list: [],
-      isLoading: false
-    },
     form: {
       email: '',
       password: '',
@@ -229,59 +168,23 @@ export default {
       document: '',
       passwordMatch: '',
       location: {
-        country: { name: 'Brasil' },
+        country: 'Brasil',
         state: '',
         city: ''
       }
     }
   }),
   methods: {
-    async loadStates () {
-      this.stateOptions.isLoading = true
-      const response = await this.$s.ibge.getStates()
-      this.stateOptions.rawList = response.data
-      this.stateOptions.isLoading = false
-    },
-    async loadCities () {
-      this.cityOptions.isLoading = true
-      const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id })
-      this.cityOptions.rawList = response.data
-      this.cityOptions.isLoading = false
-    },
-    clearCities () {
-      this.cityOptions.rawList = []
-      this.cityOptions.list = []
-      this.form.location.city = ''
-    },
     canShowAction (page) {
       if (!page) return false
       return page !== this.$route.name
     },
-    goFor (where) {
+    goTo (where) {
       if (!where) return
       this.$router.push({ name: where })
     },
-    createFilterFn (entity) {
-      const entityOptionNames = {
-        state: 'stateOptions',
-        city: 'cityOptions'
-      }
-
-      const entityOptions = entityOptionNames[entity]
-
-      return (val, update) => {
-        update(() => {
-          if (!val) {
-            this[entityOptions].list = [...this[entityOptions].rawList]
-            return
-          }
-
-          const filterByName = item => item.name.match(new RegExp(val, 'ig'))
-          this[entityOptions].list = this[entityOptions].rawList.filter(filterByName)
-        })
-      }
-    },
     async submit () {
+      this.isButtonLoading = true
       const errors = await validate(this, [
         'email',
         'password',
@@ -313,6 +216,7 @@ export default {
         return
       }
       setStorage('token', response.data.token)
+      this.isButtonLoading = false
       this.$router.push({ name: 'General' })
     }
   }

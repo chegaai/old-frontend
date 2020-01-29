@@ -30,7 +30,7 @@
           <div class="column">
             <span class="text-subtitle2 text-grey-8">
               <q-icon name="where_to_vote" size="25px" />
-              {{ event.place.name || 'Lugar incrível!' }}
+              {{ placeName }}
             </span>
             <span class="text-subtitle2 text-grey-8" v-if="isLandspace">
               <q-icon name="group" size="25px" /> {{ event.group.name }}
@@ -61,6 +61,9 @@ export default {
   computed: {
     isLandspace () {
       return this.aspectRatio === aspectRatios.LANDSCAPE
+    },
+    placeName () {
+      return this.event.place ? this.event.place.name : 'Um lugar incrível!'
     },
     isPortrait () {
       return this.aspectRatio === aspectRatios.PORTRAIT
