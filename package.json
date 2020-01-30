@@ -20,7 +20,7 @@
     "quasar": "^1.0.0",
     "simplemde": "^1.11.2",
     "vue-i18n": "^8.0.0",
-    "vue2-google-maps": "^0.10.7",
+    "vue2-google-maps": "git+https://github.com/xkjyeah/vue-google-maps.git",
     "vuex": "^3.1.2"
   },
   "devDependencies": {

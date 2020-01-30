@@ -1,26 +1,35 @@
 <template>
   <div class="fit">
-    <banner
-      component="GroupCover"
-      :title="group.name"
-      :styles="{
-        backgroundImage: group.pictures.banner
-          ? `url(${group.pictures.banner})`
-          : 'url(/statics/images/standard-group-image.jpg)',
-        backgroundPosition: '50% 50%',
-      }"
-      :sub-title="`${group.followersCount} membro(s)`" />
-    <group-description-tabs
-      @tab-change="handleTabChange"
-      :events="events"
-      :members="members"
-      :about="group.description"
-    />
-    <button-sticky
-      icon="add"
-      label="Criar evento"
-      @click="() => goFor('EventCreate')" />
-    <custom-footer />
+    <template v-if="!group.error">
+      <banner
+        component="GroupCover"
+        :title="group.name"
+        :styles="{
+          backgroundImage: group.pictures.banner
+            ? `url(${group.pictures.banner})`
+            : 'url(/statics/images/standard-group-image.jpg)',
+          backgroundPosition: '50% 50%',
+        }"
+        :sub-title="`${group.followersCount} membro(s)`" />
+      <group-description-tabs
+        @tab-change="handleTabChange"
+        :events="events"
+        :members="members"
+        :about="group.description"
+      />
+      <button-sticky
+        icon="add"
+        label="Criar evento"
+        @click="() => goFor('EventCreate')" />
+      <custom-footer />
+    </template>
+    <template v-else>
+      <banner
+        component="GroupCover"
+        title="Erro ao carregar grupo"
+        :sub-title="group.error"
+      />
+    </template>
   </div>
 </template>
 
@@ -51,16 +60,21 @@ export default {
   async preFetch ({ store, ssrContext, currentRoute }) {
     if (!ssrContext) return
 
-    const groupDetailResponse = await ssrContext.$s.groups.get({
+    const { data: groupDetailResponse, error: groupDetailError } = await ssrContext.$s.groups.get({
       groupId: currentRoute.params.slug
     })
-    const followersCountReponse = await ssrContext.$s.groups.getFollowersCount({
-      groupId: groupDetailResponse.data.id
+
+    if (groupDetailError) return store.dispatch('General/setCurrentSwapSpace', { error: groupDetailError.message })
+
+    const { data: followersCountReponse, error: followersCountError } = await ssrContext.$s.groups.getFollowersCount({
+      groupId: groupDetailResponse.id
     })
 
+    if (followersCountError) return store.dispatch('General/setCurrentSwapSpace', { error: followersCountError.message })
+
     const payload = {
-      ...groupDetailResponse.data,
-      followersCount: followersCountReponse.data.count
+      ...groupDetailResponse,
+      followersCount: followersCountReponse.count
     }
 
     store.dispatch('General/setCurrentSwapSpace', payload)

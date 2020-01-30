@@ -1,3 +1,5 @@
+// import { getStorage } from '../utils/localStorage'
+
 export default httpClient => ({
   login: (payload) => {
     const { handle, password } = payload
@@ -33,6 +35,12 @@ export default httpClient => ({
         }
       }
     })
+  },
+  getMyGroups: () => {
+    // const userData = getStorage('userData', { format: true })
+    // if (!userData) return Promise.resolve({ data: [] })
+
+    return httpClient.get('/groups') // TODO: Change to /users/${userData.id}/groups
   },
   getMyProfile: () => httpClient.get('/profiles/me'),
   getMe: () => httpClient.get('/users/me'),
