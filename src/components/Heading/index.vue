@@ -1,6 +1,6 @@
 <template>
   <q-header
-    class="bg-white"
+    :class="headerClass"
     elevated>
     <q-toolbar class="justify-between">
       <!-- <q-btn
@@ -14,7 +14,7 @@
 
       <div class="row items-center">
         <img
-          src="~assets/source/png/chegaai-marca_positiva-reducao-retangulo.png"
+          :src="logoVariant"
           alt="logo"
           width="30">
         <p
@@ -52,7 +52,7 @@
                   <q-item-section>
                     <p class="row items-center q-ma-none">
                       <q-icon
-                        :name="item.icon"
+                        :name="getIconFromMenuItem(item)"
                         size="25px"
                         class="q-mr-md" /> {{ item.label }}
                     </p>
@@ -71,6 +71,7 @@
 
 <script>
 import { buildMenuItems } from './utils'
+import { getRandomReducao } from '../../assets/logo'
 
 export default {
   name: 'Heading',
@@ -78,6 +79,17 @@ export default {
     return {
       drawerStatus: false,
       menuItems: buildMenuItems(this)
+    }
+  },
+  computed: {
+    headerClass () {
+      return this.$q.dark.isActive ? 'bg-dark' : 'bg-white'
+    },
+    isDarkModeActive () {
+      return this.$q.dark.isActive
+    },
+    logoVariant () {
+      return getRandomReducao(this.$q.dark.isActive)
     }
   },
   methods: {
@@ -88,6 +100,11 @@ export default {
     goFor (where) {
       if (!where) return
       this.$router.push({ name: where })
+    },
+    getIconFromMenuItem (menuItem) {
+      return typeof menuItem.icon === 'function'
+        ? menuItem.icon(this)
+        : menuItem.icon
     }
   }
 }

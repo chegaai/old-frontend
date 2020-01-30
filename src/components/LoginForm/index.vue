@@ -2,7 +2,7 @@
   <q-card class="login-card">
     <q-card-section class="full-width column items-center">
       <img
-        src="~assets/source/png/chegaai-marca_positiva-circulo.png"
+        :src="logoVariant"
         width="190"
         alt="logo">
       <!-- <h4 class="text-h4 text-grey-8 text-center text-uppercase text-family-light">
@@ -129,6 +129,7 @@ import RegionSelect from '../RegionSelect'
 import { setStorage } from '../../utils/localStorage'
 import { validate } from '../../utils/validator'
 import { notEmpty } from '../../utils/validators'
+import { getRandomLogo } from '../../assets/logo'
 
 export default {
   name: 'LoginForm',
@@ -138,6 +139,9 @@ export default {
     forgotPassword: { type: Boolean, default: false }
   },
   computed: {
+    isDarkModeActive () {
+      return this.$q.dark.isActive
+    },
     subTitleLabel () {
       const { name } = this.$route
       const labelTypes = {
@@ -156,6 +160,9 @@ export default {
         Register: () => 'Criar conta'
       }
       return labelTypes[name] && labelTypes[name]()
+    },
+    logoVariant () {
+      return getRandomLogo(this.$q.dark.isActive)
     }
   },
   data: () => ({
