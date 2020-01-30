@@ -101,7 +101,6 @@ export default {
       if (!this.form.location.state.id && this.form.location.state.name) {
         const stateName = this.form.location.state.name
         const stateObject = this.stateOptions.rawList.find(item => item.name === stateName)
-        console.log(stateObject)
         this.form.location.state = stateObject
       }
 
