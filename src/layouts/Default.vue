@@ -19,6 +19,7 @@
 
 <script>
 // import DrawerMenu from '../components/DrawerMenu';
+import { getStorage } from '../utils/localStorage'
 import Heading from '../components/Heading'
 
 export default {
@@ -31,6 +32,10 @@ export default {
     toggleDrawer (status) {
       this.drawerVisibility = status
     }
+  },
+  mounted () {
+    const dark = !!getStorage('dark', { format: true })
+    this.$q.dark.set(dark)
   }
 }
 </script>
