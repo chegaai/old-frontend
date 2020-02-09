@@ -1,11 +1,11 @@
 <template>
   <div class="fit">
-    <template v-if="!group.error">
+    <template v-if="group && !group.error">
       <banner
         component="GroupCover"
         :title="group.name"
         :styles="{
-          backgroundImage: group.pictures.banner
+          backgroundImage: group.pictures && group.pictures.banner
             ? `url(${group.pictures.banner})`
             : 'url(/statics/images/standard-group-image.jpg)',
           backgroundPosition: '50% 50%',
@@ -78,13 +78,6 @@ export default {
     }
 
     store.dispatch('General/setCurrentSwapSpace', payload)
-  },
-  mounted () {
-    // console.log('this.$store.state', this.$store.state);
-    // const response = await this.$s.groups.get({ groupId: this.$route.params.slug });
-    // this.group.name = response.data.name;
-    // console.log('response', response);
-    // console.log('this.data', this.data);
   },
   methods: {
     goFor (where) {

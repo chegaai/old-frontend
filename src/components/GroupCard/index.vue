@@ -24,6 +24,14 @@
             </span>
           </div>
         </q-card-section>
+        <q-card-section>
+          <div class="column">
+            <span class="text-subtitle2 text-grey-8">
+              <q-icon name="where_to_vote" size="25px" />
+              {{ placeName }}
+            </span>
+          </div>
+        </q-card-section>
         <q-card-section>{{ group.description.slice(0, 170) }}</q-card-section>
       </div>
     </div>
@@ -71,7 +79,9 @@ export default {
       return this.aspectRatio === aspectRatios.LANDSCAPE
     },
     placeName () {
-      return this.event.place ? this.event.place.name : 'Um lugar incrível!'
+      return this.group
+        ? `${this.group.location.city}, ${this.group.location.state}`
+        : ''
     },
     isPortrait () {
       return this.aspectRatio === aspectRatios.PORTRAIT
