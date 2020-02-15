@@ -16,6 +16,35 @@
         />
       </div>
     </div>
+    <div v-show="groups.length <= 0" class="row justify-center full-width">
+      <div class="row justify-end col-2 q-my-md q-ma-md q-px-md">
+        <q-btn
+          :class="{
+            'full-width': $q.platform.is.mobile
+          }"
+          class="text-family-regular"
+          size="lg"
+          color="secondary"
+          label="Crie um grupo!"
+          :to="{name: 'GroupCreate'}"
+        />
+      </div>
+      <div class="row justify-center col-1 q-my-md q-ma-md q-px-md">
+        OU
+      </div>
+      <div class="row justify-left col-2 q-my-md q-ma-md q-px-md">
+        <q-btn
+          :class="{
+            'full-width': $q.platform.is.mobile
+          }"
+          class="text-family-regular"
+          size="lg"
+          color="quarternary"
+          label="Seja membro de um grupo!"
+          :to="{name: 'General'}"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
