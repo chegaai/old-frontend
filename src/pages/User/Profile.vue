@@ -31,7 +31,7 @@ export default {
     async saveProfile (profile) {
       this.loading = true
       const {
-        id, groups, deletedAt, createdAt, updatedAt, ...newProfile
+        id, email, groups, deletedAt, createdAt, updatedAt, ...newProfile
       } = profile
 
       await this.$s.users.updateProfile(newProfile)

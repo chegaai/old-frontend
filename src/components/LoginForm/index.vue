@@ -99,7 +99,7 @@
       <q-btn
         class="full-width text-family-regular"
         size="lg"
-        :loading="isButtonLoading"
+        :loading="loading"
         :label="buttonLabel"
         @click="submit"
       />
@@ -166,7 +166,7 @@ export default {
     }
   },
   data: () => ({
-    isButtonLoading: false,
+    loading: false,
     validators: { notEmpty },
     form: {
       email: '',
@@ -191,7 +191,7 @@ export default {
       this.$router.push({ name: where })
     },
     async submit () {
-      this.isButtonLoading = true
+      this.loading = true
       const errors = await validate(this, [
         'email',
         'password',
@@ -220,10 +220,15 @@ export default {
 
       if (response.error) {
         this.$q.notify('Erro ao fazer o login.')
+        this.loading = false
         return
       }
+
       setStorage('token', response.data.token)
-      this.isButtonLoading = false
+
+      const { data: me } = await this.$s.users.getMyProfile()
+      setStorage('userData', me, { format: true })
+      this.loading = false
       this.$router.push({ name: 'General' })
     }
   }
