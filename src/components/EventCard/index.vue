@@ -14,9 +14,9 @@
       }"
       class="row no-wrap">
       <div class="bg-primary column items-center justify-center q-pa-md" v-if="isLandspace">
-        <h2 class="text-h2 text-family-bold q-ma-none text-white">12</h2>
-        <p class="text-body1 q-ma-none text-grey-1">12/2019</p>
-        <p class="text-body1 q-ma-none text-grey-1">às 19:00</p>
+        <h2 class="text-h2 text-family-bold q-ma-none text-white">{{ new Date(event.startAt).getDay() }}</h2>
+        <p class="text-body1 q-ma-none text-grey-1"> {{ new Date(event.startAt).getDay()}} / {{ new Date(event.startAt).getMonth() }}</p>
+        <p class="text-body1 q-ma-none text-grey-1">às {{ new Date(event.startAt).getHours() }}:{{ new Date(event.startAt).getMinutes() }}</p>
       </div>
       <div class="column q-pb-md">
         <q-card-section>
@@ -26,14 +26,19 @@
           ">
             {{ event.seats }} vagas
           </span>
-          <h5 class="text-h6 text-family-bold text-primary q-mt-md">{{ event.name }}</h5>
+          <h5 class="text-h6 text-family-bold text-primary q-mt-md">
+            {{ event.name || 'undefined' }}
+          </h5>
           <div class="column">
             <span class="text-subtitle2 text-grey-8">
               <q-icon name="where_to_vote" size="25px" />
               {{ placeName }}
             </span>
             <span class="text-subtitle2 text-grey-8" v-if="isLandspace">
-              <q-icon name="group" size="25px" /> {{ event.group.name }}
+              <q-icon name="group" size="25px" />
+              <span :key="group.id" v-for="group in groups">
+                {{ group.name }}
+              </span>
             </span>
           </div>
         </q-card-section>
@@ -54,9 +59,22 @@ export const aspectRatios = {
 
 export default {
   name: 'EventCard',
+  data: () => ({
+    groups: []
+  }),
   props: {
     event: { type: Object, default: () => ({}) },
     aspectRatio: { type: String, default: aspectRatios.PORTRAIT }
+  },
+  mounted () {
+    const promises = this.$props.event.groups.map(async (groupId) => {
+      const groupResult = await this.$s.groups.get({ groupId })
+      return groupResult.data
+    })
+
+    Promise.all(promises).then((groups) => {
+      this.groups = groups
+    })
   },
   computed: {
     isLandspace () {
