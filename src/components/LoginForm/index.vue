@@ -213,6 +213,13 @@ export default {
         return
       }
 
+      if (this.forgotPassword) {
+        const response = this.$s.users.recoveryPassword(this.form.email)
+        if (response.error) this.$q.notify('Ocorreu um erro ao solicitar a recuperação de senha')
+        else this.$router.push({ name: 'Login' })
+        return
+      }
+
       const response = await this.$s.users.login({
         handle: this.form.email.trim(),
         password: this.form.password.trim()
