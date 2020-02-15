@@ -26,19 +26,14 @@
           ">
             {{ event.seats }} vagas
           </span>
-          <h5 class="text-h6 text-family-bold text-primary q-mt-md">
-            {{ event.name || 'undefined' }}
-          </h5>
+          <h5 class="text-h6 text-family-bold text-primary q-mt-md">{{ event.name }}</h5>
           <div class="column">
             <span class="text-subtitle2 text-grey-8">
               <q-icon name="where_to_vote" size="25px" />
               {{ placeName }}
             </span>
             <span class="text-subtitle2 text-grey-8" v-if="isLandspace">
-              <q-icon name="group" size="25px" />
-              <span :key="group.id" v-for="group in groups">
-                {{ group.name }}
-              </span>
+              <q-icon name="group" size="25px" /> {{ event.group.name }}
             </span>
           </div>
         </q-card-section>
@@ -59,22 +54,9 @@ export const aspectRatios = {
 
 export default {
   name: 'EventCard',
-  data: () => ({
-    groups: []
-  }),
   props: {
     event: { type: Object, default: () => ({}) },
     aspectRatio: { type: String, default: aspectRatios.PORTRAIT }
-  },
-  mounted () {
-    const promises = this.$props.event.groups.map(async (groupId) => {
-      const groupResult = await this.$s.groups.get({ groupId })
-      return groupResult.data
-    })
-
-    Promise.all(promises).then((groups) => {
-      this.groups = groups
-    })
   },
   computed: {
     isLandspace () {

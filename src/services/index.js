@@ -1,7 +1,6 @@
 import { internalHttpClient, ibgeHttpClient } from '../utils/request'
 import { withErrorHandling } from '../utils/error'
 
-import EventsService from './events'
 import IbgeService from './ibge'
 import UsersService from './users'
 import GroupsService from './groups'
@@ -14,6 +13,5 @@ const addTryCatchOnEachServiceAction = service => Object.keys(service).reduce((a
 export default {
   ibge: addTryCatchOnEachServiceAction(IbgeService(ibgeHttpClient)),
   users: addTryCatchOnEachServiceAction(UsersService(internalHttpClient)),
-  groups: addTryCatchOnEachServiceAction(GroupsService(internalHttpClient)),
-  events: addTryCatchOnEachServiceAction(EventsService(internalHttpClient))
+  groups: addTryCatchOnEachServiceAction(GroupsService(internalHttpClient))
 }
