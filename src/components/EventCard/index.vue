@@ -14,9 +14,9 @@
       }"
       class="row no-wrap">
       <div class="bg-primary column items-center justify-center q-pa-md" v-if="isLandspace">
-        <h2 class="text-h2 text-family-bold q-ma-none text-white">12</h2>
-        <p class="text-body1 q-ma-none text-grey-1">12/2019</p>
-        <p class="text-body1 q-ma-none text-grey-1">às 19:00</p>
+        <h2 class="text-h2 text-family-bold q-ma-none text-white">{{ new Date(event.startAt).getDay() }}</h2>
+        <p class="text-body1 q-ma-none text-grey-1"> {{ new Date(event.startAt).getDay()}} / {{ new Date(event.startAt).getMonth() }}</p>
+        <p class="text-body1 q-ma-none text-grey-1">às {{ new Date(event.startAt).getHours() }}:{{ new Date(event.startAt).getMinutes() }}</p>
       </div>
       <div class="column q-pb-md">
         <q-card-section>
