@@ -37,7 +37,7 @@
           flat />
         <q-btn flat class="q-pa-none">
           <q-avatar>
-            <img src="https://avatars3.githubusercontent.com/u/9022134?s=100&v=4" alt="avatar">
+            <img :src="avatarUrl" alt="avatar">
           </q-avatar>
           <q-menu auto-close>
             <q-list style="min-width: 250px">
@@ -72,6 +72,7 @@
 <script>
 import { buildMenuItems } from './utils'
 import { getRandomReducao } from '../../assets/logo'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Heading',
@@ -80,6 +81,12 @@ export default {
       drawerStatus: false,
       menuItems: buildMenuItems(this)
     }
+  },
+  mounted () {
+    /* eslint-disable-next-line no-console */
+    this.$s.users.getMyProfile().then(({ data }) => {
+      this.$store.dispatch('setProfileImage', data.picture)
+    })
   },
   computed: {
     headerClass () {
@@ -90,7 +97,10 @@ export default {
     },
     logoVariant () {
       return getRandomReducao(this.$q.dark.isActive)
-    }
+    },
+    ...mapState({
+      avatarUrl: state => state.User.profileImage
+    })
   },
   methods: {
     emitDrawerToggle () {
