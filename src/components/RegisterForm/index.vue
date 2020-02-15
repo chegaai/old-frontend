@@ -60,7 +60,7 @@ export default {
       username: '',
       document: '',
       passwordMatch: '',
-      location: {},
+      location: {}
     },
   }),
 };
