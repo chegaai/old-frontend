@@ -35,22 +35,6 @@
         <q-card-section>{{ group.description.slice(0, 170) }}</q-card-section>
       </div>
     </div>
-    <div class="row no-wrap">
-      <q-expansion-item expand-separator icon="code" label="Group Details">
-        <q-card>
-          <q-card-section
-            :class="{
-              'bg-dark': !$q.dark.isActive,
-              'text-white': !$q.dark.isActive,
-              'bg-white': $q.dark.isActive,
-              'text-dark': $q.dark.isActive
-            }"
-          >
-            <pre><code>{{ JSON.stringify(group, null, 2).trim() }}</code></pre>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-    </div>
   </q-card>
 </template>
 
