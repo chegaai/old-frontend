@@ -1,3 +1,3 @@
 export default httpClient => ({
-  get: () => httpClient.get('/events'),
-});
+  get: () => httpClient.get('/events')
+})

@@ -58,25 +58,25 @@
 </template>
 
 <script>
-import { notEmpty } from '../../utils/validators';
+import { notEmpty } from '../../utils/validators'
 
 const buildIsAvailable = context => async (value) => {
-  if (value === context.username) return true;
-  context.isCheckingAvailability = true;
-  const { data } = await context.$s.users.checkUsername(value);
-  context.isCheckingAvailability = false;
-  return data.available;
-};
+  if (value === context.username) return true
+  context.isCheckingAvailability = true
+  const { data } = await context.$s.users.checkUsername(value)
+  context.isCheckingAvailability = false
+  return data.available
+}
 
 export default {
   name: 'AccountForm',
   props: {
     initialValues: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
-  data() {
+  data () {
     return {
       validators: { notEmpty, isAvailable: buildIsAvailable(this) },
       isLoading: true,
@@ -85,23 +85,23 @@ export default {
       form: {
         email: 'email@email.com',
         username: 'username',
-        document: '1234567890',
-      },
-    };
+        document: '1234567890'
+      }
+    }
   },
   methods: {
-    emitClick() {
-      this.$emit('account-submit', this.form);
-    },
+    emitClick () {
+      this.$emit('account-submit', this.form)
+    }
   },
   watch: {
-    initialValues() {
-      this.form = this.initialValues;
-      this.username = this.initialValues.username;
-      this.isLoading = false;
-    },
-  },
-};
+    initialValues () {
+      this.form = this.initialValues
+      this.username = this.initialValues.username
+      this.isLoading = false
+    }
+  }
+}
 </script>
 
 <style lang="scss">

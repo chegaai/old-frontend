@@ -61,9 +61,9 @@ export default {
       document: '',
       passwordMatch: '',
       location: {}
-    },
-  }),
-};
+    }
+  })
+}
 </script>
 
 <style lang="scss">

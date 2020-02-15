@@ -14,31 +14,31 @@
 </template>
 
 <script>
-import AccountForm from '../../components/AccountForm';
+import AccountForm from '../../components/AccountForm'
 
 export default {
   name: 'AccountPage',
   components: { AccountForm },
-  data() {
+  data () {
     return {
-      initialValues: {},
-    };
+      initialValues: {}
+    }
   },
   methods: {
-    async saveAccount(account) {
-      const { data } = await this.$s.users.update(account);
-      if (data) return this.$q.notify('Usuário atualizado com sucesso');
-      return this.$q.notify('Erro ao salvar usuário');
+    async saveAccount (account) {
+      const { data } = await this.$s.users.update(account)
+      if (data) return this.$q.notify('Usuário atualizado com sucesso')
+      return this.$q.notify('Erro ao salvar usuário')
     },
-    async getInitialValues() {
-      const { data: { username, email, document } } = await this.$s.users.getMe();
-      return { username, email, document };
-    },
+    async getInitialValues () {
+      const { data: { username, email, document } } = await this.$s.users.getMe()
+      return { username, email, document }
+    }
   },
-  created() {
-    this.getInitialValues().then((data) => { this.initialValues = data; });
-  },
-};
+  created () {
+    this.getInitialValues().then((data) => { this.initialValues = data })
+  }
+}
 </script>
 
 <style>

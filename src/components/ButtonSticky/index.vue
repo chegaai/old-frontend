@@ -21,12 +21,12 @@ export default {
   name: 'ButtonSticky',
   props: {
     label: { type: String, required: true },
-    icon: { type: String, default: 'check' },
+    icon: { type: String, default: 'check' }
   },
   computed: {
-    stickyPosition() {
-      return this.$q.platform.is.desktop ? 'bottom-right' : 'bottom';
-    },
-  },
-};
+    stickyPosition () {
+      return this.$q.platform.is.desktop ? 'bottom-right' : 'bottom'
+    }
+  }
+}
 </script>

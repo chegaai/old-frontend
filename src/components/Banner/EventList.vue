@@ -19,7 +19,7 @@ export default {
     title: { type: String, default: 'Awesome title' },
     subTitle: { type: String, default: 'Awesome sub title' },
     styles: { type: Object, default: () => ({}) },
-    classes: { type: String, default: '' },
-  },
-};
+    classes: { type: String, default: '' }
+  }
+}
 </script>

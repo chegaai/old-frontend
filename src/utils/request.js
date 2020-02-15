@@ -1,25 +1,25 @@
-import axios from 'axios';
-import { getStorage } from './localStorage';
+import axios from 'axios'
+import { getStorage } from './localStorage'
 
 const internalHttpClient = axios.create({
-  baseURL: process.env.API_URL || 'http://api-gateway.127.0.0.1.nip.io/',
-});
+  baseURL: process.env.API_URL || 'http://api-gateway.127.0.0.1.nip.io/'
+})
 
 internalHttpClient.interceptors.request.use((config) => { // eslint-disable-line
-  const token = getStorage('token');
+  const token = getStorage('token')
   if (token) {
-    config.headers.common.Authorization = `Bearer ${token}`;
+    config.headers.common.Authorization = `Bearer ${token}`
   }
 
-  return config;
-}, response => Promise.reject(response));
+  return config
+}, response => Promise.reject(response))
 
 internalHttpClient.interceptors.response.use(
-  response => response, error => Promise.reject(error),
-);
+  response => response, error => Promise.reject(error)
+)
 
 const ibgeHttpClient = axios.create({
-  baseURL: 'https://servicodados.ibge.gov.br/api/v1/localidades/',
-});
+  baseURL: 'https://servicodados.ibge.gov.br/api/v1/localidades/'
+})
 
-export { internalHttpClient, ibgeHttpClient };
+export { internalHttpClient, ibgeHttpClient }

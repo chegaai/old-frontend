@@ -23,8 +23,11 @@
       input-debounce="0"
       label="Estado"
       class="q-my-xs"
-      @input="submitRegion"
       option-label="name"
+      option-value="name"
+      use-input
+      @focus="loadStates"
+      @input="() => { submitRegion(); clearCities(); }"
       :loading="stateOptions.isLoading"
       :options="stateOptions.list"
       :rules="[
@@ -40,10 +43,13 @@
       label="Cidade"
       class="q-my-xs"
       option-label="name"
+      option-value="name"
+      use-input
+      @focus="loadCities"
       @input="submitRegion"
       :loading="cityOptions.isLoading"
       :options="cityOptions.list"
-      :disable="!form.location.state.id"
+      :disable="!form.location.state"
       :rules="[
         value => validators.notEmpty(value) || 'Este campo é obrigatório'
       ]"
@@ -53,70 +59,97 @@
 </template>
 
 <script>
-import { notEmpty } from '../../utils/validators';
+import { notEmpty } from '../../utils/validators'
 
 export default {
   name: 'RegionSelect',
   props: {
-    initialValues: {
+    value: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
   data: () => ({
     validators: { notEmpty },
     countryOptions: {
-      list: [{ name: 'Brasil' }],
+      list: [{ name: 'Brasil' }]
     },
     stateOptions: {
+      rawList: [],
       list: [],
-      isLoading: false,
+      isLoading: false
     },
     cityOptions: {
+      rawList: [],
       list: [],
-      isLoading: false,
+      isLoading: false
     },
     form: {
       location: {
         country: { name: 'Brasil' },
         state: '',
-        city: '',
-      },
-    },
+        city: ''
+      }
+    }
   }),
   methods: {
-    createFilterFn(entity) {
-      return (val, update) => {
-        const entities = {
-          state: async () => {
-            this.stateOptions.isLoading = true;
-            const response = await this.$s.ibge.getStates();
-            this.stateOptions.list = response.data;
-            this.stateOptions.isLoading = false;
-          },
-          city: async () => {
-            this.cityOptions.isLoading = true;
-            const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id });
-            this.cityOptions.list = response.data;
-            this.cityOptions.isLoading = false;
-          },
-        };
+    async loadStates () {
+      this.stateOptions.isLoading = true
+      const response = await this.$s.ibge.getStates()
+      this.stateOptions.rawList = response.data
 
-        update(async () => await entities[entity] && entities[entity]());
-      };
+      if (!this.form.location.state.id && this.form.location.state.name) {
+        const stateName = this.form.location.state.name
+        const stateObject = this.stateOptions.rawList.find(item => item.name === stateName)
+        this.form.location.state = stateObject
+      }
+
+      this.stateOptions.isLoading = false
     },
-    submitRegion() {
-      this.$emit('set-region', this.form.location);
+    async loadCities () {
+      this.cityOptions.isLoading = true
+      if (!this.form.location.state.id) await this.loadStates()
+      const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id })
+      this.cityOptions.rawList = response.data
+      this.cityOptions.isLoading = false
     },
+    clearCities () {
+      this.cityOptions.rawList = []
+      this.cityOptions.list = []
+      this.form.location.city = ''
+    },
+    createFilterFn (entity) {
+      const entityOptionNames = {
+        state: 'stateOptions',
+        city: 'cityOptions'
+      }
+
+      const entityOptions = entityOptionNames[entity]
+
+      return (val, update) => {
+        update(() => {
+          if (!val) {
+            this[entityOptions].list = [...this[entityOptions].rawList]
+            return
+          }
+
+          const filterByName = item => item.name.match(new RegExp(val, 'ig'))
+          this[entityOptions].list = this[entityOptions].rawList.filter(filterByName)
+        })
+      }
+    },
+    submitRegion () {
+      this.$emit('input', this.form.location)
+    }
   },
   watch: {
-    initialValues() {
-      this.stateOptions.isLoading = true;
-      this.cityOptions.isLoading = true;
-      this.form.location = this.initialValues;
-      this.stateOptions.isLoading = false;
-      this.cityOptions.isLoading = false;
-    },
-  },
-};
+    value () {
+      this.stateOptions.isLoading = true
+      this.cityOptions.isLoading = true
+      this.form.location = this.value
+      this.stateOptions.isLoading = false
+      this.cityOptions.isLoading = false
+    }
+  }
+}
 </script>

@@ -1,32 +1,32 @@
 export default httpClient => ({
   get: (payload) => {
-    const { groupId } = payload;
-    return httpClient.get(`/groups/${groupId}`);
+    const { groupId } = payload
+    return httpClient.get(`/groups/${groupId}`)
   },
   create: (payload) => {
     const {
       name,
       description,
       location: { country = 'Brazil', state = 'SP', city = 'São paulo' },
-      tags,
-    } = payload;
+      tags
+    } = payload
     return httpClient.post('/groups', {
       name,
       description,
       location: { country, state, city },
-      tags,
-    });
+      tags
+    })
   },
   getEvents: (payload) => {
-    const { groupId } = payload;
-    return httpClient.get(`/groups/${groupId}/events`);
+    const { groupId } = payload
+    return httpClient.get(`/groups/${groupId}/events`)
   },
   getFollowers: (payload) => {
-    const { groupId } = payload;
-    return httpClient.get(`/groups/${groupId}/followers`);
+    const { groupId } = payload
+    return httpClient.get(`/groups/${groupId}/followers`)
   },
   getFollowersCount: (payload) => {
-    const { groupId } = payload;
-    return httpClient.get(`/groups/${groupId}/followers`, { params: { count: true } });
-  },
-});
+    const { groupId } = payload
+    return httpClient.get(`/groups/${groupId}/followers`, { params: { count: true } })
+  }
+})

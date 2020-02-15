@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { notEmpty } from '../../utils/validators';
+import { notEmpty } from '../../utils/validators'
 
 export default {
   name: 'AttendeeLimit',
@@ -48,8 +48,8 @@ export default {
     validators: { notEmpty },
     attendeeLimit: {
       isOpen: false,
-      amount: null,
-    },
-  }),
-};
+      amount: null
+    }
+  })
+}
 </script>

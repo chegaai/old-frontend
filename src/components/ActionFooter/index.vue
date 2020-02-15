@@ -20,22 +20,22 @@
 <script>
 export const events = {
   OK: 'OK',
-  CANCEL: 'CANCEL',
-};
+  CANCEL: 'CANCEL'
+}
 
 export default {
   name: 'ActionFooter',
   props: {
     okLabel: { type: String, default: 'Ok label' },
-    cancelLabel: { type: String, default: 'Cancel label' },
+    cancelLabel: { type: String, default: 'Cancel label' }
   },
   data: () => ({
-    actionTypes: events,
+    actionTypes: events
   }),
   methods: {
-    emitAction(action) {
-      this.$emit('action', action);
-    },
-  },
-};
+    emitAction (action) {
+      this.$emit('action', action)
+    }
+  }
+}
 </script>

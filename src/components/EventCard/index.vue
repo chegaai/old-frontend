@@ -32,7 +32,7 @@
           <div class="column">
             <span class="text-subtitle2 text-grey-8">
               <q-icon name="where_to_vote" size="25px" />
-              {{ event.place.name || 'Lugar incrível!' }}
+              {{ placeName }}
             </span>
             <span class="text-subtitle2 text-grey-8" v-if="isLandspace">
               <q-icon name="group" size="25px" />
@@ -54,41 +54,44 @@
 <script>
 export const aspectRatios = {
   PORTRAIT: 'PORTRAIT',
-  LANDSCAPE: 'LANDSCAPE',
-};
+  LANDSCAPE: 'LANDSCAPE'
+}
 
 export default {
   name: 'EventCard',
   data: () => ({
-    groups: [],
+    groups: []
   }),
   props: {
     event: { type: Object, default: () => ({}) },
-    aspectRatio: { type: String, default: aspectRatios.PORTRAIT },
+    aspectRatio: { type: String, default: aspectRatios.PORTRAIT }
   },
-  mounted() {
+  mounted () {
     const promises = this.$props.event.groups.map(async (groupId) => {
-      const groupResult = await this.$s.groups.get({ groupId });
-      return groupResult.data;
-    });
+      const groupResult = await this.$s.groups.get({ groupId })
+      return groupResult.data
+    })
 
     Promise.all(promises).then((groups) => {
-      this.groups = groups;
-    });
+      this.groups = groups
+    })
   },
   computed: {
-    isLandspace() {
-      return this.aspectRatio === aspectRatios.LANDSCAPE;
+    isLandspace () {
+      return this.aspectRatio === aspectRatios.LANDSCAPE
     },
-    isPortrait() {
-      return this.aspectRatio === aspectRatios.PORTRAIT;
+    placeName () {
+      return this.event.place ? this.event.place.name : 'Um lugar incrível!'
     },
+    isPortrait () {
+      return this.aspectRatio === aspectRatios.PORTRAIT
+    }
   },
   methods: {
-    goFor(where, params) {
-      if (!where) return;
-      this.$router.push({ name: where, params });
-    },
-  },
-};
+    goFor (where, params) {
+      if (!where) return
+      this.$router.push({ name: where, params })
+    }
+  }
+}
 </script>

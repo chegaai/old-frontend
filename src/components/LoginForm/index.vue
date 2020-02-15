@@ -2,7 +2,7 @@
   <q-card class="login-card">
     <q-card-section class="full-width column items-center">
       <img
-        src="~assets/source/png/chegaai-marca_positiva-circulo.png"
+        :src="logoVariant"
         width="190"
         alt="logo">
       <!-- <h4 class="text-h4 text-grey-8 text-center text-uppercase text-family-light">
@@ -91,52 +91,7 @@
       <div
         class="column q-pb-md"
         v-if="register">
-        <q-select
-          filled
-          ref="country"
-          v-model="form.location.country"
-          use-input
-          input-debounce="0"
-          label="País"
-          class="q-my-xs"
-          option-label="name"
-          :disable="true"
-          :rules="[
-            value => validators.notEmpty(value) || 'Este campo é obrigatório'
-          ]"
-          :options="countryOptions.list">
-        </q-select>
-        <q-select
-          filled
-          ref="state"
-          v-model="form.location.state"
-          input-debounce="0"
-          label="Estado"
-          class="q-my-xs"
-          option-label="name"
-          :loading="stateOptions.isLoading"
-          :options="stateOptions.list"
-          :rules="[
-            value => validators.notEmpty(value) || 'Este campo é obrigatório'
-          ]"
-          @filter="(val, update) => createFilterFn('state')(val, update)">
-        </q-select>
-        <q-select
-          filled
-          ref="city"
-          v-model="form.location.city"
-          input-debounce="0"
-          label="Cidade"
-          class="q-my-xs"
-          option-label="name"
-          :loading="cityOptions.isLoading"
-          :options="cityOptions.list"
-          :disable="!form.location.state.id"
-          :rules="[
-            value => validators.notEmpty(value) || 'Este campo é obrigatório'
-          ]"
-          @filter="(val, update) => createFilterFn('city')(val, update)">
-        </q-select>
+        <region-select v-model="form.location" />
       </div>
     </q-card-section>
 
@@ -144,6 +99,7 @@
       <q-btn
         class="full-width text-family-regular"
         size="lg"
+        :loading="isButtonLoading"
         :label="buttonLabel"
         @click="submit"
       />
@@ -169,50 +125,49 @@
 </template>
 
 <script>
-import { setStorage } from '../../utils/localStorage';
-import { validate } from '../../utils/validator';
-import { notEmpty } from '../../utils/validators';
+import RegionSelect from '../RegionSelect'
+import { setStorage } from '../../utils/localStorage'
+import { validate } from '../../utils/validator'
+import { notEmpty } from '../../utils/validators'
+import { getRandomLogo } from '../../assets/logo'
 
 export default {
   name: 'LoginForm',
+  components: { RegionSelect },
   props: {
     register: { type: Boolean, default: false },
-    forgotPassword: { type: Boolean, default: false },
+    forgotPassword: { type: Boolean, default: false }
   },
   computed: {
-    subTitleLabel() {
-      const { name } = this.$route;
+    isDarkModeActive () {
+      return this.$q.dark.isActive
+    },
+    subTitleLabel () {
+      const { name } = this.$route
       const labelTypes = {
         Login: () => 'Entre com seus dados',
         ForgotPassword: () => 'Coloque seu email para resetar sua senha',
-        Register: () => 'Informe alguns dados para a criação da conta',
-      };
+        Register: () => 'Informe alguns dados para a criação da conta'
+      }
 
-      return labelTypes[name] && labelTypes[name]();
+      return labelTypes[name] && labelTypes[name]()
     },
-    buttonLabel() {
-      const { name } = this.$route;
+    buttonLabel () {
+      const { name } = this.$route
       const labelTypes = {
         Login: () => 'Entrar',
         ForgotPassword: () => 'Resetar minha senha',
-        Register: () => 'Criar conta',
-      };
-      return labelTypes[name] && labelTypes[name]();
+        Register: () => 'Criar conta'
+      }
+      return labelTypes[name] && labelTypes[name]()
     },
+    logoVariant () {
+      return getRandomLogo(this.$q.dark.isActive)
+    }
   },
   data: () => ({
+    isButtonLoading: false,
     validators: { notEmpty },
-    countryOptions: {
-      list: [{ name: 'Brasil' }],
-    },
-    stateOptions: {
-      list: [],
-      isLoading: false,
-    },
-    cityOptions: {
-      list: [],
-      isLoading: false,
-    },
     form: {
       email: '',
       password: '',
@@ -220,42 +175,23 @@ export default {
       document: '',
       passwordMatch: '',
       location: {
-        country: { name: 'Brasil' },
+        country: 'Brasil',
         state: '',
-        city: '',
-      },
-    },
+        city: ''
+      }
+    }
   }),
   methods: {
-    canShowAction(page) {
-      if (!page) return false;
-      return page !== this.$route.name;
+    canShowAction (page) {
+      if (!page) return false
+      return page !== this.$route.name
     },
-    goFor(where) {
-      if (!where) return;
-      this.$router.push({ name: where });
+    goTo (where) {
+      if (!where) return
+      this.$router.push({ name: where })
     },
-    createFilterFn(entity) {
-      return (val, update) => {
-        const entities = {
-          state: async () => {
-            this.stateOptions.isLoading = true;
-            const response = await this.$s.ibge.getStates();
-            this.stateOptions.list = response.data;
-            this.stateOptions.isLoading = false;
-          },
-          city: async () => {
-            this.cityOptions.isLoading = true;
-            const response = await this.$s.ibge.getCities({ ufId: this.form.location.state.id });
-            this.cityOptions.list = response.data;
-            this.cityOptions.isLoading = false;
-          },
-        };
-
-        update(async () => await entities[entity] && entities[entity]());
-      };
-    },
-    async submit() {
+    async submit () {
+      this.isButtonLoading = true
       const errors = await validate(this, [
         'email',
         'password',
@@ -265,32 +201,33 @@ export default {
         'lastName',
         'country',
         'state',
-        'city',
-      ]);
-      if (errors.hasError()) return;
+        'city'
+      ])
+      if (errors.hasError()) return
 
       if (this.register) {
-        const { language } = navigator;
-        const response = await this.$s.users.create({ ...this.form, language });
-        if (response.error) this.$q.notify('Ocorreu um erro ao criar a conta');
-        else this.$router.push({ name: 'Login' });
-        return;
+        const { language } = navigator
+        const response = await this.$s.users.create({ ...this.form, language })
+        if (response.error) this.$q.notify('Ocorreu um erro ao criar a conta')
+        else this.$router.push({ name: 'Login' })
+        return
       }
 
       const response = await this.$s.users.login({
         handle: this.form.email.trim(),
-        password: this.form.password.trim(),
-      });
+        password: this.form.password.trim()
+      })
 
       if (response.error) {
-        this.$q.notify('Erro ao fazer o login.');
-        return;
+        this.$q.notify('Erro ao fazer o login.')
+        return
       }
-      setStorage('token', response.data.token);
-      this.$router.push({ name: 'General' });
-    },
-  },
-};
+      setStorage('token', response.data.token)
+      this.isButtonLoading = false
+      this.$router.push({ name: 'General' })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

@@ -54,8 +54,8 @@
 </template>
 
 <script>
-import Banner from '../../components/Banner';
-import EventCard, { aspectRatios } from '../../components/EventCard';
+import Banner from '../../components/Banner'
+import EventCard, { aspectRatios } from '../../components/EventCard'
 
 export default {
   name: 'HomePage',
@@ -63,14 +63,14 @@ export default {
   data: () => ({
     events: [],
     eventCardAspectRatios: aspectRatios,
-    search: '',
+    search: ''
   }),
-  mounted() {
+  mounted () {
     this.$s.events.get().then(async (result) => {
-      this.events = result.data;
-    });
-  },
-};
+      this.events = result.data
+    })
+  }
+}
 </script>
 
 <style lang="scss">

@@ -9,42 +9,56 @@
     <profile-form
       :initial-values="initialValues"
       :isLoading="loading"
-      @profile-submit="saveProfile"
+      @submit="saveProfile"
       class="profile-page-content-width"
       />
   </div>
 </template>
 
 <script>
-import ProfileForm from '../../components/ProfileForm';
+import ProfileForm from '../../components/ProfileForm'
 
 export default {
   name: 'ProfilePage',
   components: { ProfileForm },
-  data() {
+  data () {
     return {
       initialValues: {},
-      loading: true,
-    };
+      loading: true
+    }
   },
   methods: {
-    async saveProfile(profile) {
-      this.loading = true;
+    async saveProfile (profile) {
+      this.loading = true
       const {
         id, groups, deletedAt, createdAt, updatedAt, ...newProfile
-      } = profile;
-      await this.$s.users.updateProfile(newProfile);
-      this.$q.notify('Usuário atualizado com sucesso');
-      this.loading = false;
+      } = profile
+
+      await this.$s.users.updateProfile(newProfile)
+        .then(({ data, error }) => {
+          if (error) {
+            const code = error.response ? error.response.data.error.code : 'unknown_error'
+            this.$q.notify(`Erro ao atualizar usuário. Código de erro: ${code}`)
+            return
+          }
+
+          this.$store.dispatch('setProfileImage', data.picture)
+          this.$q.notify('Usuário atualizado com sucesso')
+        })
+
+      this.loading = false
     },
-    async getInitialValues() {
-      return this.$s.users.getMyProfile();
-    },
+    async getInitialValues () {
+      return this.$s.users.getMyProfile()
+    }
   },
-  created() {
-    this.getInitialValues().then(({ data }) => { this.initialValues = data; });
-  },
-};
+  created () {
+    this.getInitialValues().then(({ data }) => {
+      this.initialValues = data
+      this.loading = false
+    })
+  }
+}
 </script>
 
 <style>

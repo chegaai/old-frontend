@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import Banner from '../../components/Banner';
-import GroupCreateStepper from '../../components/GroupCreateStepper';
-import CustomFooter from '../../components/CustomFooter';
+import Banner from '../../components/Banner'
+import GroupCreateStepper from '../../components/GroupCreateStepper'
+import CustomFooter from '../../components/CustomFooter'
 
 export default {
   name: 'CreateGroup',
-  components: { Banner, GroupCreateStepper, CustomFooter },
-};
+  components: { Banner, GroupCreateStepper, CustomFooter }
+}
 </script>
