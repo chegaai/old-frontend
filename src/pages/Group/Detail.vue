@@ -10,7 +10,7 @@
             : 'url(/statics/images/standard-group-image.jpg)',
           backgroundPosition: '50% 50%',
         }"
-        :sub-title="`${group.followersCount} membro(s)`" />
+        :sub-title="`${membersCount}`" />
       <group-description-tabs
         @tab-change="handleTabChange"
         :events="events"
@@ -55,7 +55,16 @@ export default {
   computed: {
     ...mapState({
       group: state => state.General.currentSwapSpace
-    })
+    }),
+    membersCount () {
+      const count = this.group ? this.group.followersCount : 0
+
+      if (!count) return 'Nenhum membro'
+
+      if (count > 1) return `${count} membros`
+
+      return '1 membro'
+    }
   },
   async preFetch ({ store, ssrContext, currentRoute }) {
     if (!ssrContext) return
@@ -88,7 +97,6 @@ export default {
         events: async () => {
           const response = await this.$s.groups.getEvents({ groupId: this.group.id })
           this.events = response.data
-          // console.log('this.events', response.data);
         },
         members: async () => {
           const response = await this.$s.groups.getFollowers({ groupId: this.group.id })
