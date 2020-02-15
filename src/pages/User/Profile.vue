@@ -35,13 +35,14 @@ export default {
       } = profile
 
       await this.$s.users.updateProfile(newProfile)
-        .then(({ error }) => {
+        .then(({ data, error }) => {
           if (error) {
             const code = error.response ? error.response.data.error.code : 'unknown_error'
             this.$q.notify(`Erro ao atualizar usuário. Código de erro: ${code}`)
             return
           }
 
+          this.$store.dispatch('setProfileImage', data.picture)
           this.$q.notify('Usuário atualizado com sucesso')
         })
 
