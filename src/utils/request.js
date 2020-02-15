@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getStorage } from './localStorage'
 
 const internalHttpClient = axios.create({
-  baseURL: process.env.API_URL || 'http://api-gateway.127.0.0.1.nip.io/'
+  baseURL: process.env.API_URL || 'http://api-gateway.lvh.me/'
 })
 
 internalHttpClient.interceptors.request.use((config) => { // eslint-disable-line
