@@ -1,6 +1,6 @@
 <template>
   <div class="column full-width items-center">
-    <hero :info="event" />
+    <!--<hero :info="event" />-->
     <event-description-viewer :html="event.description" />
     <button-sticky label="Inscrever-se" />
     <div class="full-width">
@@ -10,16 +10,15 @@
 </template>
 
 <script>
-import Hero from '../../components/Hero'
+// import Hero from '../../components/Hero'
 import EventDescriptionViewer from '../../components/EventDescriptionViewer'
 import ButtonSticky from '../../components/ButtonSticky'
 import CustomFooter from '../../components/CustomFooter'
-import { eventList } from '../../mock/event'
 
 export default {
   name: 'EventDetail',
   components: {
-    Hero,
+    // Hero,
     ButtonSticky,
     CustomFooter,
     EventDescriptionViewer
@@ -33,7 +32,10 @@ export default {
       this.$router.push({ name: 'General' })
       return
     }
-    this.event = eventList.find(event => String(event.id) === id)
+
+    this.$s.events.findById(id).then(result => {
+      this.event = result.data
+    })
   },
   computed: {
     stickyPosition () {
