@@ -1,0 +1,91 @@
+<template>
+  <q-card
+    :style="{
+      maxWidth: isPortrait ? '500px' : '800px',
+      width: '100%'
+    }"
+    class="cursor-pointer"
+  >
+    <div
+      :class="{
+        column: !isPortrait && $q.platform.is.mobile
+      }"
+      class="row no-wrap"
+    >
+      <div class="column q-pb-md" @click="emitClick(group)">
+        <q-card-section>
+          <h5 class="text-h6 text-family-bold text-primary q-mt-md">
+            {{ group.name }}
+          </h5>
+          <div class="column" v-if="isLandspace">
+            <span class="text-subtitle2 text-grey-8">
+              <q-icon name="group" size="25px" />
+              {{ group.name }}
+            </span>
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div class="column">
+            <span class="text-subtitle2 text-grey-8">
+              <q-icon name="where_to_vote" size="25px" />
+              {{ placeName }}
+            </span>
+          </div>
+        </q-card-section>
+        <q-card-section>{{ group.description.slice(0, 170) }}</q-card-section>
+      </div>
+    </div>
+    <div class="row no-wrap">
+      <q-expansion-item expand-separator icon="code" label="Group Details">
+        <q-card>
+          <q-card-section
+            :class="{
+              'bg-dark': !$q.dark.isActive,
+              'text-white': !$q.dark.isActive,
+              'bg-white': $q.dark.isActive,
+              'text-dark': $q.dark.isActive
+            }"
+          >
+            <pre><code>{{ JSON.stringify(group, null, 2).trim() }}</code></pre>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+    </div>
+  </q-card>
+</template>
+
+<script>
+export const aspectRatios = {
+  PORTRAIT: 'PORTRAIT',
+  LANDSCAPE: 'LANDSCAPE'
+}
+
+export default {
+  name: 'GroupCard',
+  props: {
+    group: {
+      type: Object,
+      required: true
+    },
+    aspectRatio: { type: String, default: aspectRatios.PORTRAIT }
+  },
+  methods: {
+    emitClick (group) {
+      this.$emit('click', group)
+    }
+  },
+  computed: {
+    isLandspace () {
+      return this.aspectRatio === aspectRatios.LANDSCAPE
+    },
+    placeName () {
+      return this.group
+        ? `${this.group.location.city}, ${this.group.location.state}`
+        : ''
+    },
+    isPortrait () {
+      return this.aspectRatio === aspectRatios.PORTRAIT
+    }
+  }
+}
+</script>
