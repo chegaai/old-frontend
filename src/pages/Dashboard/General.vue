@@ -56,20 +56,16 @@
 <script>
 import Banner from '../../components/Banner'
 import EventCard, { aspectRatios } from '../../components/EventCard'
+import { eventList } from '../../mock/event'
 
 export default {
   name: 'HomePage',
   components: { Banner, EventCard },
   data: () => ({
-    events: [],
+    events: [...eventList, ...eventList, ...eventList, ...eventList],
     eventCardAspectRatios: aspectRatios,
     search: ''
-  }),
-  mounted () {
-    this.$s.events.get().then(async (result) => {
-      this.events = result.data
-    })
-  }
+  })
 }
 </script>
 
