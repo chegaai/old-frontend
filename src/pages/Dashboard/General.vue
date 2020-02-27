@@ -49,7 +49,11 @@
         />
       </div>
     </div>
-    <div class="row justify-center full-width">
+    <group-list
+        :groups=  "groups"
+        @detail-group="goToGroup"
+    />
+    <!-- <div class="row justify-center full-width">
       <div class="row justify-center col-md-6 col-12 q-my-md q-ma-md q-px-md">
         <group-card
           v-for="(group, index) in groups"
@@ -60,7 +64,7 @@
            @click="goToGroup"
         />
       </div>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -68,11 +72,12 @@
 <script>
 import Banner from '../../components/Banner'
 import EventCard, { aspectRatios } from '../../components/EventCard'
-import GroupCard from '../../components/GroupCard'
+// import GroupCard from '../../components/GroupCard'
+import GroupList from '../../components/GroupList'
 
 export default {
   name: 'HomePage',
-  components: { Banner, EventCard, GroupCard },
+  components: { Banner, EventCard, GroupList },
   data: () => ({
     events: [],
     groups: [],
