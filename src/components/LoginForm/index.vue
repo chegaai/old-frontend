@@ -1,16 +1,13 @@
 <template>
   <q-card class="login-card">
     <q-card-section class="full-width column items-center">
-      <img
-        :src="logoVariant"
-        width="190"
-        alt="logo">
+      <img :src="logoVariant" width="190" alt="logo" />
       <!-- <h4 class="text-h4 text-grey-8 text-center text-uppercase text-family-light">
         <span class="text-family-bold">chega</span>.ai
       </h4> -->
       <!-- <p class="text-body2 text-grey-7 text-center">
         {{ subTitleLabel }}
-      </p> -->
+      </p>-->
     </q-card-section>
 
     <q-card-section>
@@ -40,9 +37,7 @@
           class="q-my-xs"
         />
       </div>
-      <div
-        class="row justify-between"
-        v-if="register">
+      <div class="row justify-between" v-if="register">
         <q-input
           ref="name"
           filled
@@ -88,9 +83,7 @@
           class="q-my-xs login-form-sm-input"
         />
       </div>
-      <div
-        class="column q-pb-md"
-        v-if="register">
+      <div class="column q-pb-md" v-if="register">
         <region-select v-model="form.location" />
       </div>
     </q-card-section>
@@ -203,20 +196,24 @@ export default {
         'state',
         'city'
       ])
-      if (errors.hasError()) return
+      if (errors.hasError()) {
+        this.loading = false
+        return
+      }
 
       if (this.register) {
         const { language } = navigator
         const response = await this.$s.users.create({ ...this.form, language })
-        if (response.error) this.$q.notify('Ocorreu um erro ao criar a conta')
-        else this.$router.push({ name: 'Login' })
+        if (response.error) {
+          this.$q.notify('Ocorreu um erro ao criar a conta')
+          this.loading = false
+        } else this.$router.push({ name: 'Login' })
         return
       }
 
       if (this.forgotPassword) {
         const response = this.$s.users.recoveryPassword(this.form.email)
-        if (response.error) this.$q.notify('Ocorreu um erro ao solicitar a recuperação de senha')
-        else this.$router.push({ name: 'Login' })
+        if (response.error) { this.$q.notify('Ocorreu um erro ao solicitar a recuperação de senha') } else this.$router.push({ name: 'Login' })
         return
       }
 
@@ -246,7 +243,6 @@ export default {
 .login-card {
   width: 500px;
   max-width: 500px;
-
 }
 .login-form-sm-input {
   width: 206px;
