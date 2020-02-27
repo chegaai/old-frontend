@@ -46,5 +46,7 @@ export default httpClient => ({
   getMe: () => httpClient.get('/users/me'),
   updateProfile: payload => httpClient.put('/profiles/me', payload),
   update: payload => httpClient.put('/users/me', payload),
-  getProfileById: (id) => httpClient.get(`/profiles/${id}`)
+  getProfileById: (id) => httpClient.get(`/profiles/${id}`),
+  recoveryPassword: email => httpClient.post('/users/password-recovery', { email }),
+  updatePassword: payload => httpClient.put('/users/password-recovery', payload)
 })

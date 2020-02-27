@@ -19,7 +19,7 @@ import CustomFooter from '../../components/CustomFooter'
 export default {
   name: 'EventDetail',
   components: {
-    Hero,
+    // Hero,
     ButtonSticky,
     CustomFooter,
     EventDescriptionViewer
