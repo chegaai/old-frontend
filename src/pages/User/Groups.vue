@@ -5,17 +5,10 @@
       sub-title="Estes são os grupos que você participa."
       classes="list-groups"
     />
-    <div class="row justify-center full-width">
-      <div class="row justify-center col-md-6 col-12 q-my-md q-ma-md q-px-md">
-        <GroupCard
-          @click="goToGroup"
-          v-for="group in groups"
-          :key="group.slug"
-          :group="group"
-          class="q-my-sm q-mx-sm"
+        <group-list
+          :groups="groups"
+          @detail-group="goToGroup"
         />
-      </div>
-    </div>
     <div v-show="groups.length <= 0" class="row justify-center full-width">
       <div class="row justify-end col-2 q-my-md q-ma-md q-px-md">
         <q-btn
@@ -50,11 +43,11 @@
 
 <script>
 import Banner from '../../components/Banner'
-import GroupCard from '../../components/GroupCard'
+import GroupList from '../../components/GroupList'
 
 export default {
-  name: 'GroupList',
-  components: { Banner, GroupCard },
+  name: 'GroupPage',
+  components: { Banner, GroupList },
   data: () => ({
     groups: [],
     loading: true
