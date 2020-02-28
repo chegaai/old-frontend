@@ -39,7 +39,7 @@
     </div>
 
     <div class="row justify-center full-width">
-      <div class="row justify-center col-md-6 col-12 q-my-md q-ma-md q-px-md">
+      <div class="row justify-center col-md-4 col-12 q-my-md q-ma-md q-px-md">
         <event-card
           v-for="(event, index) in events"
           :aspect-ratio="cardAspectRatios.LANDSCAPE"
@@ -48,11 +48,12 @@
           :event="event"
         />
       </div>
+        <group-list
+            :groups=  "groups"
+            @detail-group="goToGroup"
+        />
     </div>
-    <group-list
-        :groups=  "groups"
-        @detail-group="goToGroup"
-    />
+
     <!-- <div class="row justify-center full-width">
       <div class="row justify-center col-md-6 col-12 q-my-md q-ma-md q-px-md">
         <group-card

@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <div class="row justify-center full-width">
-      <div class="row justify-center col-md-6 col-12 q-my-md q-ma-md q-px-md">
+    <div class="row justify-center col-md-4 col-12 q-my-md q-ma-md q-px-md">
         <group-card
           v-for="(group, index) in groups"
           :aspect-ratio="cardAspectRatio.LANDSCAPE"
@@ -10,8 +8,6 @@
           :group="group"
            @click="$emit('detail-group', group)"
         />
-      </div>
-    </div>
     </div>
 </template>
 <script>
