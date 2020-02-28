@@ -28,5 +28,6 @@ export default httpClient => ({
   getFollowersCount: (payload) => {
     const { groupId } = payload
     return httpClient.get(`/groups/${groupId}/followers`, { params: { count: true } })
-  }
+  },
+  getAll: () => httpClient.get('/groups')
 })
