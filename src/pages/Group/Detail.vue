@@ -10,7 +10,7 @@
             : 'url(/statics/images/standard-group-image.jpg)',
           backgroundPosition: '50% 50%',
         }"
-        :sub-title="`${membersCount}`" />
+        :sub-title="`${followersCount}`" />
       <group-description-tabs
         @tab-change="handleTabChange"
         :events="events"
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 import Banner from '../../components/Banner'
 import GroupDescriptionTabs from '../../components/GroupDescriptionTabs'
 import ButtonSticky from '../../components/ButtonSticky'
@@ -50,43 +50,25 @@ export default {
   },
   data: () => ({
     events: [],
-    members: []
+    members: [],
+    group: Object.create(null),
+    followersCount: 0
   }),
-  computed: {
-    ...mapState({
-      group: state => state.General.currentSwapSpace
-    }),
-    membersCount () {
-      const count = this.group ? this.group.followersCount : 0
+  mounted () {
+    const { id } = this.$route.params
 
-      if (!count) return 'Nenhum membro'
+    this.$s.groups.get({ groupId: id })
+      .then(({ data }) => { this.group = data })
+      .catch(err => console.log(err))
 
-      if (count > 1) return `${count} membros`
-
-      return '1 membro'
-    }
-  },
-  async preFetch ({ store, ssrContext, currentRoute }) {
-    if (!ssrContext) return
-
-    const { data: groupDetailResponse, error: groupDetailError } = await ssrContext.$s.groups.get({
-      groupId: currentRoute.params.slug
+    this.$s.groups.getFollowersCount({ groupId: id }).then(({ data }) => {
+      this.group.followersCount = data.count
     })
 
-    if (groupDetailError) return store.dispatch('General/setCurrentSwapSpace', { error: groupDetailError.message })
-
-    const { data: followersCountReponse, error: followersCountError } = await ssrContext.$s.groups.getFollowersCount({
-      groupId: groupDetailResponse.id
-    })
-
-    if (followersCountError) return store.dispatch('General/setCurrentSwapSpace', { error: followersCountError.message })
-
-    const payload = {
-      ...groupDetailResponse,
-      followersCount: followersCountReponse.count
-    }
-
-    store.dispatch('General/setCurrentSwapSpace', payload)
+    const membersCount = this.group ? this.group.followersCount : 0
+    if (!membersCount) { this.followersCount = 'Nenhum membro' }
+    if (membersCount > 1) { this.followersCount = `${membersCount} membros` }
+    this.followersCount = '1 membro'
   },
   methods: {
     goFor (where) {
@@ -103,7 +85,6 @@ export default {
           this.members = response.data
         }
       }
-
       return tabs[tab] && tabs[tab]()
     }
   }

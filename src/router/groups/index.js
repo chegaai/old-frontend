@@ -14,6 +14,6 @@ export default {
     {
       path: 'create', name: 'GroupCreate', component: GroupCreatePage, beforeEnter: checkAuthentication
     },
-    { path: 'detail/:slug', name: 'GroupDetail', component: GroupDetailPage }
+    { path: 'detail/:id', name: 'GroupDetail', component: GroupDetailPage }
   ]
 }

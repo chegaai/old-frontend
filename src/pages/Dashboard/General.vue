@@ -95,7 +95,7 @@ export default {
   methods: {
     goToGroup (group) {
       console.log(group)
-      this.$router.push({ name: 'GroupDetail', params: { slug: group.slug }, query: { tab: 'about' } })
+      this.$router.push({ name: 'GroupDetail', params: { id: group.id }, query: { tab: 'about' } })
     }
   }
 }
