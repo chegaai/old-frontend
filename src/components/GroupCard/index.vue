@@ -17,18 +17,16 @@
           <h5 class="text-h6 text-family-bold text-primary q-mt-md">
             {{ group.name }}
           </h5>
+           <div class="column">
+            <span class="text-subtitle2 text-grey-8">
+              <q-icon name="where_to_vote" size="25px" />
+              {{ placeName }}
+            </span>
+          </div>
           <div class="column" v-if="isLandspace">
             <span class="text-subtitle2 text-grey-8">
               <q-icon name="group" size="25px" />
               {{ group.name }}
-            </span>
-          </div>
-        </q-card-section>
-        <q-card-section>
-          <div class="column">
-            <span class="text-subtitle2 text-grey-8">
-              <q-icon name="where_to_vote" size="25px" />
-              {{ placeName }}
             </span>
           </div>
         </q-card-section>

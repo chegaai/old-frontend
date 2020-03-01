@@ -39,16 +39,33 @@
     </div>
 
     <div class="row justify-center full-width">
-      <div class="row justify-center col-md-6 col-12 q-my-md q-ma-md q-px-md">
+      <div class="row justify-center col-md-4 col-12 q-my-md q-ma-md q-px-md">
         <event-card
           v-for="(event, index) in events"
-          :aspect-ratio="eventCardAspectRatios.LANDSCAPE"
+          :aspect-ratio="cardAspectRatios.LANDSCAPE"
           :key="`event-${index}`"
           class="q-my-sm"
           :event="event"
         />
       </div>
+        <group-list
+            :groups=  "groups"
+            @detail-group="goToGroup"
+        />
     </div>
+
+    <!-- <div class="row justify-center full-width">
+      <div class="row justify-center col-md-6 col-12 q-my-md q-ma-md q-px-md">
+        <group-card
+          v-for="(group, index) in groups"
+          :aspect-ratio="cardAspectRatios.LANDSCAPE"
+          :key="`event-${index}`"
+          class="q-my-sm"
+          :group="group"
+           @click="goToGroup"
+        />
+      </div>
+    </div> -->
 
   </div>
 </template>
@@ -56,19 +73,31 @@
 <script>
 import Banner from '../../components/Banner'
 import EventCard, { aspectRatios } from '../../components/EventCard'
+// import GroupCard from '../../components/GroupCard'
+import GroupList from '../../components/GroupList'
 
 export default {
   name: 'HomePage',
-  components: { Banner, EventCard },
+  components: { Banner, EventCard, GroupList },
   data: () => ({
     events: [],
-    eventCardAspectRatios: aspectRatios,
+    groups: [],
+    cardAspectRatios: aspectRatios,
     search: ''
   }),
   mounted () {
     this.$s.events.get().then(async (result) => {
       this.events = result.data
     })
+    this.$s.groups.getAll().then(({ data }) => {
+      this.groups = data
+    })
+  },
+  methods: {
+    goToGroup (group) {
+      console.log(group)
+      this.$router.push({ name: 'GroupDetail', params: { id: group.id }, query: { tab: 'about' } })
+    }
   }
 }
 </script>
