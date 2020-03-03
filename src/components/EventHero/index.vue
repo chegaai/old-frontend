@@ -1,7 +1,7 @@
 <template>
   <div
     class="column full-width items-center q-pb-lg q-pt-sm"
-    :style="`background-image: URL('${info.banner || altBanner}')`"
+    :style="`background-image: URL('${this.event.banner || altBanner}')`"
   >
     <p
       :class="{
@@ -18,11 +18,11 @@
       class="text-h3 text-primary text-family-bold text-center q-px-md q-ma-none"
       style="max-width: 950px"
     >
-      {{ info.name }}
+      {{ event.name }}
     </h3>
     <div class="row q-mt-md q-mb-xl">
       <q-avatar class="q-mr-md">
-        <img :src="mainOrganizer.picture" />
+        <img :src="mainOrganizerPicture" />
       </q-avatar>
       <p
         :class="{
@@ -32,19 +32,19 @@
       >
         Organizador por
         <router-link class="text-blue-7" :to="goFor('')">
-          {{ mainOrganizer.name }} {{ mainOrganizer.lastName }}
+          {{ event.owner.name }} {{ event.owner.lastName }}
           <template v-if="amountOfOrganizersWithoutMainOrganizers">
             e mais
             {{ amountOfOrganizersWithoutMainOrganizers }}
           </template></router-link
         >
         <br />
-        Grupo{{ info.groups.length === 1 ? "" : "s" }}:
+        Grupo{{ event.groups.length === 1 ? "" : "s" }}:
         <router-link
-          v-for="group in info.groups"
+          v-for="group in event.groups"
           :key="group.id"
           class="text-blue-7"
-          :to="getGroupRoute(group.slug)"
+          :to="getGroupRoute(group.id)"
         >
           {{ group.name }}
         </router-link>
@@ -54,32 +54,32 @@
 </template>
 
 <script>
-import altBanner from '../../assets/source/png/chegaai-marca-vetores_negativo-grafismo.png'
 
 export default {
   name: 'Hero',
   props: {
-    info: { type: Object, required: true }
+    event: { type: Object, required: true }
   },
   data: () => ({
-    altBanner
+    altBanner: '/statics/images/standard-group-image.jpg',
+    mainOrganizer: {},
+    mainOrganizerPicture: '',
+    amountOfOrganizersWithoutMainOrganizers: 0,
+    eventDate: ''
   }),
-  computed: {
-    mainOrganizer () {
-      return this.info.organizers[0]
-    },
-    amountOfOrganizersWithoutMainOrganizers () {
-      return this.info.organizers.length - 1
-    },
-    eventDate () {
-      if (this.info.startAt.split('T')[0] === this.info.endAt.split('T')[0]) return this.info.startAt
-
-      return `${this.info.startAt}>${this.info.endAt}`
+  mounted () {
+    this.mainOrganizer = this.event.owner
+    console.log(this.mainOrganizer)
+    this.mainOrganizerPicture = this.event.owner.picture || this.altBanner
+    this.amountOfOrganizersWithoutMainOrganizers = this.event.organizers.length
+    this.eventDate = `${this.event.startAt}>${this.event.endAt}`
+    if (this.event.startAt.split('T')[0] === this.event.endAt.split('T')[0]) {
+      this.eventDate = this.event.startAt
     }
   },
   methods: {
-    getGroupRoute (slug) {
-      return { name: 'GroupDetail', params: { slug } }
+    getGroupRoute (id) {
+      return { name: 'GroupDetail', params: { id } }
     },
     goFor (where) {
       if (!where) return {}
