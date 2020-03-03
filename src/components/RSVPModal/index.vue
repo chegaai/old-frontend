@@ -11,16 +11,7 @@
 
         <q-page-container>
           <q-page padding >
-            <form @submit.prevent="confirmRSVP">
-                <div class="q-mb-xl">
-                    <div :key="inquiry.title+index" v-for="(inquiry, index) in inquiries">
-                        <RSVPInquiry :inquiry="inquiry" class="q-my-md"/>
-                    </div>
-                </div>
-                <div class="q-mt-lg">
-                    <q-btn class type="submit" label="Confirmar Inscrição" />
-                </div>
-            </form>
+              <RSVPForm :inquiries="inquiries"/>
           </q-page>
         </q-page-container>
       </q-layout>
@@ -28,11 +19,11 @@
     </div>
 </template>
 <script>
-import RSVPInquiry from '../RSVPInquiry'
+import RSVPForm from '../RSVPForm'
 export default {
   name: 'RSVPModal',
   components: {
-    RSVPInquiry
+    RSVPForm
   },
   props: {
     inquiries: {
@@ -42,20 +33,6 @@ export default {
     show: {
       type: Boolean,
       required: true
-    }
-  },
-  methods: {
-    confirmRSVP (inquiriesRespose) {
-      const addRSVPBody = this.inquiries.map(inquiry => {
-        console.log(inquiry)
-
-        console.log(inquiriesRespose.target.elements[inquiry.title].value)
-        return {
-          questionTitle: inquiry.title,
-          response: inquiriesRespose.target.elements[inquiry.title].value
-        }
-      })
-      addRSVPBody.rsvp = 'yes'
     }
   }
 }
