@@ -1,5 +1,4 @@
 <template>
-<div class="row ">
 <div class="card col-2 items-center">
     <q-card class="my-card content-center">
         <q-card-section class="q-my-md">
@@ -8,8 +7,6 @@
             {{attendee.email}}
         </q-card-section>
     </q-card>
-</div>
-
 </div>
 
 </template>

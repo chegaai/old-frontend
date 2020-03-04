@@ -1,6 +1,6 @@
 <template>
     <div>
-        <q-dialog v-model="show" @hide="$emit('hide-modal',)">
+    <q-dialog v-model="show" @hide="$emit('hide-modal',)">
       <q-layout view="Lhh lpR fff" container class="bg-white">
         <q-header class="bg-primary">
           <q-toolbar>
@@ -11,7 +11,7 @@
 
         <q-page-container>
           <q-page padding >
-              <RSVPForm :inquiries="inquiries"/>
+              <RSVPForm :inquiries="inquiries" @add-rsvp="(rsvp)=>$emit('add-rsvp', rsvp)"/>
           </q-page>
         </q-page-container>
       </q-layout>

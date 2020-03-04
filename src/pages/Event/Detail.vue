@@ -8,7 +8,9 @@
     <div class="full-width">
       <custom-footer />
     </div>
-    <RSVPModal :inquiries="event.inquiries" :show="rsvp" @hide-modal="rsvp=false"/>
+    <div class="full-width">
+        <RSVPModal :inquiries="event.inquiries" :show="rsvp" @hide-modal="rsvp=false" @add-rsvp="addRSVP"/>
+    </div>
   </div>
 </template>
 
@@ -58,6 +60,15 @@ export default {
     return {
       event: null,
       rsvp: false
+    }
+  },
+  methods: {
+    async addRSVP (rsvp) {
+      rsvp.eventId = this.event.id
+      this.$s.events.addRSVP(rsvp).then(data => console.log(data)).catch(err => console.log(err))
+      this.rsvp = false
+      const { data } = await this.$s.events.findById(this.event.id)
+      this.event = data
     }
   }
   //   async preFetch ({ store, ssrContext, currentRoute }) {

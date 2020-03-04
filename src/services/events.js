@@ -6,13 +6,15 @@ export default httpClient => ({
     eventId,
     name,
     email,
-    document
+    document,
+    rsvp
   }) => {
     return httpClient.patch(`/events/${eventId}/rsvps`, {
-      inquiries,
+      inquiryResponses: inquiries,
       name,
       email,
-      document
+      document,
+      rsvp
     })
   }
 })
