@@ -2,7 +2,7 @@ export default httpClient => ({
   get: () => httpClient.get('/events'),
   findById: (id) => httpClient.get(`/events/${id}`),
   addRSVP: ({
-    inquiries,
+    inquiryResponses,
     eventId,
     name,
     email,
@@ -10,7 +10,7 @@ export default httpClient => ({
     rsvp
   }) => {
     return httpClient.patch(`/events/${eventId}/rsvps`, {
-      inquiryResponses: inquiries,
+      inquiryResponses,
       name,
       email,
       document,
