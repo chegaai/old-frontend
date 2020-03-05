@@ -71,30 +71,5 @@ export default {
       this.event = data
     }
   }
-  //   async preFetch ({ store, ssrContext, currentRoute }) {
-  //     if (!ssrContext) return
-
-  //     const eventId = currentRoute.params.id
-
-  //     if (!eventId) return
-
-  //     const { data: eventData, error: eventError } = await ssrContext.$s.events.findById(eventId)
-
-  //     if (eventError) return store.dispatch('General/setCurrentSwapSpace', { error: eventError.message })
-
-  //     const organizerPromises = eventData.organizers.map(organizerId => () => ssrContext.$s.users.getProfileById(organizerId))
-  //     const organizers = await Promise.all(organizerPromises.map(fn => fn()))
-  //       .then(results => results.map(({ data, error }) => error ? error.message : data))
-
-  //     eventData.organizers = organizers
-
-  //     const groupPromises = eventData.groups.map(groupId => () => ssrContext.$s.groups.get({ groupId }))
-  //     const groups = await Promise.all(groupPromises.map(fn => fn()))
-  //       .then(results => results.map(({ data, error }) => error ? error.message : data))
-
-  //     eventData.groups = groups
-
-//     store.dispatch('General/setCurrentSwapSpace', eventData)
-//   }
 }
 </script>

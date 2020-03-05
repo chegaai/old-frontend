@@ -1,12 +1,19 @@
 <template>
     <div>
-              <p class="text-h5">{{inquiry.title}}</p>
-              <p class="text-subtitle1">{{inquiry.subtitle}}</p>
-              <q-input  :type=inquiry.type   :name=inquiry.title class="full-width" @input="updateParentData"  v-model="value"/>
-              <q-separator class="q-mt-xl"/>
+            <p class="text-h5">{{inquiry.title}}</p>
+            <p class="text-subtitle1">{{inquiry.subtitle}}</p>
+            <q-input
+                :type=inquiry.type
+                :name=inquiry.title
+                class="full-width"
+                @input="updateParentData"
+                v-model="value"
+                :rules="rules"
+            />
     </div>
 </template>
 <script>
+import { notEmpty } from '../../utils/validators'
 export default {
   name: 'RSVPInquiry',
   props: {
@@ -17,7 +24,9 @@ export default {
   },
   data () {
     return {
-      value: null
+      validators: { notEmpty },
+      value: null,
+      rules: this.inquiry.required ? [val => this.validators.notEmpty(val) || 'Esse campo é obrigatorio'] : []
     }
   },
   methods: {

@@ -5,21 +5,46 @@
         <div class="q-mb-xl q-px-lg">
             <p class="text-h5">Digite seu nome completo</p>
             <p class="text-subtitle1">Essa informação sera usada para sua entrada no evento</p>
-            <q-input filled  type="text"  :name="nameInput" class="full-width" v-model="name" />
-            <q-separator class="q-mt-xl"/>
+            <q-input
+                type="text"
+                :name="nameInput"
+                class="full-width"
+                v-model="name"
+                :rules="[ val => validators.notEmpty(val) || 'Esse campo é obrigatorio']"
+             />
 
             <p class="text-h5 q-mt-lg">Digite seu e-mail</p>
-            <p class="text-subtitle1">Ele será usado como forma de comunicação com você, caso ocorra algum emprevisto com o evento por exemplo</p>
-            <q-input  type="text"  :name="emailInput" class="full-width" v-model="email" />
-            <q-separator class="q-mt-xl"/>
+            <p class="text-subtitle1">
+                Ele será usado como forma de comunicação com você,
+                caso ocorra algum emprevisto com o evento, por exemplo.
+            </p>
+            <q-input
+                type="text"
+                :name="emailInput"
+                class="full-width"
+                v-model="email"
+                :rules="[ val => validators.notEmpty(val) || 'Esse campo é obrigatorio']"
+            />
 
             <p class="text-h5 q-mt-lg">Digite o seu documento RG</p>
             <p class="text-subtitle1">Essa informação sera usada para sua entrada no evento</p>
-            <q-input  type="text"  :name="documentInput" class="full-width" v-model="document"/>
-            <q-separator class="q-mt-xl"/>
+            <q-input
+                type="text"
+                :name="documentInput"
+                class="full-width"
+                v-model="document"
+                :rules="[
+                    val => validators.notEmpty(val) || 'Esse campo é obrigatorio',
+                    val => validators.onlyNumber(val) || 'Digite apenas os numeros do seu documento'
+                ]"
+            />
 
             <div :key="inquiry.title+index" v-for="(inquiry, index) in inquiries">
-                <RSVPInquiry :inquiry="inquiry" class="q-my-md" @update-inquiries="updateInquiries"/>
+                <RSVPInquiry
+                    :inquiry="inquiry"
+                    class="q-my-md"
+                    @update-inquiries="updateInquiries"
+                />
             </div>
         </div>
         <div class="q-mt-lg">
@@ -29,6 +54,7 @@
 </template>
 <script>
 import RSVPInquiry from '../RSVPInquiry'
+import { notEmpty, onlyNumber } from '../../utils/validators'
 export default {
   name: 'RSVPForm',
   components: {
@@ -36,13 +62,14 @@ export default {
   },
   data () {
     return {
-      nameInput: 'name',
+      validators: { notEmpty, onlyNumber },
       name: null,
-      emailInput: 'email',
       email: null,
-      documentInput: 'document',
       document: null,
-      inquiriesResponses: {}
+      inquiriesResponses: {},
+      nameInput: 'name',
+      emailInput: 'email',
+      documentInput: 'document'
     }
   },
   props: {
