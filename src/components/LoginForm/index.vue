@@ -17,7 +17,7 @@
           filled
           type="email"
           v-model="form.email"
-          label="Seu email *"
+          label="Seu email ou username *"
           class="q-my-xs"
           :rules="[
             value => validators.notEmpty(value) || 'Este campo é obrigatório'
