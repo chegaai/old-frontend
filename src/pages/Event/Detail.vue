@@ -4,12 +4,12 @@
     <div class="q-my-lg"><event-description-viewer :html="event.description" /></div>
 
     <div class="q-mt-md"> <attendees-list :attendees="event.attendees"/> </div>
-    <button-sticky label="Inscrever-se"  @click="rsvp = true"/>
+    <button-sticky label="Inscrição"  @click="rsvp = true"/>
     <div class="full-width">
       <custom-footer />
     </div>
     <div class="full-width">
-        <RSVPModal :inquiries="event.inquiries" :show="rsvp" @hide-modal="rsvp=false" @add-rsvp="addRSVP"/>
+        <RSVPModal :inquiries="event.inquiries" :show="rsvp" @hide-modal="rsvp=false"  @add-rsvp="addRSVP" @remove-rsvp="removeRSVP"/>
     </div>
   </div>
 </template>
@@ -42,6 +42,7 @@ export default {
     const { id } = this.$route.params
     const { data } = await this.$s.events.findById(id)
     this.event = data
+    console.log(this.event)
 
     const organizerPromises = this.event.organizers.map(organizerId => () => this.$s.users.getProfileById(organizerId))
     const organizers = await Promise.all(organizerPromises.map(fn => fn()))
@@ -69,6 +70,11 @@ export default {
       this.rsvp = false
       const { data } = await this.$s.events.findById(this.event.id)
       this.event = data
+    },
+    async removeRSVP (email) {
+      this.$s.events.removeRSVP({ eventId: this.event.id, email }).then(data => console.log(data)).catch(err => console.log(err))
+      this.rsvp = false
+      this.$q.notify('E-mail de remoção de RSVP enviado')
     }
   }
 }

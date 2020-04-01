@@ -3,15 +3,27 @@
     <q-dialog v-model="show" @hide="$emit('hide-modal',)">
       <q-layout view="Lhh lpR fff" container class="bg-white">
         <q-header class="bg-primary">
-          <q-toolbar>
-            <q-toolbar-title>Formulario de RSVP</q-toolbar-title>
-            <q-btn flat v-close-popup round dense icon="close"  />
-          </q-toolbar>
+          <q-tabs
+            v-model="tab"
+            class="bg-purple text-white"
+            align="justify"
+            narrow-indicator>
+            <q-tab name="rsvp" label="increver-me"></q-tab>
+            <q-tab name="unrsvp" label="desinscrever-me"></q-tab>
+          </q-tabs>
         </q-header>
 
         <q-page-container>
           <q-page padding >
-              <RSVPForm :inquiries="inquiries" @add-rsvp="(rsvp)=>$emit('add-rsvp', rsvp)"/>
+            <q-tab-panels v-model="tab" animated>
+              <q-tab-panel name="rsvp">
+                <RSVPForm :inquiries="inquiries" @add-rsvp="(rsvp)=>$emit('add-rsvp', rsvp)"/>
+              </q-tab-panel>
+
+              <q-tab-panel name="unrsvp">
+                <UnRSVP @remove-rsvp="(email)=>$emit('remove-rsvp', email)" />
+              </q-tab-panel>
+            </q-tab-panels>
           </q-page>
         </q-page-container>
       </q-layout>
@@ -20,10 +32,18 @@
 </template>
 <script>
 import RSVPForm from '../RSVPForm'
+import UnRSVP from '../UnRSVP'
+
 export default {
   name: 'RSVPModal',
   components: {
-    RSVPForm
+    RSVPForm,
+    UnRSVP
+  },
+  data () {
+    return {
+      tab: 'rsvp'
+    }
   },
   props: {
     inquiries: {

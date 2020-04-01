@@ -16,5 +16,8 @@ export default httpClient => ({
       document,
       rsvp
     })
+  },
+  removeRSVP: ({ eventId, email }) => {
+    return httpClient.post(`/events/${eventId}/rsvps/request-decline`, { email })
   }
 })

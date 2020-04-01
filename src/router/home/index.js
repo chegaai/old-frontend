@@ -1,6 +1,6 @@
 const DefaultLayout = () => import('../../layouts/Default.vue')
 
-const GeneralPage = () => import('../../pages/Dashboard/General.vue')
+const GeneralPage = () => import('../../pages/Home/General.vue')
 
 export default {
   path: '/app',
