@@ -27,13 +27,8 @@
     </div>
 
     <div class="row justify-center full-width q-mt-xl">
-        <event-list
-            :events=  "events"
-        />
-        <group-list
-            :groups=  "groups"
-            @detail-group="goToGroup"
-        />
+        <event-list :events=  "events"/>
+        <group-list :groups=  "groups"  @detail-group="goToGroup" />
     </div>
 
   </div>
@@ -62,7 +57,6 @@ export default {
   },
   methods: {
     goToGroup (group) {
-      console.log(group)
       this.$router.push({ name: 'GroupDetail', params: { id: group.id }, query: { tab: 'about' } })
     }
   }

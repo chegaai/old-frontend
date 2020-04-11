@@ -42,7 +42,6 @@ export default {
     const { id } = this.$route.params
     const { data } = await this.$s.events.findById(id)
     this.event = data
-    console.log(this.event)
 
     const organizerPromises = this.event.organizers.map(organizerId => () => this.$s.users.getProfileById(organizerId))
     const organizers = await Promise.all(organizerPromises.map(fn => fn()))

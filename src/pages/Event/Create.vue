@@ -9,7 +9,7 @@
     <div class="column q-mt-xl event-create-container-width">
       <q-input
         filled
-        v-model="form.title"
+        v-model="form.name"
         label="Nome do evento"
         placeholder="Evento muito top ❤️"
         :rules="[
@@ -128,7 +128,8 @@ export default {
     validators: { notEmpty },
     placeName: '',
     form: {
-      title: '',
+      name: '',
+      description: '',
       date: {
         begin: null,
         end: null
@@ -145,8 +146,7 @@ export default {
         state: '',
         lat: null,
         lng: null
-      },
-      description: ''
+      }
     }
   }),
   computed: {
@@ -195,7 +195,7 @@ export default {
     handleEvents (action) {
       const types = {
         OK: () => {
-          // console.log('this.form', this.form);
+          console.log('this.form', this.form)
         }
       }
 

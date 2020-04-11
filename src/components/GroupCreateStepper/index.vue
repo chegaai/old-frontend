@@ -139,9 +139,9 @@ export default {
     }
   }),
   methods: {
-    goFor (where, params) {
+    goFor (where, params, query) {
       if (!where) return
-      this.$router.push({ name: where, params })
+      this.$router.push({ name: where, params, query })
     },
     async createGroup () {
       const errors = await validate(this, [
@@ -159,7 +159,7 @@ export default {
         }
       })
 
-      this.goFor('GroupDetail', { slug: response.data.slug })
+      this.goFor('GroupDetail', { id: response.data.id }, { tab: 'about' })
     }
   }
 }
